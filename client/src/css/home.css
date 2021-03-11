@@ -1,0 +1,113 @@
+.home{
+    background-image: url(../photos/mov.jpg);
+width: 100%;
+height: 100%;
+position: relative;
+z-index: 3;
+background-size: cover;
+background-position: center;
+}
+.home::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000ad;
+    z-index: -1;
+    transition: all 0.5s;
+}
+.btn {
+    display: inline-block;
+    background: #e50914;
+    color: #fff;
+    padding: 0.4rem 1.3rem;
+    font-size: 1rem;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    transition: opacity 0.2s ease-in;
+    outline: none;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+    border-radius: 2px;
+  }
+  
+  .btn:hover {
+    opacity: 0.9;
+  }
+  
+  .btn-rounded {
+    border-radius: 5px;
+  }
+  
+  .btn-xl {
+    font-size: 2rem;
+    padding: 1.5rem 2.1rem;
+    text-transform: uppercase;
+  }
+  
+  .btn-lg {
+    font-size: 1rem;
+    padding: 0.8rem 1.3rem;
+    text-transform: uppercase;
+  }
+  
+  .btn-icon {
+    margin-left: 1rem;
+  }
+
+  .showcase-content {
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    /* margin: auto; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* margin-top: 9rem; */
+  }
+  
+  .showcase-content h1 {
+    font-weight: 700;
+    font-size: 5.2rem;
+    line-height: 1.1;
+    margin: 0 0 2rem;
+    color: #fff;
+  }
+  
+  .showcase-content p {
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 400;
+    font-size: 1.9rem;
+    line-height: 1.25;
+    margin: 0 0 2rem;
+  }
+
+  @media (max-width: 700px) {
+
+    .showcase-content h1 {
+      font-size: 2.5rem;
+      line-height: 1;
+    }
+  
+    .showcase-content p {
+      font-size: 1rem;
+    }
+  
+    .btn-xl {
+      font-size: 1rem;
+      padding: 1.2rem 1.6rem;
+      text-transform: uppercase;
+    }
+  }
+  
+  @media(max-height: 600px) {
+    .showcase-content {
+    margin-top: 3rem;
+  }
+  }

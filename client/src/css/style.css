@@ -1,0 +1,79 @@
+.login{
+    background-image: url(../photos/it.jpg);
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 3;
+    background-size: cover; 
+}
+.login-content{
+    display: flex;
+    width: 75%;
+    height: 100%;
+    align-items: flex-end;
+    justify-content: center;
+    position: fixed;
+    flex-direction: column;
+}
+.inputs{
+    width: 25%;
+}
+.passport-button{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 15px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: #fff;
+}
+.Google{
+    background-color: #a91614f2;
+}
+.g{
+    width: 25px;
+}
+.Git{
+    color: black;
+}
+.Intra{
+    background-color: #00babc;
+}
+input.inpt {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 15px;
+    border: none;
+    outline: none;
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid rgba(240, 240, 240, 0.54);
+    border-radius: 5px;
+    height: 49px;
+  }
+  input.inpt:hover{
+    cursor: pointer;
+    background-color: rgba(39, 39, 39, 0.75);
+    box-shadow: 0px 0px 7px 1px #ffffff61;
+
+  }
+  
+  input.inpt:focus{
+    background-color: rgba(39, 39, 39, 0.75);
+    box-shadow: 0px 0px 7px 1px #ffffff61;
+  }
+
+/* .login::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000ad;
+    z-index: -1;
+    transition: all 0.5s;
+} */
