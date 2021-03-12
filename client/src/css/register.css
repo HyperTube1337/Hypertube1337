@@ -1,0 +1,95 @@
+.register {
+    background-image: url(../photos/it.jpg);
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 3;
+    background-size: cover;
+  }
+  .register-content {
+    display: flex;
+    width: 75%;
+    height: 100%;
+    align-items: flex-end;
+    justify-content: center;
+    /* position: fixed; */
+    flex-direction: column;
+  }
+  .register-content h1 {
+    font-weight: 700;
+    font-size: 5.2rem;
+    line-height: 1.1;
+    margin: 0 0 2rem;
+    color: #fff;
+  }
+  
+  .register-button {
+    width: 480px;
+    margin-top: 10px;
+    height: 49px;
+    background: #e50914;
+    color: #fff;
+    font-size: 1rem;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease-in;
+    outline: none;
+    border-radius: 2px;
+  }
+  .register-button:hover {
+    opacity: 0.9;
+  }
+  .to-login {
+    color: #737373;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 16px;
+    margin-right: 235px;
+  }
+  .inputs-inline{
+      display: flex;
+      justify-content: space-between;
+      width: 480px;
+  }
+  .inputs-inline .inpt{
+      width: 49%;
+  }
+  
+  @media (max-width: 700px) {
+    .register {
+      background-color: #000;
+      background-image: unset;
+    }
+    .register-content{
+      width: 95%;
+    }
+    .inputs{
+      width: 95%;
+    }
+    .inputs-inline{
+        width: 100%;
+    }
+    .inputs-inline .inpt{
+        width: 48%;
+    }
+    .passport-button{
+      width: 100%;
+    }
+    input.inpt{
+      width: 100%;
+    }
+    .validation-button, .register-button{
+  width: 100%;
+    }
+    .to-login{
+      margin-right: 44px;
+    }
+  
+    .register-content h1{
+  
+      margin: unset;
+      font-size: 2.2rem;
+    }
+  }

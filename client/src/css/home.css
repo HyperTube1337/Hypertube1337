@@ -104,6 +104,9 @@ background-position: center;
       padding: 1.2rem 1.6rem;
       text-transform: uppercase;
     }
+    .btn{
+      margin-right: unset;
+    }
   }
   
   @media(max-height: 600px) {
