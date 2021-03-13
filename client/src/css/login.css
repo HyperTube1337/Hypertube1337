@@ -46,20 +46,20 @@
 }
 
 .Google:hover {
-    background-color: #901d1bb5;
+  background-color: #901d1bb5;
 }
 .Git {
   color: black;
 }
 .Git:hover {
-    background-color: #dadada;
+  background-color: #dadada;
 }
 
 .Intra {
   background-color: #00babc;
 }
 .Intra:hover {
-    background-color: #05b5b7d9;
+  background-color: #05b5b7d9;
 }
 input.inpt {
   box-sizing: border-box;
@@ -120,6 +120,7 @@ input.inpt:focus {
 }
 .forget-password:hover {
   text-decoration: underline;
+  color: #b3b3b3;
 }
 
 .forget-password-div {
@@ -130,46 +131,53 @@ input.inpt:focus {
   font-size: 16px;
   font-weight: 500;
   margin-top: 16px;
-  margin-right: 235px;
+  margin-right: 242px;
 }
 .decoration {
   color: #fff;
 }
 .decoration:hover {
   text-decoration: underline;
+  color: #fff;
 }
-
-
+.to-register.fr {
+  margin-right: 120px;
+}
 @media (max-width: 700px) {
   .login {
     background-color: #000;
     background-image: unset;
   }
-  .login-content{
+  .login-content {
     width: 95%;
   }
-  .inputs{
+  .inputs {
     width: 95%;
   }
-  .passport-button{
+  .passport-button {
     width: 100%;
   }
-  input.inpt{
+  input.inpt {
     width: 100%;
   }
-  .validation-button, .login-button{
-width: 100%;
+  .validation-button,
+  .login-button {
+    width: 100%;
   }
-  .to-register{
-    margin-right: 44px;
+  .to-register {
+    margin-right: 49px;
   }
 
-  .login-content h1{
-
+  .login-content h1 {
     margin: unset;
     font-size: 2.2rem;
+    margin-top: 50px;
+  }
+  .to-register.fr {
+    margin-right: 0;
   }
 }
+
 /* .login::after{
     content: "";
     position: absolute;

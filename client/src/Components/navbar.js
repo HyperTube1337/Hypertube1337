@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import "../css/navbar.css";
 import film from "../photos/film.png";
 import Languages from "./multi-language";
-
+import { FormattedMessage } from "react-intl";
 export default function Navbar(props) {
   const loc = useLocation();
 
@@ -23,22 +23,22 @@ export default function Navbar(props) {
 
       <nav>
         <ul className="nav-list">
-          {/* <li>
-            <NavLink className="text-s" to="/register">
-             Register
-            </NavLink>
-          </li> */}
-          <li>
+  
             {loc.pathname === "/register" || loc.pathname === "/login" ? (
-              ""
+              <Languages />
             ) : (
-              <button className="btn btn-rounded">
-                <Link className="text-sz" to="/login">
-                  Sign in
-                </Link>
-              </button>
+              <div style={{display: "flex", alignItems: "center"}}>
+                <Languages />
+                <button className="btn btn-rounded">
+                  <Link className="text-sz" to="/login">
+                  <FormattedMessage id="login" />
+                  </Link>
+                </button>
+
+                
+              </div>
             )}
-          </li>
+         
         </ul>
       </nav>
     </div>

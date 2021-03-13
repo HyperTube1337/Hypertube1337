@@ -1,13 +1,12 @@
 import "./css/App.css";
-import React, { useContext } from "react";
+import React from "react";
 import Login from "./views/Auth/login";
 import Register from "./views/Auth/register";
 import Home from "./views/pages/home";
 import Navbar from "./Components/navbar";
 import Error from "./Components/error";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { ConfigProvider } from "antd";
-import { IntlContext } from "./context/internationalization";
+import { IntlProviderWrapper } from "./context/internationalization";
 import AOS from "aos";
 import "aos/dist/aos.css";
 AOS.init();
@@ -39,11 +38,11 @@ AOS.init({
 });
 
 function App() {
-  // const { state } = useContext(IntlContext);
-  // console.log("-----", useContext(IntlContext));
+  // const { state } = useContext(IntlProviderWrapper);
+  // console.log("-----", useContext(IntlProviderWrapper));
 
   return (
-    <ConfigProvider>
+    <IntlProviderWrapper>
       <Router>
         <div className="App">
           <Switch>
@@ -63,7 +62,7 @@ function App() {
           </Switch>
         </div>
       </Router>
-    </ConfigProvider>
+    </IntlProviderWrapper>
   );
 }
 

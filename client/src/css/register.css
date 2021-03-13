@@ -45,7 +45,7 @@
     color: #737373;
     font-size: 16px;
     font-weight: 500;
-    margin-top: 16px;
+    margin-top: 30px;
     margin-right: 235px;
   }
   .inputs-inline{
@@ -56,7 +56,10 @@
   .inputs-inline .inpt{
       width: 49%;
   }
-  
+  .to-login.fr {
+    margin-right: 200px;
+  }
+
   @media (max-width: 700px) {
     .register {
       background-color: #000;
@@ -91,5 +94,8 @@
   
       margin: unset;
       font-size: 2.2rem;
+    }
+    .to-login.fr {
+      margin-right: 0;
     }
   }

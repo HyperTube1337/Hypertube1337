@@ -1,1 +1,17 @@
-{}
+{
+  "login": "s'identifier",
+  "passport": "s'identifier avec",
+  "forgetPassword": "Mot de passe oublié?",
+  "New": "Nouveau sur",
+  "Now": "Maintenant",
+  "See what's next": "Découvrez la suite",
+  "Watch anywhere. Cancel Anytime" : "Regardez n'importe où. Annuler à tout moment",
+  "Start Watching For Free" : "Commencez à regarder gratuitement",
+"Password" : "Mot de passe",
+"Username" : "Nom d'utilisateur",
+"Sign up" : "S'inscrire",
+"Already a member?" : "Déjà membre?",
+"Verify Password" : "vérifier le mot de passe",
+"First name" : "Prénom",
+"Last name" : "Nom"
+}

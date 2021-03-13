@@ -1,1 +1,17 @@
-{}
+{
+  "login": "Sign in",
+  "passport": "Sign in with",
+  "forgetPassword": "Forget password?",
+  "New": "New to",
+  "Now": "Now",
+  "See what's next" : "See what's next",
+  "Watch anywhere. Cancel Anytime" : "Watch anywhere. Cancel Anytime",
+  "Start Watching For Free" : "Start Watching For Free",
+"Password" :"Password",
+"Username" :"Username",
+"Sign up" :"Sign up",
+"Already a member?" : "Already a member?",
+"Verify Password" : "Verify Password",
+"First name" : "First name",
+"Last name" : "Last name"
+}

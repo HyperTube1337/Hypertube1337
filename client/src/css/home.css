@@ -45,13 +45,15 @@ background-position: center;
     font-size: 2rem;
     padding: 1.5rem 2.1rem;
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
   }
   
-  .btn-lg {
+  /* .btn-lg {
     font-size: 1rem;
     padding: 0.8rem 1.3rem;
     text-transform: uppercase;
-  }
+  } */
   
   .btn-icon {
     margin-left: 1rem;
@@ -103,9 +105,15 @@ background-position: center;
       font-size: 1rem;
       padding: 1.2rem 1.6rem;
       text-transform: uppercase;
-    }
-    .btn{
       margin-right: unset;
+    }
+    .btn-rounded{
+      padding: 7px;
+    }
+
+    .btn-xl.fr{
+      font-size: 0.7rem;
+      padding: 1.1rem 1.1rem;
     }
   }
   
