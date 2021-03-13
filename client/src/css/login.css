@@ -143,6 +143,27 @@ input.inpt:focus {
 .to-register.fr {
   margin-right: 120px;
 }
+
+.divOr{
+  width: 480px;
+  height: 35px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.line{
+  width: 44%;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.Or{
+  font-size: 1.3rem;
+}
 @media (max-width: 700px) {
   .login {
     background-color: #000;
@@ -175,6 +196,9 @@ input.inpt:focus {
   }
   .to-register.fr {
     margin-right: 0;
+  }
+  .divOr{
+    width: 100%;
   }
 }
 

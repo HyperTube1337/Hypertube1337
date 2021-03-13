@@ -13,5 +13,8 @@
 "Already a member?" : "Already a member?",
 "Verify Password" : "Verify Password",
 "First name" : "First name",
-"Last name" : "Last name"
+"Last name" : "Last name",
+"All the fields should not be empty, Please try again." : "All the fields should not be empty, Please try again.",
+"already used": "Email and or username are already used please try with another one.",
+"Registered" :"You Are Now Registered Please Check Your Email To Confirm Your Account!"
 }

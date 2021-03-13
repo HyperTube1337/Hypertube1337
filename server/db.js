@@ -4,7 +4,7 @@ try {
     host: "192.168.99.102",
     user: "root",
     password: "root",
-    database: "hypertube",
+    database: "Hypertube",
   });
   module.exports = db;
   

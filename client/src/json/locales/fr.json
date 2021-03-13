@@ -13,5 +13,8 @@
 "Already a member?" : "Déjà membre?",
 "Verify Password" : "vérifier le mot de passe",
 "First name" : "Prénom",
-"Last name" : "Nom"
+"Last name" : "Nom",
+"All the fields should not be empty, Please try again." : "Tous les champs ne doivent pas être vides, veuillez réessayer.",
+"already used" : "L'adresse e-mail et / ou le nom d'utilisateur sont déjà utilisés, veuillez en essayer un autre",
+"Registered" : "Vous êtes maintenant inscrit, veuillez vérifier votre e-mail pour confirmer votre compte!"
 }

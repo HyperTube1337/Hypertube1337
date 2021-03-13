@@ -1,20 +1,79 @@
-import React from "react";
+import React, { useState} from "react";
 import "../../css/login.css";
 import google from "../../photos/search.svg";
 import git from "../../photos/github.svg";
 import intra from "../../photos/42.svg";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
+import Alert from "@material-ui/lab/Alert";
 
 export default function Login() {
+  const [alert, setalert] = useState(0);
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+  });
+
+  const [userErrors, setUserErrors] = useState({
+    errusername: "",
+    errpassword: "",
+  });
+
+  const handleLogin = () => {
+    userErrors.errusername = "";
+      setUserErrors({ ...userErrors });
+    if (!user.username) {
+      userErrors.errusername = "#e87c03";
+      setUserErrors({ ...userErrors });
+      setalert(1);
+    }
+    userErrors.errpassword = "";
+    setUserErrors({ ...userErrors });
+    if (!user.password) {
+      userErrors.errpassword = "#e87c03";
+      setUserErrors({ ...userErrors });
+      setalert(1);
+    }
+    // if (username && password) {
+    //   Axios.post("http://localhost:3001/login", { username: username, password: password }, {})
+    //     // .then((response) =>console.log(response))
+    //     .then((response) => {
+    //       // console.log(response.data)
+    //       if (
+    //         response.data.message === "Wrong combination!" ||
+    //         response.data.message === "User Dosen't exist" ||
+    //         response.data.message === "error"
+    //       ) {
+    //         Swal.fire({
+    //           icon: "error",
+    //           text: "Wrong Username Or Password",
+    //           showConfirmButton: false,
+    //           heightAuto: false,
+    //         });
+    //       } else if (response.data.message === "Please check your email") {
+    //         Swal.fire({
+    //           icon: "error",
+    //           text: "Please check your email",
+    //           showConfirmButton: false,
+    //           heightAuto: false,
+    //         });
+    //       } else {
+    //         localStorage.setItem("token", response.data.token);
+    //         Swal.fire({
+    //           icon: "success",
+    //           text: "You are now logged in ",
+    //           showConfirmButton: false,
+    //           heightAuto: false,
+    //         });
+    //         history.push("/steps");
+    //       }
+    //     })
+    //     .catch((err) => console.log(err));
+    // }
+  };
   return (
     <div className="login" data-aos="zoom-out-right" data-aos-duration="2000">
-      <div
-        className="login-content"
-        data-aos="zoom-out-right"
-        data-aos-duration="3000"
-        delay="50"
-      >
+      <div className="login-content" data-aos="zoom-out-right" data-aos-duration="3000" delay="50">
         <div>
           <h1>
             <FormattedMessage id="login" />
@@ -22,6 +81,13 @@ export default function Login() {
         </div>
 
         <div className="inputs">
+          {alert === 1 ? (
+            <Alert severity="warning" className="alert">
+              <FormattedMessage id="All the fields should not be empty, Please try again." />
+            </Alert>
+          ) : (
+            ""
+          )}
           <button className="passport-button Google">
             <FormattedMessage id="passport" />
             &nbsp;Google
@@ -35,16 +101,44 @@ export default function Login() {
             <FormattedMessage id="passport" />
             &nbsp;Intra <img alt="" className="btn-icon g" src={intra} />
           </button>
-
+          <div className="divOr">
+            <div className="line"></div>
+            <div className="Or"> Or</div>
+            <div className="line"></div>
+          </div>
           <FormattedMessage id="Username">
-            {(text) => <input className="inpt" type="text" placeholder={text} />}
+            {(text) => (
+              <input
+                className="inpt"
+                type="text"
+                placeholder={text}
+                value={user.username}
+                style={{ borderBottomColor: userErrors.errusername }}
+                onChange={(e) => {
+                  user.username = e.target.value;
+                  setUser({ ...user });
+                }}
+              />
+            )}
           </FormattedMessage>
           <FormattedMessage id="Password">
-            {(text) => <input className="inpt" type="text" placeholder={text} />}
+            {(text) => (
+              <input
+                className="inpt"
+                type="password"
+                placeholder={text}
+                value={user.password}
+                style={{ borderBottomColor: userErrors.errpassword }}
+                onChange={(e) => {
+                  user.password = e.target.value;
+                  setUser({ ...user });
+                }}
+              />
+            )}
           </FormattedMessage>
 
           <div className="validation-button">
-            <button className="login-button">
+            <button className="login-button" onClick={() => handleLogin()}>
               <FormattedMessage id="login" />
             </button>
           </div>
@@ -54,13 +148,7 @@ export default function Login() {
             <FormattedMessage id="forgetPassword" />
           </Link>
         </div>
-        <div
-          className={
-            localStorage.getItem("locale") === "fr"
-              ? "to-register fr"
-              : "to-register "
-          }
-        >
+        <div className={localStorage.getItem("locale") === "fr" ? "to-register fr" : "to-register "}>
           <p>
             <FormattedMessage id="New" /> Hypertube?&nbsp;
             <Link className="decoration" to="/register">

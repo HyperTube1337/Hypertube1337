@@ -6,23 +6,8 @@ import isEmail from "../../tools/isEmail";
 import isUsername from "../../tools/isUsername";
 import isName from "../../tools/isName";
 import isPassword from "../../tools/isPassword";
-import { Alert } from 'reactstrap'
-import PropTypes from 'prop-types';
-import Fade from 'Fade';
-
-Alert.propTypes = {
-  className: PropTypes.string,
-  closeClassName: PropTypes.string,
-  color: PropTypes.string, // default: 'success'
-  isOpen: PropTypes.bool,  // default: true
-  toggle: PropTypes.func,
-  tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-  fade: PropTypes.bool, // default: true
-  // Controls the transition of the alert fading in and out
-  // See Fade for more details
-  transition: PropTypes.shape(Fade.propTypes),
-}
-
+import Alert from "@material-ui/lab/Alert";
+import axios from "axios";
 export default function Register() {
   const [user, setUser] = useState({
     firstname: "",
@@ -40,132 +25,121 @@ export default function Register() {
     errpassword: "",
     errverifypassword: "",
   });
+  const [alert, setalert] = useState(0);
 
   // console.log({ ...user });
 
   useEffect(() => {
-    if ((user.firstname && !isName(user.firstname) && user.firstname.length < 24) || (user.firstname.length > 24) ){
+    if ((user.firstname && !isName(user.firstname) && user.firstname.length < 24) || user.firstname.length > 24) {
       userErrors.errfirstname = "#e87c03";
       // setUserErrors({ ...userErrors });
-    }else {
+    } else {
       userErrors.errfirstname = "";
       setUserErrors({ ...userErrors });
     }
-    if ((user.lastname && !isName(user.lastname) && user.lastname.length < 24) || (user.lastname.length > 24) ){
+    if ((user.lastname && !isName(user.lastname) && user.lastname.length < 24) || user.lastname.length > 24) {
       userErrors.errlastname = "#e87c03";
       // setUserErrors({ ...userErrors });
-    }else {
+    } else {
       userErrors.errlastname = "";
       setUserErrors({ ...userErrors });
     }
-    if ((user.username && !isUsername(user.username) && user.username.length < 24) || (user.username.length > 24) ){
+    if ((user.username && !isUsername(user.username) && user.username.length < 24) || user.username.length > 24) {
       userErrors.errusername = "#e87c03";
       setUserErrors({ ...userErrors });
-    }else {
+    } else {
       userErrors.errusername = "";
       setUserErrors({ ...userErrors });
     }
-    if (user.email && !isEmail(user.email) && user.email.length < 24){
+    if (user.email && !isEmail(user.email) && user.email.length < 24) {
       userErrors.erremail = "#e87c03";
       setUserErrors({ ...userErrors });
-    }else {
+    } else {
       userErrors.erremail = "";
       setUserErrors({ ...userErrors });
     }
 
-    if (user.password && !isPassword(user.password))
-    {
+    if (user.password && !isPassword(user.password)) {
       userErrors.errpassword = "#e87c03";
-        setUserErrors({ ...userErrors });
-    }else {
+      setUserErrors({ ...userErrors });
+    } else {
       userErrors.errpassword = "";
       setUserErrors({ ...userErrors });
     }
-    if (user.verifypassword && user.password !== user.verifypassword)
-    {
+    if (user.verifypassword && user.password !== user.verifypassword) {
       userErrors.errverifypassword = "#e87c03";
       setUserErrors({ ...userErrors });
-    }else {
+    } else {
       userErrors.errverifypassword = "";
       setUserErrors({ ...userErrors });
-    }// eslint-disable-next-line
+    } // eslint-disable-next-line
   }, [user.firstname, user.lastname, user.username, user.email, user.password, user.verifypassword]);
 
   const handelRegister = () => {
     if (!user.firstname) {
       userErrors.errfirstname = "#e87c03";
-        setUserErrors({ ...userErrors });
-        <Alert color="warning">
-        This is a warning alert — check it out!
-      </Alert>
-    };
+      setUserErrors({ ...userErrors });
+      setalert(1);
+    }
 
     if (!user.lastname) {
       userErrors.errlastname = "#e87c03";
-        setUserErrors({ ...userErrors });
-    };
+      setUserErrors({ ...userErrors });
+      setalert(1);
+    }
 
     if (!user.username) {
-      userErrors.errusername= "#e87c03";
-        setUserErrors({ ...userErrors });
-    };
+      userErrors.errusername = "#e87c03";
+      setUserErrors({ ...userErrors });
+      setalert(1);
+    }
 
     if (!user.email) {
       userErrors.erremail = "#e87c03";
-        setUserErrors({ ...userErrors });
-    };
+      setUserErrors({ ...userErrors });
+      setalert(1);
+    }
 
     if (!user.password) {
       userErrors.errpassword = "#e87c03";
-        setUserErrors({ ...userErrors });
-    };
+      setUserErrors({ ...userErrors });
+      setalert(1);
+    }
 
     if (!user.verifypassword) {
       userErrors.errverifypassword = "#e87c03";
-        setUserErrors({ ...userErrors });
-    };
+      setUserErrors({ ...userErrors });
+      setalert(1);
+    }
 
-    // if (
-    //   username &&
-    //   firstname &&
-    //   lastname &&
-    //   email &&
-    //   password &&
-    //   verifypassword === password &&
-    //   !errusername &&
-    //   !errfirstname &&
-    //   !errlastname &&
-    //   !erremail &&
-    //   !errpassword &&
-    //   !errverifypassword
-    // ) {
-    //   Axios.post("http://localhost:3001/register", {
-    //     firstname: firstname,
-    //     lastname: lastname,
-    //     username: username,
-    //     email: email,
-    //     password: password,
-    //   })
-    //     .then((res) => {
-    //       if (res.data.message === "Email and or username are already used") {
-    //         Swal.fire({
-    //           icon: "error",
-    //           text: "Email and or username are already used please try with another one ",
-    //           showConfirmButton: false,
-    //           heightAuto: false,
-    //         });
-    //       } else {
-    //         Swal.fire({
-    //           icon: "success",
-    //           text: "You Are Now Registered Please Check Your Email To Confirm Your Account! ",
-    //           showConfirmButton: false,
-    //           heightAuto: false,
-    //         });
-    //         history.push("/login");
-    //       }
-    //     })
-    //     .catch((err) => console.log(err));
-    // }
+    if (
+      user.username &&
+      user.firstname &&
+      user.lastname &&
+      user.email &&
+      user.password &&
+      user.verifypassword === user.password &&
+      !userErrors.errusername &&
+      !userErrors.errfirstname &&
+      !userErrors.errlastname &&
+      !userErrors.erremail &&
+      !userErrors.errpassword &&
+      !userErrors.errverifypassword
+    ) {
+      axios
+        .post("http://localhost:3001/register", { ...user })
+        .then((res) => {
+          if (res.data.message === "Email and or username are already used") {
+            console.log("res.data");
+            setalert(2);
+          } else {
+            console.log(res.data);
+            setalert(3);
+            // history.push("/login");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -176,8 +150,24 @@ export default function Register() {
             <FormattedMessage id="Sign up" />
           </h1>
         </div>
-
         <div className="inputs">
+          <div>
+            {alert === 1 ? (
+              <Alert severity="warning" className="alert">
+                <FormattedMessage id="All the fields should not be empty, Please try again." />
+              </Alert>
+            ) : alert === 2 ? (
+              <Alert severity="warning" className="alert">
+                <FormattedMessage id="already used" />
+              </Alert>
+            ) : alert === 0 ? (
+              <Alert severity="success"  color="success" className="alert success">
+                <FormattedMessage id="Registered" />
+              </Alert>
+            ) : (
+              ""
+            )}
+          </div>
           <div className="inputs-inline">
             <FormattedMessage id="First name">
               {(text) => (
@@ -218,7 +208,7 @@ export default function Register() {
                   type="text"
                   placeholder={text}
                   value={user.username}
-                  style={{ borderBottomColor: userErrors.errusername}}
+                  style={{ borderBottomColor: userErrors.errusername }}
                   onChange={(e) => {
                     user.username = e.target.value;
                     setUser({ ...user });
@@ -231,7 +221,7 @@ export default function Register() {
               type="email"
               placeholder="Email"
               value={user.email}
-              style={{ borderBottomColor: userErrors.erremail}}
+              style={{ borderBottomColor: userErrors.erremail }}
               onChange={(e) => {
                 user.email = e.target.value;
                 setUser({ ...user });
@@ -245,7 +235,7 @@ export default function Register() {
                 type="password"
                 placeholder={text}
                 value={user.password}
-                style={{ borderBottomColor: userErrors.errpassword}}
+                style={{ borderBottomColor: userErrors.errpassword }}
                 onChange={(e) => {
                   user.password = e.target.value;
                   setUser({ ...user });
@@ -260,7 +250,7 @@ export default function Register() {
                 type="password"
                 placeholder={text}
                 value={user.verifypassword}
-                style={{ borderBottomColor: userErrors.errverifypassword}}
+                style={{ borderBottomColor: userErrors.errverifypassword }}
                 onChange={(e) => {
                   user.verifypassword = e.target.value;
                   setUser({ ...user });

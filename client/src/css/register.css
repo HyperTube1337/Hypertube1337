@@ -60,6 +60,15 @@
     margin-right: 200px;
   }
 
+  .alert{
+    width: 480px;
+    background-color: rgb(232, 124, 3) !important;
+    color: rgb(255, 255, 255) !important;
+  }
+  .success{
+    background-color: #4caf54e8 !important;
+  }
+
   @media (max-width: 700px) {
     .register {
       background-color: #000;
@@ -97,5 +106,9 @@
     }
     .to-login.fr {
       margin-right: 0;
+    }
+    .alert{
+    margin-top: 15px;
+    width: 100%;
     }
   }
