@@ -10,6 +10,7 @@ import { IntlProviderWrapper } from "./context/internationalization";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Confirm from "./views/Auth/confim";
+import Fgpass from "./views/Auth/fgpass";
 
 AOS.init();
 
@@ -51,15 +52,15 @@ function App() {
           <Switch>
           <Route path="/confirm/:token" component={Confirm} />
             <Route exact path="/register">
-              {/* <Navbar /> */}
               <Register />
             </Route>
             <Route exact path="/login">
-              {/* <Navbar /> */}
               <Login />
             </Route>
+            <Route path="/fgpass">
+            <Fgpass />
+          </Route>
             <Route exact path="/">
-              {/* <Navbar /> */}
               <Home />
             </Route>
             <Route path="*" component={Error} />
