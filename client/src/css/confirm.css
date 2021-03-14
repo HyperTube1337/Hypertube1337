@@ -1,0 +1,67 @@
+.box-form {
+  background-image: url(../photos/confirm.jpg);
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 3;
+  background-size: cover;
+}
+.confirm-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 91%;
+  flex-direction: column;
+}
+.confirm {
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  flex-direction: column;
+  width: 30%;
+}
+
+.confirm h1 {
+  font-weight: 700;
+  font-size: 5.2rem;
+  line-height: 1.1;
+  margin: 0 0 2rem;
+  color: #fff;
+}
+
+.confirm p {
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 400;
+  font-size: 1.9rem;
+  line-height: 1.25;
+  margin: 0 0 2rem;
+}
+
+.confirm button {
+  width: 35%;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1020px) {
+  .confirm {
+    width: 90%;
+    padding: 15px;
+    background-color: #000000c4;
+    border-radius: 7px;
+  }
+  .confirm h1 {
+    font-size: 2.5rem;
+    line-height: 1;
+  }
+
+  .confirm p {
+    font-size: 1rem;
+  }
+
+  .confirm button {
+    width: unset;
+  }
+}

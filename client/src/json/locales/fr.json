@@ -16,5 +16,14 @@
 "Last name" : "Nom",
 "All the fields should not be empty, Please try again." : "Tous les champs ne doivent pas être vides, veuillez réessayer.",
 "already used" : "L'adresse e-mail et / ou le nom d'utilisateur sont déjà utilisés, veuillez en essayer un autre",
-"Registered" : "Vous êtes maintenant inscrit, veuillez vérifier votre e-mail pour confirmer votre compte!"
+"Registered" : "Vous êtes maintenant inscrit, veuillez vérifier votre e-mail pour confirmer votre compte!",
+"Account Verified!" : "Compte vérifié!",
+"Your account has been successfully verified. You my now sign in." : "Votre compte a été vérifié avec succès. Vous êtes maintenant connecté.",
+"Watch Now !" : "Regarde maintenant !",
+"Lost your way?" : "Vous avez perdu votre chemin?",
+"Sorry, we can't find that page. You'll find lots to explore on the home page." : "Désolé, nous ne pouvons pas trouver cette page. Vous trouverez de nombreuses choses à explorer sur la page d'accueil.",
+"Hypertube Home" : "Accueil Hypertube",
+"Error Code" : "Code Erreur",
+"NotFound" : "Pas trouvé",
+"FROM" : "à partir de"
 }

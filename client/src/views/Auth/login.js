@@ -6,8 +6,10 @@ import intra from "../../photos/42.svg";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import Alert from "@material-ui/lab/Alert";
+import { useHistory } from "react-router-dom";
 
-export default function Login() {
+export default function Login(props) {
+  const history = useHistory();
   const [alert, setalert] = useState(0);
   const [user, setUser] = useState({
     username: "",
@@ -18,6 +20,9 @@ export default function Login() {
     errusername: "",
     errpassword: "",
   });
+  const data = history.location.state?.data
+  // console.log(data);
+  
 
   const handleLogin = () => {
     userErrors.errusername = "";
@@ -85,9 +90,11 @@ export default function Login() {
             <Alert severity="warning" className="alert">
               <FormattedMessage id="All the fields should not be empty, Please try again." />
             </Alert>
-          ) : (
-            ""
-          )}
+          ) : data === 3 ? (
+            <Alert severity="success"  color="success" className="alert success">
+              <FormattedMessage id="Registered" />
+            </Alert>
+          ) : ""}
           <button className="passport-button Google">
             <FormattedMessage id="passport" />
             &nbsp;Google

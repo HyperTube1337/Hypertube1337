@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import "../../css/register.css";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
@@ -9,6 +10,7 @@ import isPassword from "../../tools/isPassword";
 import Alert from "@material-ui/lab/Alert";
 import axios from "axios";
 export default function Register() {
+  const history = useHistory();
   const [user, setUser] = useState({
     firstname: "",
     lastname: "",
@@ -135,7 +137,7 @@ export default function Register() {
           } else {
             console.log(res.data);
             setalert(3);
-            // history.push("/login");
+            history.push("/login", {data : 3});
           }
         })
         .catch((err) => console.log(err));
@@ -160,7 +162,7 @@ export default function Register() {
               <Alert severity="warning" className="alert">
                 <FormattedMessage id="already used" />
               </Alert>
-            ) : alert === 0 ? (
+            ) : alert === 3 ? (
               <Alert severity="success"  color="success" className="alert success">
                 <FormattedMessage id="Registered" />
               </Alert>

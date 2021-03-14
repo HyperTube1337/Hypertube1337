@@ -16,5 +16,15 @@
 "Last name" : "Last name",
 "All the fields should not be empty, Please try again." : "All the fields should not be empty, Please try again.",
 "already used": "Email and or username are already used please try with another one.",
-"Registered" :"You Are Now Registered Please Check Your Email To Confirm Your Account!"
+"Registered" :"You Are Now Registered Please Check Your Email To Confirm Your Account!",
+"Account Verified!" : "Account Verified!",
+"Your account has been successfully verified. You my now sign in." : "Your account has been successfully verified. You my now sign in.",
+"Watch Now !" : "Watch Now !",
+"Lost your way?" : "Lost your way?",
+"Sorry, we can't find that page. You'll find lots to explore on the home page." : "Sorry, we can't find that page. You'll find lots to explore on the home page.",
+"Hypertube Home" : "Hypertube Home",
+"Error Code" : "Error Code",
+"NotFound" : "NotFound",
+"FROM" : "FROM"
+
 }

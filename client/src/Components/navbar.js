@@ -10,7 +10,7 @@ export default function Navbar(props) {
   console.log(loc.pathname);
 
   return (
-    <div className="navigation" data-aos="fade-right" data-aos-duration="1000">
+    <div className="navigation" data-aos="fade-right" data-aos-duration="3000">
       <Link to="/">
         <img alt="" className="film" src={film} />
       </Link>
@@ -23,22 +23,18 @@ export default function Navbar(props) {
 
       <nav>
         <ul className="nav-list">
-  
-            {loc.pathname === "/register" || loc.pathname === "/login" ? (
+          {loc.pathname === "/register" || loc.pathname === "/login" ? (
+            <Languages />
+          ) : (
+            <div style={{ display: "flex", alignItems: "center" }}>
               <Languages />
-            ) : (
-              <div style={{display: "flex", alignItems: "center"}}>
-                <Languages />
-                <button className="btn btn-rounded">
-                  <Link className="text-sz" to="/login">
+              <button className="btn btn-rounded">
+                <Link className="text-sz" to="/login">
                   <FormattedMessage id="login" />
-                  </Link>
-                </button>
-
-                
-              </div>
-            )}
-         
+                </Link>
+              </button>
+            </div>
+          )}
         </ul>
       </nav>
     </div>
