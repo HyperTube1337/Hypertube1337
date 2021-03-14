@@ -11,6 +11,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Confirm from "./views/Auth/confim";
 import Fgpass from "./views/Auth/fgpass";
+import Changepass from "./views/Auth/changepass";
+
 
 AOS.init();
 
@@ -51,6 +53,7 @@ function App() {
         <Navbar />
           <Switch>
           <Route path="/confirm/:token" component={Confirm} />
+          <Route path="/changepass/:token" component={Changepass} />
             <Route exact path="/register">
               <Register />
             </Route>

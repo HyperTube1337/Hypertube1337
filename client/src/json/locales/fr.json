@@ -25,5 +25,8 @@
 "Hypertube Home" : "Accueil Hypertube",
 "Error Code" : "Code Erreur",
 "NotFound" : "Pas trouvé",
-"FROM" : "à partir de"
+"FROM" : "à partir de",
+"Forgot Password?" : "Mot de passe oublié?",
+"Send Reset Instructions" : "Envoyer les instructions de réinitialisation",
+"Email should not be empty, Please try again." : "L'e-mail ne doit pas être vide, veuillez réessayer."
 }

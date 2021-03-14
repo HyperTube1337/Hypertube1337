@@ -1,0 +1,25 @@
+.fgpass{
+    width: 480px;
+}
+.fgpass h1{
+    font-size: 4.2rem;
+    text-align: end;
+}
+
+.fgpass p {
+    color: #fff;
+    font-size: 0.9rem;
+    line-height: 1.25;
+  }
+
+  @media (max-width: 700px) {
+      .fgpass{
+          width: 95%;
+      }
+
+    .fgpass h1 {
+      font-size: 2.5rem;
+      line-height: 1;
+      margin-bottom: 36px;
+    }
+  }
