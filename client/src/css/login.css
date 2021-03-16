@@ -6,6 +6,7 @@
   position: relative;
   z-index: 3;
   background-size: cover;
+  box-sizing: border-box;
 }
 .login-content {
   display: flex;
@@ -168,6 +169,11 @@ input.inpt:focus {
   .login {
     background-color: #000;
     background-image: unset;
+    /* height: unset; */
+    overflow: scroll;
+  }
+  .responsive{
+    height: auto;
   }
   .login-content {
     width: 95%;

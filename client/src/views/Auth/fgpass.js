@@ -14,11 +14,11 @@ export default function Fgpass() {
   const [token, setToken] = useState("");
   const [alert, setalert] = useState(0);
 
-  useEffect(() => {
-    setToken(localStorage.getItem("token"));
-    if (token) history.push("/");
-    // eslint-disable-next-line
-  }, [token]);
+  // useEffect(() => {
+  //   setToken(localStorage.getItem("token"));
+  //   if (token) history.push("/");
+  //   // eslint-disable-next-line
+  // }, [token]);
 
   const handleFgpass = () => {
     seterremail("");
@@ -30,20 +30,12 @@ export default function Fgpass() {
     else if (email && !erremail) {
       axios.post("http://localhost:3001/fgpass", { email: email }).then((res) => {
         if (res.data.message === "done") {
-          // Swal.fire({
-          //   icon: "success",
-          //   text: " Email Send Please Check Your EmailBox To Change Your Password!",
-          //   showConfirmButton: false,
-          //   heightAuto: false,
-          // });
-          // history.push("/login");
+          setalert(3);
+          setemail("")
         } else {
-          // Swal.fire({
-          //   icon: "error",
-          //   text: " Email Not Found",
-          //   showConfirmButton: false,
-          //   heightAuto: false,
-          // });
+          console.log(res.data)
+          setalert(2);
+          setemail("");
         }
       });
     }
@@ -69,11 +61,11 @@ export default function Fgpass() {
               </Alert>
             ) : alert === 2 ? (
               <Alert severity="warning" className="alert">
-                <FormattedMessage id="already used" />
+                <FormattedMessage id="Email Not Found, Please try again." />
               </Alert>
             ) : alert === 3 ? (
               <Alert severity="success"  color="success" className="alert success">
-                <FormattedMessage id="Registered" />
+                <FormattedMessage id="Email Send Please Check Your EmailBox To Change Your Password!" />
               </Alert>
             ) : (
               ""

@@ -1,5 +1,17 @@
 .App {
   text-align: center;
   height: 100%;
-  overflow: hidden;
+ overflow: hidden;
+ background-color: black;
+}
+
+#root{
+   overflow: hidden;
+}
+
+
+@media (max-width: 700px) {
+  .App{
+    overflow: scroll;
+  }
 }

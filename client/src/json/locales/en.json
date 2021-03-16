@@ -28,6 +28,15 @@
 "FROM" : "FROM",
 "Forgot Password?" : "Forgot Password?",
 "Send Reset Instructions" : "Send Reset Instructions",
-"Email should not be empty, Please try again." : "Email should not be empty, Please try again."
+"Email should not be empty, Please try again." : "Email should not be empty, Please try again.",
+"Email Not Found, Please try again.": "Email Not Found, Please try again.",
+"Email Send Please Check Your EmailBox To Change Your Password!" : "Email Send Please Check Your EmailBox To Change Your Password!",
+"Reset Password !" : "Reset Password !",
+"Please Enter Your new Password :" : "Please Enter Your new Password :",
+"Confirm New Password" : "Confirm New Password",
+"Change Password" : "Change Password",
+"Your password has been successfully modified." : "Your password has been successfully modified.",
+"Wrong Username Or Password" : "Wrong Username Or Password",
+"Please check your email" : "Please check your email"
 
 }

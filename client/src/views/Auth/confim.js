@@ -30,7 +30,7 @@ function Confim(props) {
       <div className="confirm-box" data-aos="fade-left"
         data-aos-duration="3000">
         <div className="confirm">
-        <h1 className="fgp"><FormattedMessage id="Account Verified!" /></h1>
+        <h1><FormattedMessage id="Account Verified!" /></h1>
         <br />
         <br />
         <p><FormattedMessage id="Your account has been successfully verified. You my now sign in." /></p>

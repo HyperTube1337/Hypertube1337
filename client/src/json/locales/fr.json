@@ -28,5 +28,14 @@
 "FROM" : "à partir de",
 "Forgot Password?" : "Mot de passe oublié?",
 "Send Reset Instructions" : "Envoyer les instructions de réinitialisation",
-"Email should not be empty, Please try again." : "L'e-mail ne doit pas être vide, veuillez réessayer."
+"Email should not be empty, Please try again." : "L'e-mail ne doit pas être vide, veuillez réessayer.",
+"Email Not Found, Please try again." : "E-mail introuvable, veuillez réessayer.",
+"Email Send Please Check Your EmailBox To Change Your Password!" : "Email Envoyer Veuillez vérifier votre EmailBox pour changer votre mot de passe!",
+"Reset Password !" : "Réinitialiser le mot de passe !",
+"Please Enter Your new Password :" : "Veuillez entrer votre nouveau mot de passe:",
+"Confirm New Password" : "Confirmer le nouveau mot de passe",
+"Change Password" : "Changer le mot de passe",
+"Your password has been successfully modified." : "Votre mot de passe a été modifié avec succès.",
+"Wrong Username Or Password" : "nom d'utilisateur ou mot de passe incorrect",
+"Please check your email" : "Merci de consulter vos emails"
 }

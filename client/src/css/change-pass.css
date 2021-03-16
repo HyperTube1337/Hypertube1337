@@ -1,0 +1,64 @@
+.change-pass-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 91%;
+    flex-direction: column;
+}
+.change-pass {
+    display: flex;
+    align-items: center;
+    align-self: flex-end;
+    flex-direction: column;
+    width: 30%;
+  }
+
+  .change-pass h1 {
+    font-weight: 700;
+    font-size: 5.2rem;
+    line-height: 1.1;
+    margin: 0 0 2rem;
+    color: #fff;
+  }
+  .change-pass p {
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 400;
+    font-size: 1.9rem;
+    line-height: 1.25;
+    margin: 0 0 2rem;
+  }
+
+  .change-pass button {
+    width: 480px;
+    text-transform: uppercase;
+    margin-right: 0;
+    height: 45px;
+  }
+
+  .changepass{
+      width: unset;
+  }
+
+  @media (max-width: 1020px) {
+    .change-pass {
+      width: 90%;
+      padding: 15px;
+      background-color: #000000c4;
+      border-radius: 7px;
+    }
+    .change-pass h1 {
+      font-size: 2.5rem;
+      line-height: 1;
+    }
+  
+    .change-pass p {
+      font-size: 1rem;
+    }
+  
+    .change-pass button {
+      width: unset;
+    }
+  }
+  

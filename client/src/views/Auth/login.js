@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import "../../css/login.css";
 import google from "../../photos/search.svg";
 import git from "../../photos/github.svg";
@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import Alert from "@material-ui/lab/Alert";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 export default function Login(props) {
   const history = useHistory();
@@ -20,13 +21,12 @@ export default function Login(props) {
     errusername: "",
     errpassword: "",
   });
-  const data = history.location.state?.data
+  const data = history.location.state?.data;
   // console.log(data);
-  
 
   const handleLogin = () => {
     userErrors.errusername = "";
-      setUserErrors({ ...userErrors });
+    setUserErrors({ ...userErrors });
     if (!user.username) {
       userErrors.errusername = "#e87c03";
       setUserErrors({ ...userErrors });
@@ -39,45 +39,30 @@ export default function Login(props) {
       setUserErrors({ ...userErrors });
       setalert(1);
     }
-    // if (username && password) {
-    //   Axios.post("http://localhost:3001/login", { username: username, password: password }, {})
-    //     // .then((response) =>console.log(response))
-    //     .then((response) => {
-    //       // console.log(response.data)
-    //       if (
-    //         response.data.message === "Wrong combination!" ||
-    //         response.data.message === "User Dosen't exist" ||
-    //         response.data.message === "error"
-    //       ) {
-    //         Swal.fire({
-    //           icon: "error",
-    //           text: "Wrong Username Or Password",
-    //           showConfirmButton: false,
-    //           heightAuto: false,
-    //         });
-    //       } else if (response.data.message === "Please check your email") {
-    //         Swal.fire({
-    //           icon: "error",
-    //           text: "Please check your email",
-    //           showConfirmButton: false,
-    //           heightAuto: false,
-    //         });
-    //       } else {
-    //         localStorage.setItem("token", response.data.token);
-    //         Swal.fire({
-    //           icon: "success",
-    //           text: "You are now logged in ",
-    //           showConfirmButton: false,
-    //           heightAuto: false,
-    //         });
-    //         history.push("/steps");
-    //       }
-    //     })
-    //     .catch((err) => console.log(err));
-    // }
+
+    if (user.username && user.password) {
+      axios
+        .post("http://localhost:3001/login", { ...user }, {})
+        .then((response) => {
+          if (
+            response.data.message === "Wrong combination!" ||
+            response.data.message === "User Dosen't exist" ||
+            response.data.message === "error"
+          ) {
+            console.log(response.data.message);
+            setalert(5);
+          } else if (response.data.message === "Please check your email") {
+            setalert(6);
+          } else {
+            localStorage.setItem("token", response.data.token);
+            console.log("done");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   };
   return (
-    <div className="login" data-aos="zoom-out-right" data-aos-duration="2000">
+    <div className="login responsive" data-aos="zoom-out-right" data-aos-duration="2000">
       <div className="login-content" data-aos="zoom-out-right" data-aos-duration="3000" delay="50">
         <div>
           <h1>
@@ -91,10 +76,24 @@ export default function Login(props) {
               <FormattedMessage id="All the fields should not be empty, Please try again." />
             </Alert>
           ) : data === 3 ? (
-            <Alert severity="success"  color="success" className="alert success">
+            <Alert severity="success" color="success" className="alert success">
               <FormattedMessage id="Registered" />
             </Alert>
-          ) : ""}
+          ) : data === 4 ? (
+            <Alert severity="success" color="success" className="alert success">
+              <FormattedMessage id="Your password has been successfully modified." />
+            </Alert>
+          ) : alert === 5 ? (
+            <Alert severity="warning" className="alert">
+              <FormattedMessage id="Wrong Username Or Password" />
+            </Alert>
+          ) : alert === 6 ? (
+            <Alert severity="warning" className="alert">
+              <FormattedMessage id="Please check your email" />
+            </Alert>
+          ) : (
+            ""
+          )}
           <button className="passport-button Google">
             <FormattedMessage id="passport" />
             &nbsp;Google
