@@ -9,7 +9,7 @@ const jwt_secret = "this is a jsonwebtoken secret";
 
 router.post("/", (req, res) => {
   const { username, password } = req.body;
-  if ((username, password, isUsername(username), isPassword(password))) {
+  if ((username && password && isUsername(username) && isPassword(password))) {
     const sqlInsert = "SELECT * FROM users WHERE username = ?";
     db.query(sqlInsert, username, (err, result) => {
       if (err) {

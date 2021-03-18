@@ -14,11 +14,11 @@ export default function Fgpass() {
   const [token, setToken] = useState("");
   const [alert, setalert] = useState(0);
 
-  // useEffect(() => {
-  //   setToken(localStorage.getItem("token"));
-  //   if (token) history.push("/");
-  //   // eslint-disable-next-line
-  // }, [token]);
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+    if (token) history.push("/");
+    // eslint-disable-next-line
+  }, [token]);
 
   const handleFgpass = () => {
     seterremail("");

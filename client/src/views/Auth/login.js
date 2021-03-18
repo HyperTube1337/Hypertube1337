@@ -21,7 +21,7 @@ export default function Login(props) {
     errusername: "",
     errpassword: "",
   });
-  const data = history.location.state?.data;
+  let data = history.location.state?.data;
   // console.log(data);
 
   const handleLogin = () => {
@@ -44,6 +44,7 @@ export default function Login(props) {
       axios
         .post("http://localhost:3001/login", { ...user }, {})
         .then((response) => {
+          console.log(response.data);
           if (
             response.data.message === "Wrong combination!" ||
             response.data.message === "User Dosen't exist" ||
@@ -75,14 +76,6 @@ export default function Login(props) {
             <Alert severity="warning" className="alert">
               <FormattedMessage id="All the fields should not be empty, Please try again." />
             </Alert>
-          ) : data === 3 ? (
-            <Alert severity="success" color="success" className="alert success">
-              <FormattedMessage id="Registered" />
-            </Alert>
-          ) : data === 4 ? (
-            <Alert severity="success" color="success" className="alert success">
-              <FormattedMessage id="Your password has been successfully modified." />
-            </Alert>
           ) : alert === 5 ? (
             <Alert severity="warning" className="alert">
               <FormattedMessage id="Wrong Username Or Password" />
@@ -90,6 +83,14 @@ export default function Login(props) {
           ) : alert === 6 ? (
             <Alert severity="warning" className="alert">
               <FormattedMessage id="Please check your email" />
+            </Alert>
+          ) : data === 3 ? (
+            <Alert severity="success" color="success" className="alert success">
+              <FormattedMessage id="Registered" />
+            </Alert>
+          ) : data === 4 ? (
+            <Alert severity="success" color="success" className="alert success">
+              <FormattedMessage id="Your password has been successfully modified." />
             </Alert>
           ) : (
             ""

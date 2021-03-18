@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../css/change-pass.css";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
@@ -17,7 +17,7 @@ export default function Changepass(props) {
     errCNpassword: "",
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (validtoken === 0 && props.match.params.token)
       Users.checktoken(props.match.params.token).then((res) => {
         if (res === "1") setValidToken(1);
