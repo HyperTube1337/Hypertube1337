@@ -4,6 +4,8 @@ import "../css/navbar.css";
 import film from "../photos/film.png";
 import Languages from "./multi-language";
 import { FormattedMessage } from "react-intl";
+import SearchIcon from "@material-ui/icons/Search";
+
 export default function Navbar(props) {
   const loc = useLocation();
 
@@ -20,7 +22,10 @@ export default function Navbar(props) {
           Hypertube
         </Link>
       </div>
-
+      <div className="find">
+        <SearchIcon className="searchicon"></SearchIcon>
+        <input type="text" placeholder="Find the best movie" />
+      </div>
       <nav>
         <ul className="nav-list">
           {loc.pathname === "/register" || loc.pathname === "/login" ? (
