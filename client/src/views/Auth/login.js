@@ -95,16 +95,16 @@ export default function Login(props) {
           ) : (
             ""
           )}
-          <button className="passport-button Google">
+          <button className="passport-button Google" onClick= {()=> window.location="http://localhost:3001/auth/google"}>
             <FormattedMessage id="passport" />
             &nbsp;Google
             <img alt="" className="btn-icon g" src={google} />
           </button>
-          <button className="passport-button Git">
+          <button className="passport-button Git"  onClick= {()=> window.location="http://localhost:3001/auth/github"}>
             <FormattedMessage id="passport" />
             &nbsp;Github <img alt="" className="btn-icon g" src={git} />
           </button>
-          <button className="passport-button Intra">
+          <button className="passport-button Intra" onClick= {()=> window.location="http://localhost:3001/auth/42"}>
             <FormattedMessage id="passport" />
             &nbsp;Intra <img alt="" className="btn-icon g" src={intra} />
           </button>

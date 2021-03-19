@@ -37,6 +37,8 @@
 "Change Password" : "Change Password",
 "Your password has been successfully modified." : "Your password has been successfully modified.",
 "Wrong Username Or Password" : "Wrong Username Or Password",
-"Please check your email" : "Please check your email"
-
+"Please check your email" : "Please check your email",
+"Edit change" : "Edit change",
+"Old Password" : "Old Password",
+"New Password" : "New Password"
 }

@@ -1,6 +1,6 @@
 {
-  "login": "s'identifier",
-  "passport": "s'identifier avec",
+  "login": "S'identifier",
+  "passport": "S'identifier avec",
   "forgetPassword": "Mot de passe oublié?",
   "New": "Nouveau sur",
   "Now": "Maintenant",
@@ -11,7 +11,7 @@
 "Username" : "Nom d'utilisateur",
 "Sign up" : "S'inscrire",
 "Already a member?" : "Déjà membre?",
-"Verify Password" : "vérifier le mot de passe",
+"Verify Password" : "Vérifier le mot de passe",
 "First name" : "Prénom",
 "Last name" : "Nom",
 "All the fields should not be empty, Please try again." : "Tous les champs ne doivent pas être vides, veuillez réessayer.",
@@ -36,6 +36,9 @@
 "Confirm New Password" : "Confirmer le nouveau mot de passe",
 "Change Password" : "Changer le mot de passe",
 "Your password has been successfully modified." : "Votre mot de passe a été modifié avec succès.",
-"Wrong Username Or Password" : "nom d'utilisateur ou mot de passe incorrect",
-"Please check your email" : "Merci de consulter vos emails"
+"Wrong Username Or Password" : "Nom d'utilisateur ou mot de passe incorrect",
+"Please check your email" : "Merci de consulter vos emails",
+"Edit change" : "Modifier le changement",
+"Old Password" : "Ancien mot de passe",
+"New Password" : "Nouveau mot de passe"
 }
