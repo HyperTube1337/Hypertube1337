@@ -12,7 +12,7 @@ export default function Navbar(props) {
   console.log(loc.pathname);
 
   return (
-    <div className="navigation" data-aos="fade-right" data-aos-duration="3000">
+    <div className="navigation" data-aos="fade-right" data-aos-duration="3000" style={{ width: "99%" }}>
       <Link to="/">
         <img alt="" className="film" src={film} />
       </Link>
@@ -24,7 +24,7 @@ export default function Navbar(props) {
       </div>
       <div className="find">
         <SearchIcon className="searchicon"></SearchIcon>
-        <input type="text" placeholder="Find the best movie" />
+        <input type="text" placeholder="Find the best movies" />
       </div>
       <nav>
         <ul className="nav-list">

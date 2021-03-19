@@ -2,9 +2,10 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
   margin-top: 110px;
   align-items: center;
+  max-height: 92%;
+  overflow: auto;
 }
 .filter {
   width: 70%;
@@ -22,6 +23,10 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 46px;
+}
+.radio {
+  margin-top: 54px;
 }
 .filter p {
   color: #fff;
@@ -39,6 +44,9 @@
   padding: 11px;
   outline: none;
 }
+.MuiFormControl-root {
+  color: #ffffff;
+}
 .search input:focus {
   color: #000000;
   font-size: large;
@@ -54,13 +62,18 @@
   flex-wrap: wrap;
 }
 .card {
-  flex-basis: 20%;
+  flex-basis: 23%;
   height: 325px;
   border: 5px solid white;
   cursor: pointer;
   border-radius: 5px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  margin-bottom: 18px;
+}
+.genres {
+  word-break: break-all;
+  font-size: 15px;
 }
 .MuiNativeSelect-select {
   min-width: 85px !important;
@@ -88,4 +101,7 @@
 h4 {
   color: white;
   font-size: 26px;
+}
+.MuiFormControl-root .MuiFormLabel-root {
+  color: #ffffff;
 }
