@@ -12,6 +12,7 @@ import "aos/dist/aos.css";
 import Confirm from "./views/Auth/confim";
 import Fgpass from "./views/Auth/fgpass";
 import Changepass from "./views/Auth/changepass";
+import Profile from "./views/pages/profile";
 
 
 AOS.init();
@@ -63,6 +64,9 @@ function App() {
             <Route path="/fgpass">
             <Fgpass />
           </Route>
+          <Route path="/profile">
+            <Profile />
+            </Route>
             <Route exact path="/">
               <Home />
             </Route>

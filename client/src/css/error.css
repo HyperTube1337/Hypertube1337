@@ -57,6 +57,9 @@
     margin-right: 0;
     font-weight: 700;
 }
+.hypertube-home:hover{
+    color: #000000c9;
+}
 
 .error-page--content--errorCode span {
     border-left: 2px solid #e50914;
