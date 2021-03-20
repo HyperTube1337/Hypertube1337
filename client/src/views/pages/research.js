@@ -11,21 +11,27 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import axios from "axios";
+import SearchIcon from "@material-ui/icons/Search";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 
 import { FormattedMessage } from "react-intl";
 function Research() {
   const yearChange = (event) => {
     setYear(event.target.value);
+    // setSearch(event.target.value);
   };
   const genreChange = (event) => {
-    setGenre(event.target.value);
+    setGenres(event.target.value);
   };
   const ratingChange = (event) => {
     setRating(event.target.value);
   };
   const sortChange = (event) => {
     setSort(event.target.value);
+  };
+  const SearchChange = (event) => {
+    setSearch(event.target.value);
   };
   const useStyles = makeStyles({
     margin: {
@@ -39,8 +45,10 @@ function Research() {
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
-      alignItems: "center",
-      // marginTop: "90px",
+      ["@media (max-width:780px)"]: {
+        // eslint-disable-line no-useless-computed-key
+        flexDirection: "column",
+      },
     },
     progress: {
       width: "100%",
@@ -48,6 +56,14 @@ function Research() {
         marginTop: "spacing(2)",
       },
       marginBottom: "15px",
+    },
+    visibleIcon: {
+      color: "#F5F5F5",
+    },
+    gradIcon: {
+      color: "#e50914",
+      width: "35px",
+      height: "35px ",
     },
   });
   const handlscroll = (event) => {
@@ -59,56 +75,64 @@ function Research() {
   };
   const classes = useStyles();
   const [background, setbackground] = useState();
-  const [year, setYear] = useState("all");
-  const [sort, setSort] = useState("genre");
+  const [year, setYear] = useState("0");
+  const [sort, setSort] = useState("download_count");
   const [loading, setLoading] = useState(false);
-  const [genre, setGenre] = useState();
-  const [rating, setRating] = useState("all");
-  const [movie, setMovie] = useState([""]);
+  const [genres, setGenres] = useState("0");
+  const [rating, setRating] = useState(0);
+  const [movie, setMovie] = useState([]);
   const [page, setPage] = useState(1);
-
+  const [submit, setSubmit] = useState(false);
+  const [search, setSearch] = useState("");
   useEffect(() => {
     setLoading(true);
     setbackground("https://miro.medium.com/max/7680/1*5pj4U4-L9MBmhm3rEoADqA.jpeg");
-    axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=download_count&page=${page}`).then((res) => {
+    axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=${sort}&genre=${genres}&minimum_rating=${rating}&query_term=${search}&limit=50&page=${page}`).then((res) => {
       if (res.data.status === "ok") {
-        let mov = movie;
-        setMovie(mov.concat(res.data.data.movies));
-        setLoading(false);
+        if (submit === false) {
+          if (res.data.data.movie_count > movie?.length) {
+            setMovie(movie?.concat(res.data.data.movies));
+            setLoading(false);
+          } else {
+            if (res.data.data.movies) {
+              setMovie(res.data.data.movies);
+              setLoading(false);
+            } else {
+              setPage(1);
+              setLoading(false);
+            }
+          }
+        } else if (submit === true) {
+          if (res.data.data.movies) {
+            setMovie(res.data.data.movies);
+          } else {
+            setPage(1);
+          }
+          setLoading(false);
+          setSubmit(false);
+        }
       }
     });
-  }, [page]);
+  }, [page, submit]);
   return (
     <div className="research" onScroll={handlscroll}>
       <div className="filter">
         <h3>Hypertube</h3>
         <p>Welcome to the official Hypertube Website</p>
+        <div className="find">
+          <form>
+            <SearchIcon className="searchicon" onClick={() => setSubmit(true)}></SearchIcon>
+            <input type="text" placeholder="Find the best movies" onChange={SearchChange} />
+          </form>
+        </div>
         <div className="filterResulte">
-          <FormControl className={classes.margin}>
-            <InputLabel htmlFor="demo-customized-select-native" className={classes.label}>
-              Year
-            </InputLabel>
-            <NativeSelect id="demo-customized-select-native" value={year} onChange={yearChange}>
-              <option aria-label="" value="" />
-              <option value={"all"}>All</option>
-              <option value={2021}>2021</option>
-              <option value={2020}>2020</option>
-              <option value={2019}>2019</option>
-              <option value={"2015-2018"}>2015-2018</option>
-              <option value={"2010-2014"}>2010-2014</option>
-              <option value={"2000-2009"}>2000-2009</option>
-              <option value={"1990-1999"}>1990-1999</option>
-              <option value={"1980-1989"}>1980-1989</option>
-              <option value={"1970-1979"}>1970-1979</option>
-              <option value={"1990-1969"}>1960-1900</option>
-            </NativeSelect>
-          </FormControl>
           <FormControl className={classes.margin}>
             <InputLabel htmlFor="demo-customized-select-native" className={classes.label}>
               Genre
             </InputLabel>
-            <NativeSelect id="demo-customized-select-native" value={genre} onChange={genreChange}>
+            <NativeSelect id="demo-customized-select-native" value={genres} onChange={genreChange}>
               <option aria-label="" value="" />
+              <option value={"0"}>All</option>
               <option value={"Action"}>Action</option>
               <option value={"Adventure"}>Adventure</option>
               <option value={"Adventure"}>Adventure</option>
@@ -119,6 +143,15 @@ function Research() {
               <option value={"Fantasy"}>Fantasy</option>
               <option value={"Musical"}>Musical</option>
               <option value={"Romance"}>Romance</option>
+              <option value={"Animation"}>Animation</option>
+              <option value={"Crime"}>Crime</option>
+              <option value={"Film-Noir"}>Film-Noir</option>
+              <option value={"Music"}>Music</option>
+              <option value={"Musical"}>Musical</option>
+              <option value={"Sport"}>Sport</option>
+              <option value={"War"}>War</option>
+              <option value={"Talk-Show"}>Talk-Show</option>
+              <option value={"Mystery"}>Mystery</option>
             </NativeSelect>
           </FormControl>
           <FormControl className={classes.margin}>
@@ -127,7 +160,7 @@ function Research() {
             </InputLabel>
             <NativeSelect id="demo-customized-select-native" value={rating} onChange={ratingChange}>
               <option aria-label="" value="" />
-              <option value={"all"}>All</option>
+              <option value={"0"}>All</option>
               <option value={"9"}>+9</option>
               <option value={"8"}>+8</option>
               <option value={"7"}>+7</option>
@@ -139,6 +172,9 @@ function Research() {
               <option value={"1"}>+1</option>
             </NativeSelect>
           </FormControl>
+          <button className="btn btn-rounded" type="submit" onClick={() => setSubmit(true)}>
+            Search
+          </button>
         </div>
         <div className="radio">
           <FormControl component="fieldset">
@@ -146,35 +182,30 @@ function Research() {
             <RadioGroup aria-label="Sort" name="sortby" value={sort} onChange={sortChange} className={classes.radio}>
               <FormControlLabel value="title" control={<Radio />} label="Title" />
               <FormControlLabel value="rating" control={<Radio />} label="Rating" />
-              <FormControlLabel value="genre" control={<Radio />} label="Genre" />
+              <FormControlLabel value="genres" control={<Radio />} label="Genre" />
               <FormControlLabel value="year" control={<Radio />} label="Year" />
+              <FormControlLabel value="download_count" control={<Radio />} label="Popular" />
             </RadioGroup>
           </FormControl>
         </div>
         <div className="cards">
-          {movie
-            ?.filter(
-              (filter) =>
-                (rating === "all" ? filter.rating >= 1 : filter.rating >= rating) &&
-                (year == "all" ? filter.year >= 1990 : year.length < 9 ? filter.year == year : filter.year >= year.substr(0, 4) && filter.year <= year.substr(5, 8))
-            )
-            .sort((a, b) => b[sort] - a[sort])
-            .map((film, i) => (
-              <div className="card" style={{ backgroundImage: "url(" + film.large_cover_image + ")" }} Keys="i">
-                <div className="infoMovie">
-                  <GradeIcon></GradeIcon>
-                  <h4>{film?.rating} / 10</h4>
-                  <h4 className="genres">{film?.genres + " "}</h4>
-                  <button className="btn btn-rounded">
-                    <Link className="text-sz">
-                      <FormattedMessage id="view Details" />
-                    </Link>
-                  </button>
-                  <p>{film?.title}</p>
-                  <h4>{film?.year}</h4>
-                </div>
+          {movie?.map((film, i) => (
+            <div className="card" style={{ backgroundImage: "url(" + film?.large_cover_image + ")" }} key={i}>
+              <div className="infoMovie">
+                <GradeIcon className={classes.gradIcon}></GradeIcon>
+                <h4>{film?.rating} / 10</h4>
+                <h4 className="genres">{film?.genres + " "}</h4>
+                <button className="btn btn-rounded">
+                  <Link className="text-sz" to={film?.imdb_code}>
+                    view Details
+                  </Link>
+                </button>
+                <p>{film?.title}</p>
+                <h4>{film?.year}</h4>
+                <VisibilityIcon className={classes.visibleIcon}></VisibilityIcon>
               </div>
-            ))}
+            </div>
+          ))}
           <div className={classes.progress}>{loading == true ? <LinearProgress color="secondary" /> : ""}</div>
         </div>
       </div>

@@ -9,8 +9,6 @@ import SearchIcon from "@material-ui/icons/Search";
 export default function Navbar(props) {
   const loc = useLocation();
 
-  console.log(loc.pathname);
-
   return (
     <div className="navigation" data-aos="fade-right" data-aos-duration="3000" style={{ width: "99%" }}>
       <Link to="/">
@@ -21,10 +19,6 @@ export default function Navbar(props) {
         <Link className="text-s" to="/">
           Hypertube
         </Link>
-      </div>
-      <div className="find">
-        <SearchIcon className="searchicon"></SearchIcon>
-        <input type="text" placeholder="Find the best movies" />
       </div>
       <nav>
         <ul className="nav-list">
