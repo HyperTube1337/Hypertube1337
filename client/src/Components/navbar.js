@@ -21,7 +21,7 @@ export default function Navbar(props) {
         headers: { "x-auth-token": localStorage.getItem("token") },
       })
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         if (res.data === "U failed to authenticate" || res.data === "we need a token") {
           localStorage.removeItem("token");
           history.push("/");
@@ -50,12 +50,12 @@ export default function Navbar(props) {
             <Languages />
           ) : (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <Languages />
-              <li>
+              <li className="li-dote">
                 <Link className="text-s" to={token ? "/profile/"+ userlogged : "" }>
                   {token ? "Profile" : ""}
                 </Link>
               </li>
+              <Languages />
               <button className="btn btn-rounded">
                 <Link className="text-sz" to={!token ? "/login" : "/"}>
                   <FormattedMessage id={!token ? "login" : "Log out"} />

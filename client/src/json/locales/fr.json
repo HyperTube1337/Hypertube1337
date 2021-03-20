@@ -41,5 +41,9 @@
 "Edit change" : "Modifier le changement",
 "Old Password" : "Ancien mot de passe",
 "New Password" : "Nouveau mot de passe",
-"Log out" : "Se déconnecter"
+"Log out" : "Se déconnecter",
+"Nothing changed" : "Rien n'a changé",
+"Username is already used" : "Le nom d'utilisateur est déjà utilisé",
+"Email is already used" : "Cet adresse mail est déjà utilisée",
+"Your informations have been successfully modified" : "Vos informations ont été modifiées avec succès"
 }

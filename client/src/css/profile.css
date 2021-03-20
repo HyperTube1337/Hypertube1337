@@ -56,7 +56,15 @@
   width: 250px;
   height: 250px;
   border-radius: 150px;
-  background-color: #6364655e;
+  /* background-color: #6364655e; */
+  /* border: 2px solid #6364659e; */
+}
+
+.Inpic{
+  width: 249px;
+  height: 249px;
+  border-radius: 150px;
+  /* background-color: #6364655e; */
   border: 2px solid #6364659e;
 }
 
@@ -135,6 +143,12 @@ button.inpt-profile {
     border-radius: 200px;
     margin-top: 80px;
   }
+  .Inpic{
+    width: 200px;
+    height: 200px;
+    border-radius: 200px;
+    margin-top: 80px;
+  }
   .username-div {
     width: 50%;
     height: 80%;
@@ -159,6 +173,11 @@ button.inpt-profile {
     width: 100%;
   }
   .picture-div{
+    width: 170px;
+    /* height: 170px; */
+    margin-top: 8px;
+  }
+  .Inpic{
     width: 170px;
     height: 170px;
     margin-top: 8px;
