@@ -1,10 +1,21 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import "../../css/home.css";
 import { Link } from "react-router-dom";
 import arrow from "../../photos/arrow.png";
 import { FormattedMessage } from "react-intl";
+import { useHistory } from "react-router-dom";
 
 export default function Home() {
+  const [token, setToken] = useState("");
+  const history = useHistory();
+
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+    if(token)
+    history.push("/profile")
+   // eslint-disable-next-line
+  }, [token])
+
   return (
     <div data-aos="zoom-out" data-aos-duration="2000" className="home">
       <div

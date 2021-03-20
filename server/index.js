@@ -10,7 +10,8 @@ const login = require("./user/login");
 const passport = require('passport');
 const oauth = require('./user/oauth');
 const isUserAuth = require("./user/isUserAuth");
-
+const getusername = require("./user/getusername");
+const getDataByUser = require("./user/getDataByUser");
 
 app.use(cors());
 app.use(express.json());
@@ -23,6 +24,9 @@ app.use("/login", login);
 app.use("/isUserAuth", isUserAuth);
 app.use(passport.initialize());
 app.use("/", oauth)
+app.use("/getusername", getusername);
+app.use("/getDataByUser", getDataByUser);
+
 app.listen(3001, () => {
   console.log("hello server");
 });

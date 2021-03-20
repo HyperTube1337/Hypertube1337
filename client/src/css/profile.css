@@ -142,7 +142,7 @@ button.inpt-profile {
   }
 }
 
-@media (max-height: 900px) {
+@media (max-width: 700px) {
   .profile {
     height: 1200px;
   }

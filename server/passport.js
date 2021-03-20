@@ -49,13 +49,13 @@ passport.use(
 passport.use(
   new GithubStrategy(
     {
-      clientID: SCHOOL_CLIENT_ID,
-      clientSecret: SCHOOL_CLIENT_SECRET,
-      callbackURL: "http://localhost:3001/auth/42/callback",
+      clientID: GITHUB_CLIENT_ID,
+      clientSecret: GITHUB_CLIENT_SECRET,
+      callbackURL: "http://localhost:3001/auth/github/callback",
       scope: ["user:email"],
     },
     function (accessToken, refreshToken, profile, cb) {
-      db.query("select user_id from users where user_id = ?", "42" + profile.id, (err, res) => {
+      db.query("select user_id from users where user_id = ?", "Gi" + profile.id, (err, res) => {
         console.log(res.length);
         if (err) res.send(err);
         else if (res.length === 0) {
@@ -63,10 +63,10 @@ passport.use(
             "insert into users set firstname= ? , lastname = ? , username = ? , email = ? , user_id = ? , profilePic = ?, user_from = 'Github'",
             ["", "", profile._json.login, profile.emails[0].value, "Gi" + profile._json.id, profile._json.avatar_url]
           );
-          return cb(null, "42" + profile._json.id);
+          return cb(null, "Gi" + profile._json.id);
         } else {
           console.log("found");
-          return cb(null, "42" + profile._json.id);
+          return cb(null, "Gi" + profile._json.id);
         }
       });
     }
@@ -76,27 +76,27 @@ passport.use(
 passport.use(
   new SCHOOLStrategy(
     {
-      clientID: GITHUB_CLIENT_ID,
-      clientSecret: GITHUB_CLIENT_SECRET,
+      clientID: SCHOOL_CLIENT_ID,
+      clientSecret: SCHOOL_CLIENT_SECRET,
       callbackURL: "http://localhost:3001/auth/42/callback",
       // scope: ["profile", "email"],
     },
     function (accessToken, refreshToken, profile, cb) {
-      console.log(profile);
-      // db.query("select user_id from users where user_id = ?", "Gi" + profile.id, (err, res) => {
-      //   console.log(res.length);
-      //   if (err) res.send(err);
-      //   else if (res.length === 0) {
-      //     db.query(
-      //       "insert into users set firstname= ? , lastname = ? , username = ? , email = ? , user_id = ? , profilePic = ?, user_from = 'Github'",
-      //       ["", "", profile._json.login, profile.emails[0].value, "Gi" + profile._json.id, profile._json.avatar_url]
-      //     );
-      //     return cb(null, "Gi" + profile._json.id);
-      //   } else {
-      //     console.log("found");
-      //     return cb(null, "Gi" + profile._json.id);
-      //   }
-      // });
+      // console.log(profile);
+      db.query("select user_id from users where user_id = ?", "42" + profile.id, (err, res) => {
+        console.log(res.length);
+        if (err) res.send(err);
+        else if (res.length === 0) {
+          db.query(
+            "insert into users set firstname= ? , lastname = ? , username = ? , email = ? , user_id = ? , profilePic = ?, user_from = 'School'",
+            [profile._json.first_name,profile._json.last_name, profile._json.login, profile._json.email, "42" + profile._json.id, profile._json.image_url]
+          );
+          return cb(null, "42" + profile._json.id);
+        } else {
+          console.log("found");
+          return cb(null, "42" + profile._json.id);
+        }
+      });
     }
   )
 );

@@ -30,8 +30,11 @@ export default function Register() {
   const [alert, setalert] = useState(0);
 
   // console.log({ ...user });
+  const [token, setToken] = useState("");
 
   useEffect(() => {
+    setToken(localStorage.getItem("token"));
+    if (token) history.push("/");
     if ((user.firstname && !isName(user.firstname) && user.firstname.length < 24) || user.firstname.length > 24) {
       userErrors.errfirstname = "#e87c03";
       // setUserErrors({ ...userErrors });
@@ -75,7 +78,7 @@ export default function Register() {
       userErrors.errverifypassword = "";
       setUserErrors({ ...userErrors });
     } // eslint-disable-next-line
-  }, [user.firstname, user.lastname, user.username, user.email, user.password, user.verifypassword]);
+  }, [user.firstname, user.lastname, user.username, user.email, user.password, user.verifypassword,token]);
 
   const handelRegister = () => {
     if (!user.firstname) {

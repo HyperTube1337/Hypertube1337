@@ -64,7 +64,7 @@ function App() {
             <Route path="/fgpass">
             <Fgpass />
           </Route>
-          <Route path="/profile">
+          <Route path="/profile/:profilename">
             <Profile />
             </Route>
             <Route exact path="/">

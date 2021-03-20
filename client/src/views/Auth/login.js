@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import "../../css/login.css";
 import google from "../../photos/search.svg";
 import git from "../../photos/github.svg";
@@ -23,6 +23,12 @@ export default function Login(props) {
   });
   let data = history.location.state?.data;
   // console.log(data);
+  const [token, setToken] = useState("");
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+    if (token) history.push("/");
+    // eslint-disable-next-line
+  }, [token]);
 
   const handleLogin = () => {
     userErrors.errusername = "";
@@ -57,6 +63,7 @@ export default function Login(props) {
           } else {
             localStorage.setItem("token", response.data.token);
             console.log("done");
+            history.push("/profile");
           }
         })
         .catch((err) => console.log(err));
@@ -95,16 +102,22 @@ export default function Login(props) {
           ) : (
             ""
           )}
-          <button className="passport-button Google" onClick= {()=> window.location="http://localhost:3001/auth/google"}>
+          <button
+            className="passport-button Google"
+            onClick={() => (window.location = "http://localhost:3001/auth/google")}
+          >
             <FormattedMessage id="passport" />
             &nbsp;Google
             <img alt="" className="btn-icon g" src={google} />
           </button>
-          <button className="passport-button Git"  onClick= {()=> window.location="http://localhost:3001/auth/github"}>
+          <button
+            className="passport-button Git"
+            onClick={() => (window.location = "http://localhost:3001/auth/github")}
+          >
             <FormattedMessage id="passport" />
             &nbsp;Github <img alt="" className="btn-icon g" src={git} />
           </button>
-          <button className="passport-button Intra" onClick= {()=> window.location="http://localhost:3001/auth/42"}>
+          <button className="passport-button Intra" onClick={() => (window.location = "http://localhost:3001/auth/42")}>
             <FormattedMessage id="passport" />
             &nbsp;Intra <img alt="" className="btn-icon g" src={intra} />
           </button>
