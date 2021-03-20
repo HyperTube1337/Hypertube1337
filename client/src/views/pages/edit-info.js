@@ -109,21 +109,16 @@ export default function EditInfo(props) {
             history.push("/login");
           } else {
             // console.log(res.data)
-            if(res.data === "nothing changed")
-            setalert(4);
-            else if(res.data === "username is already used")
-            setalert(5)
-            else if(res.data === "email is already used")
-            setalert(6)
-            else if(res.data === "updated")
-            setalert(7)
-
+            if (res.data === "nothing changed") setalert(4);
+            else if (res.data === "username is already used") setalert(5);
+            else if (res.data === "email is already used") setalert(6);
+            else if (res.data === "updated") setalert(7);
           }
         });
   };
 
   return (
-    <div className="inputs inputs-profile">
+    <div className="inputs inputs-profile" data-aos="fade-up" data-aos-duration="3000">
       <div>
         {alert === 1 ? (
           <Alert severity="warning" className="alert">
@@ -153,7 +148,7 @@ export default function EditInfo(props) {
           <Alert severity="success" color="success" className="alert success">
             <FormattedMessage id="Your informations have been successfully modified" />
           </Alert>
-        ): (
+        ) : (
           ""
         )}
       </div>

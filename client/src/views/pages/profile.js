@@ -50,7 +50,7 @@ useEffect(() => {
   const [visible, setvisible] = useState(0);
   const [pass, setpass] = useState(0);
   return (
-    <div className="profile">
+    <div className="profile" data-aos="zoom-in" data-aos-duration="2000">
       <div style={{ height: "5%" }}></div>
       <div className="profile-content">
         <div className="profile-content-right">

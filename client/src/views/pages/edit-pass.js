@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl";
 export default function EditPass(props) {
     // props.data.setvisible(0)
     return (
-        <div className="inputs inputs-profile">
+        <div className="inputs inputs-profile" data-aos="fade-up" data-aos-duration="3000">
         <FormattedMessage id="Old Password">
           {(text) => (
             <input

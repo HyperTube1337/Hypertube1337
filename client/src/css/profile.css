@@ -56,16 +56,15 @@
   width: 250px;
   height: 250px;
   border-radius: 150px;
-  /* background-color: #6364655e; */
-  /* border: 2px solid #6364659e; */
+  background-color: #6364655e;
+  border: 2px solid #6364659e;
 }
 
 .Inpic{
   width: 249px;
   height: 249px;
   border-radius: 150px;
-  /* background-color: #6364655e; */
-  border: 2px solid #6364659e;
+  /* border: 2px solid #6364659e; */
 }
 
 .username-div {
