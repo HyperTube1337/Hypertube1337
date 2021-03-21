@@ -68,7 +68,7 @@ function Movies() {
           </div>
         </div>
       </div>
-      <button className="btn btn-rounded">Watch Movie</button>
+      <button className="btn btn-rounded">Watch Now</button>
       <div className="miniTrailer">
         <div className="trailerPlayer">
           <h4>Trailer</h4>

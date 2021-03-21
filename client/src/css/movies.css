@@ -147,3 +147,6 @@
 .trailerPlayer {
   flex-basis: 45%;
 }
+.trailerPlayer div {
+  border: 3px solid;
+}
