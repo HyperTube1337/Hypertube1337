@@ -5,7 +5,8 @@ import GradeIcon from "@material-ui/icons/Grade";
 import { makeStyles } from "@material-ui/core/styles";
 import ReactPlayer from "react-player";
 import Avatar from "@material-ui/core/Avatar";
-
+import axios from "axios";
+import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 const useStyles = makeStyles({
   root: {
     width: 200,
@@ -17,6 +18,12 @@ const useStyles = makeStyles({
     width: "spacing(7)",
     height: "spacing(7)",
   },
+  play: {
+    position: "absolute",
+    width: "84px",
+    height: "96px",
+    cursor: "pointre",
+  },
 });
 // background-image: url("https://yts.mx/assets/images/movies/cherry_2021/large-cover.jpg");
 const background = "https://yts.mx/assets/images/movies/cherry_2021/large-cover.jpg";
@@ -25,6 +32,11 @@ function Movies() {
   const classes = useStyles();
   const [movies, setMovies] = useState("");
   const [imdbrating, setImdbrating] = useState(4.5);
+  function getMovieLink(link) {
+    axios.post("http://localhost:3001/stream", { link: link }).then((response) => {
+      console.log(response);
+    });
+  }
   useEffect(() => {}, []);
   return (
     <div className="movies">
@@ -102,6 +114,10 @@ function Movies() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="play">
+        <ReactPlayer controls url="aa" />
+        <PlayCircleFilledWhiteIcon onClick={() => getMovieLink("EA17E6BE92962A403AC1C638D2537DCF1E564D26")} className={classes.play}></PlayCircleFilledWhiteIcon>
       </div>
     </div>
   );

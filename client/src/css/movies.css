@@ -147,7 +147,13 @@
 .trailerPlayer {
   flex-basis: 45%;
 }
-
+.play {
+  position: relative;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 @media (max-width: 1024px) {
   .miniTrailer {
     width: 100%;
