@@ -7,15 +7,19 @@ const confirm = require("./user/confirm");
 const fgpass = require("./user/fgpass");
 const changepass = require("./user/changepass");
 const login = require("./user/login");
-const passport = require('passport');
-const oauth = require('./user/oauth');
+const passport = require("passport");
+const oauth = require("./user/oauth");
 const isUserAuth = require("./user/isUserAuth");
 const getusername = require("./user/getusername");
 const getDataByUser = require("./user/getDataByUser");
 const editInfo = require("./user/editInfo");
+const editImage = require("./user/editImage");
+const bodyParser = require("body-parser");
+const editPassword = require("./user/editPassword");
 
-app.use(cors());
-app.use(express.json());
+app.use(cors({ origin: true, credentials: true }));
+// app.use(express.json());
+app.use(bodyParser.json({ limit: "50mb" }));
 app.use("/register", register);
 app.use("/tokenpass", tokenpass);
 app.use("/confirm", confirm);
@@ -24,10 +28,13 @@ app.use("/changepass", changepass);
 app.use("/login", login);
 app.use("/isUserAuth", isUserAuth);
 app.use(passport.initialize());
-app.use("/", oauth)
+app.use("/", oauth);
 app.use("/getusername", getusername);
 app.use("/getDataByUser", getDataByUser);
 app.use("/edit", editInfo);
+app.use("/editImage", editImage);
+app.use("/images", express.static("./images"));
+app.use("/editPassword", editPassword);
 
 app.listen(3001, () => {
   console.log("hello server");

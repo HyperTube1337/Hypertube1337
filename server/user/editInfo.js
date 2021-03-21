@@ -8,8 +8,8 @@ const isUsername = require("../tools/isUsername");
 
 router.post("/", isUserAuth, (req, res) => {
   const id = req.userId;
-  const { firstname, lastname, username, email, user_from, message } = req.body;
-  if (!user_from && message === "user logged") {
+  const { firstname, lastname, username, email, user_from} = req.body;
+  if (!user_from) {
     const sqlInsert = "SELECT * FROM users WHERE id = ?";
     db.query(sqlInsert, id, (err, result) => {
       if (err) {

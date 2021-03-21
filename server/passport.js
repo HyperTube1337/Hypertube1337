@@ -20,23 +20,36 @@ passport.use(
       scope: ["profile", "email"],
     },
     function (accessToken, refreshToken, profile, cb) {
-      console.log(profile);
+      // console.log(profile);
       db.query("select user_id from users where user_id = ?", "Go" + profile.id, (err, res) => {
         console.log(res.length);
         if (err) res.send(err);
         else if (res.length === 0) {
           db.query(
-            "insert into users set firstname= ? , lastname = ? , username = ? , email = ? , user_id = ? , profilePic = ?, user_from = 'Google'",
-            [
-              profile._json.given_name,
-              profile._json.family_name,
-              profile._json.name,
-              profile._json.email,
-              "Go" + profile._json.sub,
-              profile._json.picture,
-            ]
+            "SELECT COUNT(*) AS count FROM `users` WHERE `username` = ? OR `email` = ? LIMIT 1;",
+            [profile._json.name, profile._json.email],
+            (error, rslt) => {
+              if (error) {
+                console.log(error);
+              } else if (rslt[0].count > 0) {
+                console.log("Email and or username are already used");
+                return cb("error");
+              } else {
+                db.query(
+                  "insert into users set firstname= ? , lastname = ? , username = ? , email = ? , user_id = ? , profilePic = ?, user_from = 'Google'",
+                  [
+                    profile._json.given_name,
+                    profile._json.family_name,
+                    profile._json.name,
+                    profile._json.email,
+                    "Go" + profile._json.sub,
+                    profile._json.picture,
+                  ]
+                );
+                return cb(null, "Go" + profile._json.sub);
+              }
+            }
           );
-          return cb(null, "Go" + profile._json.sub);
         } else {
           console.log("found");
           return cb(null, "Go" + profile._json.sub);
@@ -60,10 +73,30 @@ passport.use(
         if (err) res.send(err);
         else if (res.length === 0) {
           db.query(
-            "insert into users set firstname= ? , lastname = ? , username = ? , email = ? , user_id = ? , profilePic = ?, user_from = 'Github'",
-            ["", "", profile._json.login, profile.emails[0].value, "Gi" + profile._json.id, profile._json.avatar_url]
+            "SELECT COUNT(*) AS count FROM `users` WHERE `username` = ? OR `email` = ? LIMIT 1;",
+            [profile._json.login, profile.emails[0].value],
+            (error, rslt) => {
+              if (error) {
+                console.log(error);
+              } else if (rslt[0].count > 0) {
+                console.log("Email and or username are already used");
+                return cb("error");
+              } else {
+                db.query(
+                  "insert into users set firstname= ? , lastname = ? , username = ? , email = ? , user_id = ? , profilePic = ?, user_from = 'Github'",
+                  [
+                    "",
+                    "",
+                    profile._json.login,
+                    profile.emails[0].value,
+                    "Gi" + profile._json.id,
+                    profile._json.avatar_url,
+                  ]
+                );
+                return cb(null, "Gi" + profile._json.id);
+              }
+            }
           );
-          return cb(null, "Gi" + profile._json.id);
         } else {
           console.log("found");
           return cb(null, "Gi" + profile._json.id);
@@ -79,19 +112,37 @@ passport.use(
       clientID: SCHOOL_CLIENT_ID,
       clientSecret: SCHOOL_CLIENT_SECRET,
       callbackURL: "http://localhost:3001/auth/42/callback",
-      // scope: ["profile", "email"],
     },
     function (accessToken, refreshToken, profile, cb) {
-      // console.log(profile);
       db.query("select user_id from users where user_id = ?", "42" + profile.id, (err, res) => {
         console.log(res.length);
         if (err) res.send(err);
         else if (res.length === 0) {
           db.query(
-            "insert into users set firstname= ? , lastname = ? , username = ? , email = ? , user_id = ? , profilePic = ?, user_from = 'School'",
-            [profile._json.first_name,profile._json.last_name, profile._json.login, profile._json.email, "42" + profile._json.id, profile._json.image_url]
+            "SELECT COUNT(*) AS count FROM `users` WHERE `username` = ? OR `email` = ? LIMIT 1;",
+            [profile._json.login, profile._json.email],
+            (error, rslt) => {
+              if (error) {
+                console.log(error);
+              } else if (rslt[0].count > 0) {
+                console.log("Email and or username are already used");
+                return cb("error");
+              } else {
+                db.query(
+                  "insert into users set firstname= ? , lastname = ? , username = ? , email = ? , user_id = ? , profilePic = ?, user_from = 'School'",
+                  [
+                    profile._json.first_name,
+                    profile._json.last_name,
+                    profile._json.login,
+                    profile._json.email,
+                    "42" + profile._json.id,
+                    profile._json.image_url,
+                  ]
+                );
+                return cb(null, "42" + profile._json.id);
+              }
+            }
           );
-          return cb(null, "42" + profile._json.id);
         } else {
           console.log("found");
           return cb(null, "42" + profile._json.id);

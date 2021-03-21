@@ -1,81 +1,136 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import isPassword from "../../tools/isPassword";
 import { FormattedMessage } from "react-intl";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 export default function EditPass(props) {
-    // props.data.setvisible(0)
-    return (
-        <div className="inputs inputs-profile" data-aos="fade-up" data-aos-duration="3000">
-        <FormattedMessage id="Old Password">
-          {(text) => (
-            <input
-              disabled={props.data.visible === 0 ? true : false}
-              style={
-                props.data.visible === 0
-                  ? { backgroundColor: "rgba(240, 240, 240, 0.2)", border: "none" }
-                  : { backgroundColor: "" }
-              }
-              className="inpt inpt-profile"
-              type="text"
-              placeholder={text}
-              //   value={user.firstname}
-              //   style={{ borderBottomColor: userErrors.errfirstname }}
-              //   onChange={(e) => {
-              //     user.firstname = e.target.value;
-              //     setUser({ ...user });
-              //   }}
-            />
-          )}
-        </FormattedMessage>
-        <FormattedMessage id="New Password">
-          {(text) => (
-            <input
-              disabled={props.data.visible === 0 ? true : false}
-              style={
-                props.data.visible === 0
-                  ? { backgroundColor: "rgba(240, 240, 240, 0.2)", border: "none" }
-                  : { backgroundColor: "" }
-              }
-              className="inpt inpt-profile"
-              type="text"
-              placeholder={text}
-              //   value={user.lastname}
-              //   style={{ borderBottomColor: userErrors.errlastname }}
-              //   onChange={(e) => {
-              //     user.lastname = e.target.value;
-              //     setUser({ ...user });
-              //   }}
-            />
-          )}
-        </FormattedMessage>
-        <FormattedMessage id="Confirm New Password">
-          {(text) => (
-            <input
-              disabled={props.data.visible === 0 ? true : false}
-              style={
-                props.data.visible === 0
-                  ? { backgroundColor: "rgba(240, 240, 240, 0.2)", border: "none" }
-                  : { backgroundColor: "" }
-              }
-              className="inpt inpt-profile"
-              type="text"
-              placeholder={text}
-              //   value={user.username}
-              //   style={{ borderBottomColor: userErrors.errusername }}
-              //   onChange={(e) => {
-              //     user.username = e.target.value;
-              //     setUser({ ...user });
-              //   }}
-            />
-          )}
-        </FormattedMessage>
-        <div
-          className="validation-button"
-          style={{ width: "97%", display: props.data.visible === 0 ? "none" : "inline" }}
-        >
-          <button className="register-button inpt-profile">
-            <FormattedMessage id="Edit change" />
-          </button>
-        </div>
-      </div>
+  const history = useHistory();
+  const data = props.data1.user;
+  const [alert, setalert] = useState(0);
+  const [userErrors, setUserErrors] = useState({
+    errOpassword: "",
+    errNpassword: "",
+    errverifyNpassword: "",
+  });
+  useEffect(() => {
+    if (props.data1.user.Npassword && !isPassword(props.data1.user.Npassword)) {
+      userErrors.errNpassword = "#e87c03";
+      setUserErrors({ ...userErrors });
+    } else {
+      userErrors.errNpassword = "";
+      setUserErrors({ ...userErrors });
+    }
+    if (props.data1.user.verifyNpassword && props.data1.user.Npassword !== props.data1.user.verifyNpassword) {
+      userErrors.errverifyNpassword = "#e87c03";
+      setUserErrors({ ...userErrors });
+    } else {
+      userErrors.errverifyNpassword = "";
+      setUserErrors({ ...userErrors });
+    } // eslint-disable-next-line
+  }, [props.data1.user.Npassword, props.data1.user.verifyNpassword]);
+  const handelEditPassword = () => {
+    if (props.data1.user.Opassword &&
+      props.data1.user.Npassword &&
+      props.data1.user.verifyNpassword === props.data1.user.Npassword &&
+      !userErrors.errNpassword &&
+      !userErrors.errverifyNpassword
     )
+      axios
+        .post(
+          "http://localhost:3001/editPassword",
+          {
+            ...data,
+          },
+          { headers: { "x-auth-token": localStorage.getItem("token") } }
+        )
+        .then((res) => {
+          if (res.data === "U failed to authenticate" || res.data === "we need a token") {
+            localStorage.removeItem("token");
+            history.push("/login");
+          } else {
+            if (res.data === "inccorect password" || res.data === "error") {
+            } else if (res.data === "modified") {
+              props.data1.user.Opassword = "";
+              props.data1.user.Npassword = "";
+              props.data1.user.verifyNpassword = "";
+              props.data1.setUser({ ...props.data1.user });
+            }
+            console.log(res.data);
+          }
+        });
+    // console.log({ Npassword, verifyNpassword });
+  };
+  return (
+    <div className="inputs inputs-profile" data-aos="fade-up" data-aos-duration="3000">
+      <FormattedMessage id="Old Password">
+        {(text) => (
+          <input
+            disabled={props.data.visible === 0 ? true : false}
+            style={
+              props.data.visible === 0
+                ? { backgroundColor: "rgba(240, 240, 240, 0.2)", border: "none" }
+                : { backgroundColor: "" }
+            }
+            className="inpt inpt-profile"
+            type="password"
+            placeholder={text}
+            value={props.data1.user.Opassword}
+            onChange={(e) => {
+              props.data1.user.Opassword = e.target.value;
+              props.data1.setUser({ ...props.data1.user });
+            }}
+          />
+        )}
+      </FormattedMessage>
+      <FormattedMessage id="New Password">
+        {(text) => (
+          <input
+            disabled={props.data.visible === 0 ? true : false}
+            style={
+              props.data.visible === 0
+                ? { backgroundColor: "rgba(240, 240, 240, 0.2)", border: "none" }
+                : { backgroundColor: "", borderBottomColor: userErrors.errNpassword }
+            }
+            className="inpt inpt-profile"
+            type="password"
+            placeholder={text}
+            value={props.data1.user.Npassword}
+            onChange={(e) => {
+              props.data1.user.Npassword = e.target.value;
+              props.data1.setUser({ ...props.data1.user });
+            }}
+          />
+        )}
+      </FormattedMessage>
+      <FormattedMessage id="Confirm New Password">
+        {(text) => (
+          <input
+            disabled={props.data.visible === 0 ? true : false}
+            style={
+              props.data.visible === 0
+                ? { backgroundColor: "rgba(240, 240, 240, 0.2)", border: "none" }
+                : { backgroundColor: "", borderBottomColor: userErrors.errverifyNpassword }
+            }
+            className="inpt inpt-profile"
+            type="password"
+            placeholder={text}
+            value={props.data1.user.verifyNpassword}
+            onChange={(e) => {
+              props.data1.user.verifyNpassword = e.target.value;
+              props.data1.setUser({ ...props.data1.user });
+            }}
+          />
+        )}
+      </FormattedMessage>
+      <div
+        className="validation-button"
+        style={{ width: "97%", display: props.data.visible === 0 ? "none" : "inline" }}
+      >
+        <button className="register-button inpt-profile" onClick={() => handelEditPassword()}>
+          <FormattedMessage id="Edit change" />
+        </button>
+      </div>
+    </div>
+  );
 }

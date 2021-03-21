@@ -14,7 +14,6 @@ import Fgpass from "./views/Auth/fgpass";
 import Changepass from "./views/Auth/changepass";
 import Profile from "./views/pages/profile";
 
-
 AOS.init();
 
 // You can also pass an optional settings object
@@ -51,10 +50,13 @@ function App() {
     <IntlProviderWrapper>
       <Router>
         <div className="App">
-        <Navbar />
+          <Navbar />
           <Switch>
-          <Route path="/confirm/:token" component={Confirm} />
-          <Route path="/changepass/:token" component={Changepass} />
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/confirm/:token" component={Confirm} />
+            <Route path="/changepass/:token" component={Changepass} />
             <Route exact path="/register">
               <Register />
             </Route>
@@ -62,14 +64,12 @@ function App() {
               <Login />
             </Route>
             <Route path="/fgpass">
-            <Fgpass />
-          </Route>
-          <Route path="/profile/:profilename">
-            <Profile />
+              <Fgpass />
             </Route>
-            <Route exact path="/">
-              <Home />
+            <Route path="/profile/:profilename">
+              <Profile />
             </Route>
+
             <Route path="*" component={Error} />
           </Switch>
         </div>

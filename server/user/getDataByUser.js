@@ -19,7 +19,7 @@ router.get("/:profilename", isUserAuth, (req, resp) => {
             if (err) {
               resp.send({ err: err });
             } else if (rslt.length > 0) {
-              resp.send({message: "user logged", data : rslt })
+              resp.send({ message: "user logged", data: rslt });
             }
           }
         );
@@ -32,14 +32,15 @@ router.get("/:profilename", isUserAuth, (req, resp) => {
             if (err) {
               resp.send({ err: err });
             } else {
-              resp.send({message: "not the user logged", data : rslt });
+              console.log("OK", rslt);
+              resp.send({ message: "not the user logged", data: rslt });
             }
           }
         );
       }
     } else if (!res?.length) {
-      console.log("no user found");
-      resp.send("no user found")
+      // console.log("no user found");
+      resp.send("no user found");
     }
   });
 });

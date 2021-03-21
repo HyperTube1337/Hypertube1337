@@ -24,13 +24,20 @@ export default function Navbar(props) {
         // console.log(res.data)
         if (res.data === "U failed to authenticate" || res.data === "we need a token") {
           localStorage.removeItem("token");
-          history.push("/");
+          // history.push("/");
         } else {
           setuserlogged(res.data);
         }
       });
     // eslint-disable-next-line
   }, []);
+
+  const click = () => {
+    setToken("");
+    if (token) localStorage.removeItem("token");
+    else setToken("");
+    history.push("/");
+  };
 
   return (
     <div className="navigation" data-aos="fade-right" data-aos-duration="3000">
@@ -56,7 +63,7 @@ export default function Navbar(props) {
                 </Link>
               </li>
               <Languages />
-              <button className="btn btn-rounded">
+              <button className="btn btn-rounded" onClick={() => (token ? click() : "")}>
                 <Link className="text-sz" to={!token ? "/login" : "/"}>
                   <FormattedMessage id={!token ? "login" : "Log out"} />
                 </Link>

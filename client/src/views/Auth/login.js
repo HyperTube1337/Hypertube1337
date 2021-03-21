@@ -50,19 +50,19 @@ export default function Login(props) {
       axios
         .post("http://localhost:3001/login", { ...user }, {})
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           if (
             response.data.message === "Wrong combination!" ||
             response.data.message === "User Dosen't exist" ||
             response.data.message === "error"
           ) {
-            console.log(response.data.message);
+            // console.log(response.data.message);
             setalert(5);
           } else if (response.data.message === "Please check your email") {
             setalert(6);
           } else {
             localStorage.setItem("token", response.data.token);
-            console.log("done");
+            // console.log("done");
             history.push("/profile");
           }
         })

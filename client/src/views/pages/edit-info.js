@@ -13,9 +13,6 @@ export default function EditInfo(props) {
     errlastname: "",
     errusername: "",
     erremail: "",
-    errOpassword: "",
-    errNpassword: "",
-    errverifyNpassword: "",
   });
   const data = props.data1.user;
   const [alert, setalert] = useState(0);
@@ -108,7 +105,7 @@ export default function EditInfo(props) {
             localStorage.removeItem("token");
             history.push("/login");
           } else {
-            // console.log(res.data)
+            console.log(res.data)
             if (res.data === "nothing changed") setalert(4);
             else if (res.data === "username is already used") setalert(5);
             else if (res.data === "email is already used") setalert(6);
