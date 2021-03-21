@@ -111,10 +111,14 @@ h4 {
   border-radius: 5px;
 }
 .find input {
-  width: 40%;
-  height: 40px;
+  width: 48%;
+  height: 47px;
   padding-left: 34px;
   border-radius: 3px;
+  color: white;
+  border: none;
+  background-color: #ececec38;
+  outline: none;
 }
 .find form {
   width: 100%;
@@ -122,17 +126,23 @@ h4 {
 .searchicon {
   position: absolute !important;
   width: 31px !important;
-  height: 40px !important;
+  height: 48px !important;
   cursor: pointer;
 }
 @media (max-width: 1024px) {
   .card {
     flex-basis: 30% !important;
   }
+  .MuiFormControl-root {
+    margin: 5px !important;
+  }
 }
 @media (max-width: 900px) {
   .card {
     flex-basis: 45% !important;
+  }
+  .MuiFormControl-root {
+    margin: 5px !important;
   }
 }
 @media (max-width: 700px) {
@@ -153,5 +163,8 @@ h4 {
   }
   .card {
     flex-basis: 100% !important;
+  }
+  .MuiFormControl-root {
+    margin: 5px !important;
   }
 }

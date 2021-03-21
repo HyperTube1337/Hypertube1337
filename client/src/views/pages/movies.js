@@ -36,8 +36,8 @@ function Movies() {
           <h4>Drama</h4>
           <div className="quality">
             <p>Quality:</p>
-            <Link>720HD</Link>
-            <Link>1080HD</Link>
+            <Link to="/library">720HD</Link>
+            <Link to="/library">1080HD</Link>
           </div>
           <div className="imdbRating">
             <p>Rating :</p>
@@ -55,16 +55,16 @@ function Movies() {
         </div>
         <div className="suggestion">
           <div className="mini-card" style={{ backgroundImage: "url(" + back + ")" }}>
-            <Link></Link>
+            <Link to="/library"></Link>
           </div>
           <div className="mini-card" style={{ backgroundImage: "url(" + back + ")" }}>
-            <Link></Link>
+            <Link to="/library"></Link>
           </div>
           <div className="mini-card" style={{ backgroundImage: "url(" + back + ")" }}>
-            <Link></Link>
+            <Link to="/library"></Link>
           </div>
           <div className="mini-card" style={{ backgroundImage: "url(" + back + ")" }}>
-            <Link></Link>
+            <Link to="/library"></Link>
           </div>
         </div>
       </div>
