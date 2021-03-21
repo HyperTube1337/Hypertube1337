@@ -9,8 +9,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { IntlProviderWrapper } from "./context/internationalization";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Movies from "./views/pages/movies";
 import Confirm from "./views/Auth/confim";
-import Research from "./views/pages/research";
+import Library from "./views/pages/research";
 import Fgpass from "./views/Auth/fgpass";
 import Changepass from "./views/Auth/changepass";
 
@@ -63,8 +64,11 @@ function App() {
             <Route path="/fgpass">
               <Fgpass />
             </Route>
-            <Route path="/research">
-              <Research />
+            <Route path="/library">
+              <Library />
+            </Route>
+            <Route path="/movies">
+              <Movies />
             </Route>
             <Route exact path="/">
               <Home />

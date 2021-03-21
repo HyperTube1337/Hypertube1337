@@ -125,6 +125,16 @@ h4 {
   height: 40px !important;
   cursor: pointer;
 }
+@media (max-width: 1024px) {
+  .card {
+    flex-basis: 30% !important;
+  }
+}
+@media (max-width: 900px) {
+  .card {
+    flex-basis: 45% !important;
+  }
+}
 @media (max-width: 700px) {
   .filter {
     display: flex;

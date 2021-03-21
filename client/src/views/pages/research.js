@@ -15,7 +15,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 
-import { FormattedMessage } from "react-intl";
 function Research() {
   const yearChange = (event) => {
     setYear(event.target.value);
