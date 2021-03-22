@@ -10,8 +10,10 @@ import { useHistory } from "react-router-dom";
 import { Upload } from "react-feather";
 import jimp from "jimp";
 import Skeleton from "@material-ui/lab/Skeleton";
+import Cookies from "universal-cookie";
 
 export default function Profile(props) {
+  const cookies = new Cookies();
   const { profilename } = useParams();
   const history = useHistory();
   const [visible, setvisible] = useState(0);
@@ -36,7 +38,7 @@ export default function Profile(props) {
       })
       .then((res) => {
         if (res.data === "U failed to authenticate" || res.data === "we need a token") {
-          localStorage.removeItem("token");
+          cookies.remove("jwt");
           history.push("/login");
         } else if (res.data === "no user found") history.push("/");
         else {
@@ -53,16 +55,6 @@ export default function Profile(props) {
           user.user_from = res.data.data[0].user_from;
           user.message = res.data.message;
           setUser({ ...user });
-          // setUser({
-          //   ...user,
-          //   ...res.data.data[0],
-          //   email: res.data.message === "user logged" ? res.data.data[0].email : "",
-          //   profilePic: res?.data?.data[0]?.profilePic
-          //     ? !res.data.data[0].user_from
-          //       ? "http://localhost:3001/images/" + res?.data?.data[0]?.profilePic
-          //       : res.data.data[0].profilePic
-          //     : "",
-          // });
         }
       }); // eslint-disable-next-line
   }, [history, profilename]);
@@ -83,11 +75,11 @@ export default function Profile(props) {
             {
               content,
             },
-            { headers: { "x-auth-token": localStorage.getItem("token") } }
+            {withCredentials: true, }
           )
           .then((res) => {
             if (res.data === "U failed to authenticate" || res.data === "we need a token") {
-              localStorage.removeItem("token");
+              cookies.remove("jwt");
               history.push("/login");
             }
           });
@@ -102,7 +94,6 @@ export default function Profile(props) {
     fileData.readAsDataURL(file[0]);
     e.target.value = "";
   };
-  // console.log(user.message);
 
   return (
     <div className="profile" data-aos="zoom-in" data-aos-duration="2000">

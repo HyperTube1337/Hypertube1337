@@ -4,15 +4,16 @@ import { Link } from "react-router-dom";
 import arrow from "../../photos/arrow.png";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
 export default function Home() {
+  const cookies = new Cookies();
   const [token, setToken] = useState("");
   const history = useHistory();
 
   useEffect(() => {
-    setToken(localStorage.getItem("token"));
-    if(token)
-    history.push("/profile")
+    setToken(cookies.get("jwt"));
+    if (token) history.push("/research");
    // eslint-disable-next-line
   }, [token])
 

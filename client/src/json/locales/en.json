@@ -45,5 +45,7 @@
   "Nothing changed": "Nothing changed",
   "Username is already used": "Username is already used",
   "Email is already used": "Email is already used",
-  "Your informations have been successfully modified" : "Your informations have been successfully modified"
+  "Your informations have been successfully modified" : "Your informations have been successfully modified",
+  "Your old password is inccorect" : "Your old password is inccorect",
+  "Your password have been successfully modified" : "Your password have been successfully modified"
 }

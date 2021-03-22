@@ -5,9 +5,10 @@ import { FormattedMessage } from "react-intl";
 import "../../css/fgpass.css"
 import { useHistory} from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
+import Cookies from 'universal-cookie';
 
 export default function Fgpass() {
-
+  const cookies = new Cookies();
   const [email, setemail] = useState("");
   const [erremail, seterremail] = useState("");
   const history = useHistory();
@@ -15,7 +16,7 @@ export default function Fgpass() {
   const [alert, setalert] = useState(0);
 
   useEffect(() => {
-    setToken(localStorage.getItem("token"));
+    setToken(cookies.get("jwt"));
     if (token) history.push("/");
     // eslint-disable-next-line
   }, [token]);

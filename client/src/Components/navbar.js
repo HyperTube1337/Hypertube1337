@@ -6,6 +6,7 @@ import Languages from "./multi-language";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 export default function Navbar(props) {
   const loc = useLocation();
@@ -13,19 +14,19 @@ export default function Navbar(props) {
   const [token, setToken] = useState("");
   const history = useHistory();
   const [userlogged, setuserlogged] = useState("");
+  const cookies = new Cookies();
 
   useEffect(() => {
-    setToken(localStorage.getItem("token"));
+    setToken(cookies.get("jwt"));
     axios
       .get("http://localhost:3001/getusername", {
-        headers: { "x-auth-token": localStorage.getItem("token") },
+        withCredentials: true,
       })
       .then((res) => {
-        // console.log(res.data)
         if (res.data === "U failed to authenticate" || res.data === "we need a token") {
-          localStorage.removeItem("token");
-          // history.push("/");
+          cookies.remove("jwt");
         } else {
+          console.log(res.data)
           setuserlogged(res.data);
         }
       });
@@ -34,7 +35,7 @@ export default function Navbar(props) {
 
   const click = () => {
     setToken("");
-    if (token) localStorage.removeItem("token");
+    if (token) cookies.remove("jwt");
     else setToken("");
     history.push("/");
   };
@@ -58,7 +59,7 @@ export default function Navbar(props) {
           ) : (
             <div style={{ display: "flex", alignItems: "center" }}>
               <li className="li-dote">
-                <Link className="text-s" to={token ? "/profile/"+ userlogged : "" }>
+                <Link className="text-s" to={token ? "/profile/" + userlogged : ""}>
                   {token ? "Profile" : ""}
                 </Link>
               </li>

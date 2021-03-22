@@ -9,7 +9,10 @@ import isName from "../../tools/isName";
 import isPassword from "../../tools/isPassword";
 import Alert from "@material-ui/lab/Alert";
 import axios from "axios";
+import Cookies from 'universal-cookie';
+
 export default function Register() {
+  const cookies = new Cookies();
   const history = useHistory();
   const [user, setUser] = useState({
     firstname: "",
@@ -33,7 +36,7 @@ export default function Register() {
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    setToken(localStorage.getItem("token"));
+    setToken(cookies.get("jwt"));
     if (token) history.push("/");
     if ((user.firstname && !isName(user.firstname) && user.firstname.length < 24) || user.firstname.length > 24) {
       userErrors.errfirstname = "#e87c03";

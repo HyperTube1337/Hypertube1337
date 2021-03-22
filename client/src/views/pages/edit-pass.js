@@ -3,8 +3,11 @@ import isPassword from "../../tools/isPassword";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import Cookies from 'universal-cookie';
+import Alert from "@material-ui/lab/Alert";
 
 export default function EditPass(props) {
+  const cookies = new Cookies();
   const history = useHistory();
   const data = props.data1.user;
   const [alert, setalert] = useState(0);
@@ -30,7 +33,8 @@ export default function EditPass(props) {
     } // eslint-disable-next-line
   }, [props.data1.user.Npassword, props.data1.user.verifyNpassword]);
   const handelEditPassword = () => {
-    if (props.data1.user.Opassword &&
+    if (
+      props.data1.user.Opassword &&
       props.data1.user.Npassword &&
       props.data1.user.verifyNpassword === props.data1.user.Npassword &&
       !userErrors.errNpassword &&
@@ -42,27 +46,41 @@ export default function EditPass(props) {
           {
             ...data,
           },
-          { headers: { "x-auth-token": localStorage.getItem("token") } }
+          { withCredentials: true, }
         )
         .then((res) => {
           if (res.data === "U failed to authenticate" || res.data === "we need a token") {
-            localStorage.removeItem("token");
+            cookies.remove("jwt");
             history.push("/login");
           } else {
             if (res.data === "inccorect password" || res.data === "error") {
+              setalert(1)
             } else if (res.data === "modified") {
               props.data1.user.Opassword = "";
               props.data1.user.Npassword = "";
               props.data1.user.verifyNpassword = "";
               props.data1.setUser({ ...props.data1.user });
+              setalert(2)
             }
             console.log(res.data);
           }
         });
-    // console.log({ Npassword, verifyNpassword });
   };
   return (
     <div className="inputs inputs-profile" data-aos="fade-up" data-aos-duration="3000">
+      <div>
+        {alert === 1 ? (
+          <Alert severity="warning" className="alert">
+            <FormattedMessage id="Your old password is inccorect" />
+          </Alert>
+        ) : alert === 2 ? (
+          <Alert severity="success" color="success" className="alert success">
+            <FormattedMessage id="Your password have been successfully modified" />
+          </Alert>
+        ) : (
+          ""
+        )}
+      </div>
       <FormattedMessage id="Old Password">
         {(text) => (
           <input

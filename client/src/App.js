@@ -13,6 +13,7 @@ import Confirm from "./views/Auth/confim";
 import Fgpass from "./views/Auth/fgpass";
 import Changepass from "./views/Auth/changepass";
 import Profile from "./views/pages/profile";
+import Research from "./views/pages/research";
 
 AOS.init();
 
@@ -54,6 +55,9 @@ function App() {
           <Switch>
             <Route exact path="/">
               <Home />
+            </Route>
+            <Route exact path="/research">
+              <Research />
             </Route>
             <Route path="/confirm/:token" component={Confirm} />
             <Route path="/changepass/:token" component={Changepass} />

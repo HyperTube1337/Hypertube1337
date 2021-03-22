@@ -8,24 +8,24 @@ import { FormattedMessage } from "react-intl";
 import Alert from "@material-ui/lab/Alert";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import Cookies from 'universal-cookie';
 
 export default function Login(props) {
+  const cookies = new Cookies();
   const history = useHistory();
   const [alert, setalert] = useState(0);
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
-
   const [userErrors, setUserErrors] = useState({
     errusername: "",
     errpassword: "",
   });
   let data = history.location.state?.data;
-  // console.log(data);
   const [token, setToken] = useState("");
   useEffect(() => {
-    setToken(localStorage.getItem("token"));
+    setToken(cookies.get("jwt"));
     if (token) history.push("/");
     // eslint-disable-next-line
   }, [token]);
@@ -48,22 +48,19 @@ export default function Login(props) {
 
     if (user.username && user.password) {
       axios
-        .post("http://localhost:3001/login", { ...user }, {})
+        .post("http://localhost:3001/login", { ...user })
         .then((response) => {
-          // console.log(response.data);
           if (
             response.data.message === "Wrong combination!" ||
             response.data.message === "User Dosen't exist" ||
             response.data.message === "error"
           ) {
-            // console.log(response.data.message);
             setalert(5);
           } else if (response.data.message === "Please check your email") {
             setalert(6);
           } else {
-            localStorage.setItem("token", response.data.token);
-            // console.log("done");
-            history.push("/profile");
+            cookies.set("jwt", response.data.token, { maxAge: 365 * 24 * 60 * 60 * 1000, httpOnly: false });
+            history.push("/research");
           }
         })
         .catch((err) => console.log(err));

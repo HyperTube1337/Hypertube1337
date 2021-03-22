@@ -45,5 +45,7 @@
 "Nothing changed" : "Rien n'a changé",
 "Username is already used" : "Le nom d'utilisateur est déjà utilisé",
 "Email is already used" : "Cet adresse mail est déjà utilisée",
-"Your informations have been successfully modified" : "Vos informations ont été modifiées avec succès"
+"Your informations have been successfully modified" : "Vos informations ont été modifiées avec succès",
+"Your old password is inccorect" : "Votre ancien mot de passe est incorrect",
+"Your password have been successfully modified" : "Votre mot de passe a été modifié avec succès"
 }

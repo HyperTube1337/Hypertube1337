@@ -6,8 +6,10 @@ import isName from "../../tools/isName";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
+import Cookies from 'universal-cookie';
 
 export default function EditInfo(props) {
+  const cookies = new Cookies();
   const [userErrors, setUserErrors] = useState({
     errfirstname: "",
     errlastname: "",
@@ -98,11 +100,11 @@ export default function EditInfo(props) {
           {
             ...data,
           },
-          { headers: { "x-auth-token": localStorage.getItem("token") } }
+          { withCredentials: true, }
         )
         .then((res) => {
           if (res.data === "U failed to authenticate" || res.data === "we need a token") {
-            localStorage.removeItem("token");
+            cookies.remove("jwt");
             history.push("/login");
           } else {
             console.log(res.data)
