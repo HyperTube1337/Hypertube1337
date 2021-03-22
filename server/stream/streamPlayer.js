@@ -13,9 +13,13 @@ function getData(link) {
 async function getHashMovie(hash) {
   try {
     const {
-      data: { data: movies {torrents}},
-    } = await axios.post(`https://yts.mx/api/v2/list_movies.json?quality=720p&query_term=${hash}&limit=1`);
-    console.log(movies);
+      data: {
+        data: {
+          movies: [torrents],
+        },
+      },
+    } = await axios.post(`https://yts.mx/api/v2/list_movies.json?quality=720p&query_term=${hash}page=1`);
+    console.log(torrents);
   } catch (e) {}
   // axios.post(`https://yts.mx/api/v2/list_movies.json?quality=720p&query_term=${hash}&limit=1`).then((res) => res.data.data.movies[0].torrents[1].hash);
 }
