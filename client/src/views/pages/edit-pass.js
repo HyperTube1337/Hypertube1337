@@ -3,7 +3,7 @@ import isPassword from "../../tools/isPassword";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 import Alert from "@material-ui/lab/Alert";
 
 export default function EditPass(props) {
@@ -32,6 +32,7 @@ export default function EditPass(props) {
       setUserErrors({ ...userErrors });
     } // eslint-disable-next-line
   }, [props.data1.user.Npassword, props.data1.user.verifyNpassword]);
+
   const handelEditPassword = () => {
     if (
       props.data1.user.Opassword &&
@@ -46,7 +47,7 @@ export default function EditPass(props) {
           {
             ...data,
           },
-          { withCredentials: true, }
+          { withCredentials: true }
         )
         .then((res) => {
           if (res.data === "U failed to authenticate" || res.data === "we need a token") {
@@ -54,13 +55,13 @@ export default function EditPass(props) {
             history.push("/login");
           } else {
             if (res.data === "inccorect password" || res.data === "error") {
-              setalert(1)
+              setalert(1);
             } else if (res.data === "modified") {
               props.data1.user.Opassword = "";
               props.data1.user.Npassword = "";
               props.data1.user.verifyNpassword = "";
               props.data1.setUser({ ...props.data1.user });
-              setalert(2)
+              setalert(2);
             }
             console.log(res.data);
           }

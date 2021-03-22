@@ -32,31 +32,39 @@ export default function Profile(props) {
   });
 
   useEffect(() => {
+    let unmount = false;
     axios
       .get(`http://localhost:3001/getDataByUser/${profilename}`, {
         withCredentials: true,
       })
       .then((res) => {
-        if (res.data === "U failed to authenticate" || res.data === "we need a token") {
-          cookies.remove("jwt");
-          history.push("/login");
-        } else if (res.data === "no user found") history.push("/");
-        else {
-          console.log(res.data, "data");
-          user.firstname = res.data.data[0].firstname;
-          user.lastname = res.data.data[0].lastname;
-          user.username = res.data.data[0].username;
-          user.email = res.data.message === "user logged" ? res.data.data[0].email : "";
-          // console.log(res?.data?.data[0]?.profilePic.substr(0, 5))
-          user.profilePic = res?.data?.data[0]?.profilePic
-            ? res?.data?.data[0]?.profilePic.substr(0, 5)  === "https" ? res.data.data[0].profilePic
-              : "http://localhost:3001/images/" + res?.data?.data[0]?.profilePic
-            : "";
-          user.user_from = res.data.data[0].user_from;
-          user.message = res.data.message;
-          setUser({ ...user });
+        if (!unmount) {
+          if (res.data === "U failed to authenticate" || res.data === "we need a token") {
+            cookies.remove("jwt");
+            history.push("/login");
+          } else if (res.data === "no user found") history.push("/");
+          else {
+            console.log(res.data, "data");
+            user.firstname = res.data.data[0].firstname;
+            user.lastname = res.data.data[0].lastname;
+            user.username = res.data.data[0].username;
+            user.email = res.data.message === "user logged" ? res.data.data[0].email : "";
+            // console.log(res?.data?.data[0]?.profilePic.substr(0, 5))
+            user.profilePic = res?.data?.data[0]?.profilePic
+              ? res?.data?.data[0]?.profilePic.substr(0, 5) === "https"
+                ? res.data.data[0].profilePic
+                : "http://localhost:3001/images/" + res?.data?.data[0]?.profilePic
+              : "";
+            user.user_from = res.data.data[0].user_from;
+            user.message = res.data.message;
+            setUser({ ...user });
+          }
         }
-      }); // eslint-disable-next-line
+      });
+    return () => {
+      unmount = true;
+    };
+    // eslint-disable-next-line
   }, [history, profilename]);
 
   const handleFile = function () {
@@ -75,7 +83,7 @@ export default function Profile(props) {
             {
               content,
             },
-            {withCredentials: true, }
+            { withCredentials: true }
           )
           .then((res) => {
             if (res.data === "U failed to authenticate" || res.data === "we need a token") {
