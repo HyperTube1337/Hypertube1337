@@ -47,10 +47,10 @@ export default function Profile(props) {
           user.lastname = res.data.data[0].lastname;
           user.username = res.data.data[0].username;
           user.email = res.data.message === "user logged" ? res.data.data[0].email : "";
+          // console.log(res?.data?.data[0]?.profilePic.substr(0, 5))
           user.profilePic = res?.data?.data[0]?.profilePic
-            ? !res.data.data[0].user_from
-              ? "http://localhost:3001/images/" + res?.data?.data[0]?.profilePic
-              : res.data.data[0].profilePic
+            ? res?.data?.data[0]?.profilePic.substr(0, 5)  === "https" ? res.data.data[0].profilePic
+              : "http://localhost:3001/images/" + res?.data?.data[0]?.profilePic
             : "";
           user.user_from = res.data.data[0].user_from;
           user.message = res.data.message;
