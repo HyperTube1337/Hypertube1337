@@ -11,6 +11,12 @@ SCHOOL_CLIENT_ID = "db6a44d27e63c4912c3fc7780cc5df4951b931767cc686afb4fb89b9d440
 SCHOOL_CLIENT_SECRET = "61a1511946f2f4702a597348ae3ccf00d82bfbac5548a772f8f3239add6282e8";
 const db = require("./db");
 
+const getId = (e) => db.query("select id from users where user_id = ?", [e],(err, resl)=>{
+  if(resl)
+  console.log(resl)
+  return (resl)
+})
+
 passport.use(
   new GoogleStrategy(
     {
@@ -22,7 +28,6 @@ passport.use(
     function (accessToken, refreshToken, profile, cb) {
       // console.log(profile);
       db.query("select user_id from users where user_id = ?", "Go" + profile.id, (err, res) => {
-        console.log(res.length);
         if (err) res.send(err);
         else if (res.length === 0) {
           db.query(
@@ -32,7 +37,7 @@ passport.use(
               if (error) {
                 console.log(error);
               } else if (rslt[0].count > 0) {
-                console.log("Email and or username are already used");
+                // console.log("Email and or username are already used");
                 return cb("error");
               } else {
                 db.query(
@@ -46,13 +51,17 @@ passport.use(
                     profile._json.picture,
                   ]
                 );
-                return cb(null, "Go" + profile._json.sub);
+                db.query("select id from users where user_id = ?", ["Go" + profile._json.sub], (err, rsl)=>{
+                  return cb(null, rsl[0].id);     
+                })
               }
             }
           );
         } else {
-          console.log("found");
-          return cb(null, "Go" + profile._json.sub);
+          // console.log("found");
+          db.query("select id from users where user_id = ?", ["Go" + profile._json.sub], (err, rsl)=>{
+            return cb(null, rsl[0].id);     
+          })
         }
       });
     }
@@ -69,7 +78,6 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, cb) {
       db.query("select user_id from users where user_id = ?", "Gi" + profile.id, (err, res) => {
-        console.log(res.length);
         if (err) res.send(err);
         else if (res.length === 0) {
           db.query(
@@ -79,7 +87,7 @@ passport.use(
               if (error) {
                 console.log(error);
               } else if (rslt[0].count > 0) {
-                console.log("Email and or username are already used");
+                // console.log("Email and or username are already used");
                 return cb("error");
               } else {
                 db.query(
@@ -93,13 +101,17 @@ passport.use(
                     profile._json.avatar_url,
                   ]
                 );
-                return cb(null, "Gi" + profile._json.id);
+                db.query("select id from users where user_id = ?", ["Go" + "Gi" + profile._json.id], (err, rsl)=>{
+                  return cb(null, rsl[0].id);     
+                })
               }
             }
           );
         } else {
-          console.log("found");
-          return cb(null, "Gi" + profile._json.id);
+          // console.log("found");
+          db.query("select id from users where user_id = ?", ["Go" + "Gi" + profile._json.id], (err, rsl)=>{
+            return cb(null, rsl[0].id);     
+          })
         }
       });
     }
@@ -115,7 +127,6 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, cb) {
       db.query("select user_id from users where user_id = ?", "42" + profile.id, (err, res) => {
-        console.log(res.length);
         if (err) res.send(err);
         else if (res.length === 0) {
           db.query(
@@ -125,7 +136,7 @@ passport.use(
               if (error) {
                 console.log(error);
               } else if (rslt[0].count > 0) {
-                console.log("Email and or username are already used");
+                // console.log("Email and or username are already used");
                 return cb("error");
               } else {
                 db.query(
@@ -139,13 +150,17 @@ passport.use(
                     profile._json.image_url,
                   ]
                 );
-                return cb(null, "42" + profile._json.id);
+                db.query("select id from users where user_id = ?", ["Go" + "42" + profile._json.id], (err, rsl)=>{
+                  return cb(null, rsl[0].id);     
+                })
               }
             }
           );
         } else {
-          console.log("found");
-          return cb(null, "42" + profile._json.id);
+          // console.log("found");
+          db.query("select id from users where user_id = ?", ["Go" + "42" + profile._json.id], (err, rsl)=>{
+            return cb(null, rsl[0].id);     
+          })
         }
       });
     }

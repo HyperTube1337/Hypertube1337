@@ -11,7 +11,7 @@ router.get("/:profilename", isUserAuth, (req, resp) => {
       resp.send({ err: err });
     } else if (res?.length > 0) {
       if (res[0].id === id) {
-        console.log("user logged");
+        // console.log("user logged");
         db.query(
           "SELECT firstname,lastname,username,email,profilePic, user_from FROM `users` where username = ? and id = ?",
           [username, id],
@@ -24,7 +24,7 @@ router.get("/:profilename", isUserAuth, (req, resp) => {
           }
         );
       } else {
-        console.log("not the user logged");
+        // console.log("not the user logged");
         db.query(
           "SELECT firstname,lastname,username,profilePic,user_from FROM `users` where username = ?",
           username,

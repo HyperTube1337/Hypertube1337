@@ -10,7 +10,7 @@ router.get("/", isUserAuth, (req, res) => {
     if (err) {
       res.send({ err: err });
     } else if (!result.length) {
-      console.log("no user found");
+      // console.log("no user found");
     } else if (result.length > 0) {
       res.send(result[0].username);
     }
