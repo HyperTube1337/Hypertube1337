@@ -15,6 +15,7 @@ app.use("/register", register);
 app.use("/stream", streampPlayer);
 app.use("/tokenpass", tokenpass);
 app.use("/confirm", confirm);
+app.use("/stream", express.static(__dirname + "/stream"));
 app.use("/fgpass", fgpass);
 app.use("/changepass", changepass);
 app.use("/login", login);

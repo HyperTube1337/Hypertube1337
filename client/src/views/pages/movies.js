@@ -25,19 +25,33 @@ const useStyles = makeStyles({
     cursor: "pointre",
   },
 });
+var Avengers = "/stream/Avengers.Infinity.War.2018.720p.BluRay.x264-[YTS.AM].mp4";
 // background-image: url("https://yts.mx/assets/images/movies/cherry_2021/large-cover.jpg");
 const background = "https://yts.mx/assets/images/movies/cherry_2021/large-cover.jpg";
 const back = "https://yts.mx/assets/images/movies/black_panther_2018/large-cover.jpg";
+var imdbCode = "tt4154796";
 function Movies() {
   const classes = useStyles();
   const [movies, setMovies] = useState("");
   const [imdbrating, setImdbrating] = useState(4.5);
+  const [moviePart, setMoviePart] = useState("");
+  const [movieHash, setMovieHash] = useState("");
+  const [showIcon, setShowIcon] = useState(false);
+  const [videoSrc, setVideoSrc] = useState([]);
   function getMovieLink(link) {
     axios.post("http://localhost:3001/stream", { link: link }).then((response) => {
-      console.log(response);
+      if (response) {
+        setMoviePart(response.headers["content-type"]);
+        setMovieHash(link);
+        setShowIcon(true);
+      }
     });
   }
-  useEffect(() => {}, []);
+  useEffect(() => {
+    {
+      moviePart !== null ? setVideoSrc({ src: `http://localhost:3001/stream/${movieHash}/${moviePart}`, type: "video/mp4" }) : setVideoSrc("");
+    }
+  }, []);
   return (
     <div className="movies">
       <div className="trailer">
@@ -116,8 +130,9 @@ function Movies() {
         </div>
       </div>
       <div className="play">
-        <ReactPlayer controls url="aa" />
-        <PlayCircleFilledWhiteIcon onClick={() => getMovieLink("EA17E6BE92962A403AC1C638D2537DCF1E564D26")} className={classes.play}></PlayCircleFilledWhiteIcon>
+        <span>Thank you for watching</span>
+        <ReactPlayer controls url={""} />
+        {showIcon === false ? <PlayCircleFilledWhiteIcon onClick={() => getMovieLink(imdbCode)} className={classes.play}></PlayCircleFilledWhiteIcon> : ""}
       </div>
     </div>
   );

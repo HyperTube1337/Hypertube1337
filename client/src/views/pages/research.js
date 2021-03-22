@@ -113,7 +113,7 @@ function Research() {
       }
     });
   }, [page, submit]);
-  console.log(movie[0]);
+  console.log(movie);
   return (
     <div className="research" onScroll={handlscroll}>
       <div className="filter">

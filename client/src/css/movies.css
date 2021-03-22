@@ -153,6 +153,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 100px;
+  flex-direction: column;
 }
 @media (max-width: 1024px) {
   .miniTrailer {
