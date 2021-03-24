@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "../../css/movies.css";
-import { Link } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import GradeIcon from "@material-ui/icons/Grade";
 import { makeStyles } from "@material-ui/core/styles";
 import ReactPlayer from "react-player";
 import Avatar from "@material-ui/core/Avatar";
 import axios from "axios";
-import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 const useStyles = makeStyles({
   root: {
     width: 200,
@@ -25,41 +24,68 @@ const useStyles = makeStyles({
     cursor: "pointre",
   },
 });
-var Avengers = "/stream/Avengers.Infinity.War.2018.720p.BluRay.x264-[YTS.AM].mp4";
 // background-image: url("https://yts.mx/assets/images/movies/cherry_2021/large-cover.jpg");
-const background = "https://yts.mx/assets/images/movies/cherry_2021/large-cover.jpg";
 const back = "https://yts.mx/assets/images/movies/black_panther_2018/large-cover.jpg";
-var imdbCode = "tt3315342";
 function Movies() {
   const classes = useStyles();
-  const [movies, setMovies] = useState("");
-  const [imdbrating, setImdbrating] = useState(4.5);
-  const [moviePart, setMoviePart] = useState("");
-  const [movieHash, setMovieHash] = useState("");
-  const [showIcon, setShowIcon] = useState(false);
-  const [videoSrc, setVideoSrc] = useState([]);
-  function getMovieLink(link) {
-    axios.post("http://localhost:3001/stream", { link: link }).then((response) => {
+  const history = useHistory();
+  const [movies, setMovies] = useState({
+    year: "",
+    title: "",
+    runtime: "",
+    rating: "",
+    medium_cover_image: "",
+    yt_trailer_code: "",
+    genres: "",
+    torrents: [""],
+  });
+  const [videoSrc, setVideoSrc] = useState("");
+
+  const { imdbcode } = useParams();
+  function getMovieLink() {
+    const hash = movies?.torrents
+      ?.filter((mov) => mov.quality === "720p" && mov.type === "bluray")
+      .map((qua) => {
+        qua = qua.hash;
+        return qua;
+      });
+    axios.post("http://localhost:3001/stream", { link: hash }).then((response) => {
       if (response) {
-        setMoviePart(response.headers["content-type"]);
-        setMovieHash(link);
-        setShowIcon(true);
+        setTimeout(setVideoSrc({ src: `http://localhost:3001/stream/${hash}/${response.headers["content-type"]}`, type: "video/mp4" }), 1000);
       }
     });
   }
+  console.log(videoSrc);
   useEffect(() => {
-    {
-      moviePart !== null ? setVideoSrc({ src: `http://localhost:3001/stream/${movieHash}/${moviePart}`, type: "video/mp4" }) : setVideoSrc("");
-    }
+    axios.get(`https://yts.mx/api/v2/list_movies.json?&query_term=${imdbcode}`).then((res) => {
+      if (res.data.status === "ok") {
+        if (res.data.data.movie_count > 0) {
+          setMovies({
+            ...movies,
+            year: res.data.data.movies[0].year,
+            title: res.data.data.movies[0].title,
+            runtime: res.data.data.movies[0].runtime,
+            rating: res.data.data.movies[0].rating,
+            medium_cover_image: res.data.data.movies[0].medium_cover_image,
+            yt_trailer_code: "https://www.youtube.com/embed/" + res.data.data.movies[0].yt_trailer_code,
+            genres: res.data.data.movies[0].genres[0],
+            torrents: res.data.data.movies[0].torrents,
+          });
+          console.log(res.data.data);
+        } else {
+          history.push("/Error");
+        }
+      }
+    });
   }, []);
   return (
     <div className="movies">
       <div className="trailer">
-        <div className="movieCover" style={{ backgroundImage: "url(" + background + ")" }}></div>
+        <div className="movieCover" style={{ backgroundImage: "url(" + movies?.medium_cover_image + ")" }}></div>
         <div className="movieInfo">
-          <h3>Cherry</h3>
-          <h4>2021</h4>
-          <h4>Drama</h4>
+          <h3>{movies?.title}</h3>
+          <h4>{movies?.year}</h4>
+          <h4>{movies.genres}</h4>
           <div className="quality">
             <p>Quality:</p>
             <Link to="/library">720HD</Link>
@@ -68,14 +94,14 @@ function Movies() {
           <div className="imdbRating">
             <p>Rating :</p>
             <div>
-              <h5>6.6</h5>
+              <h5>{movies?.rating}</h5>
               <GradeIcon className={classes.rating}></GradeIcon>
             </div>
           </div>
           <div className="time">
             <p>Time :</p>
             <div>
-              <h5>137 min</h5>
+              <h5>{movies?.runtime} min</h5>
             </div>
           </div>
         </div>
@@ -94,11 +120,13 @@ function Movies() {
           </div>
         </div>
       </div>
-      <button className="btn btn-rounded">Watch Now</button>
+      <button className="btn btn-rounded" onClick={() => getMovieLink()}>
+        Watch Now
+      </button>
       <div className="miniTrailer">
         <div className="trailerPlayer">
           <h4>Trailer</h4>
-          <ReactPlayer controls url="https://www.youtube.com/embed/H5bH6O0bErk?rel=0&wmode=transparent&border=0&autoplay=1&iv_load_policy=3" />
+          <ReactPlayer controls url={movies.yt_trailer_code} />
         </div>
         <div className="personality">
           <div className="Director">
@@ -131,8 +159,7 @@ function Movies() {
       </div>
       <div className="play">
         <span>Thank you for watching</span>
-        <ReactPlayer controls url={""} />
-        {showIcon === false ? <PlayCircleFilledWhiteIcon onClick={() => getMovieLink(imdbCode)} className={classes.play}></PlayCircleFilledWhiteIcon> : ""}
+        <ReactPlayer controls url={[videoSrc]} />
       </div>
     </div>
   );

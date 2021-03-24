@@ -16,10 +16,6 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 
 function Research() {
-  const yearChange = (event) => {
-    setYear(event.target.value);
-    // setSearch(event.target.value);
-  };
   const genreChange = (event) => {
     setGenres(event.target.value);
   };
@@ -74,7 +70,6 @@ function Research() {
   };
   const classes = useStyles();
   const [background, setbackground] = useState();
-  const [year, setYear] = useState("0");
   const [sort, setSort] = useState("download_count");
   const [loading, setLoading] = useState(false);
   const [genres, setGenres] = useState("0");
@@ -196,7 +191,7 @@ function Research() {
                 <h4>{film?.rating} / 10</h4>
                 <h4 className="genres">{film?.genres + " "}</h4>
                 <button className="btn btn-rounded">
-                  <Link className="text-sz" to={film?.imdb_code}>
+                  <Link className="text-sz" to={"/movies/" + film?.imdb_code}>
                     view Details
                   </Link>
                 </button>

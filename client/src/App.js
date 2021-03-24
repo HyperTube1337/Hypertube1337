@@ -67,7 +67,7 @@ function App() {
             <Route path="/library">
               <Library />
             </Route>
-            <Route path="/movies">
+            <Route path="/movies/:imdbcode">
               <Movies />
             </Route>
             <Route exact path="/">
