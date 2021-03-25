@@ -24,7 +24,8 @@ export default function Navbar(props) {
       })
       .then((res) => {
         if (res.data === "U failed to authenticate" || res.data === "we need a token") {
-          cookies.remove("jwt");
+          // cookies.remove("jwt");
+          if (token) cookies.set("jwt",token,{ maxAge: -10, httpOnly: false });
         } else {
           console.log(res.data)
           setuserlogged(res.data);
@@ -35,7 +36,7 @@ export default function Navbar(props) {
 
   const click = () => {
     setToken("");
-    if (token) cookies.remove("jwt");
+    if (token) cookies.set("jwt",token,{ maxAge: -10, httpOnly: false });
     else setToken("");
     history.push("/");
   };

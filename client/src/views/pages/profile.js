@@ -13,6 +13,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import Cookies from "universal-cookie";
 
 export default function Profile(props) {
+  const [token, setToken] = useState("");
   const cookies = new Cookies();
   const { profilename } = useParams();
   const history = useHistory();
@@ -33,6 +34,7 @@ export default function Profile(props) {
 
   useEffect(() => {
     let unmount = false;
+    setToken(cookies.get("jwt"));
     axios
       .get(`http://localhost:3001/getDataByUser/${profilename}`, {
         withCredentials: true,
@@ -40,7 +42,9 @@ export default function Profile(props) {
       .then((res) => {
         if (!unmount) {
           if (res.data === "U failed to authenticate" || res.data === "we need a token") {
-            cookies.remove("jwt");
+            // cookies.remove("jwt");
+            if (token) cookies.set("jwt",token,{ maxAge: -10, httpOnly: false });
+
             history.push("/login");
           } else if (res.data === "no user found") history.push("/");
           else {
