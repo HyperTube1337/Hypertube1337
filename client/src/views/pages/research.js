@@ -191,7 +191,7 @@ function Research() {
                 <h4>{film?.rating} / 10</h4>
                 <h4 className="genres">{film?.genres + " "}</h4>
                 <button className="btn btn-rounded">
-                  <Link className="text-sz" to={"/movies/" + film?.imdb_code}>
+                  <Link className="text-sz" to={"/movies/" + film?.id}>
                     view Details
                   </Link>
                 </button>

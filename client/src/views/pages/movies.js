@@ -25,7 +25,6 @@ const useStyles = makeStyles({
   },
 });
 // background-image: url("https://yts.mx/assets/images/movies/cherry_2021/large-cover.jpg");
-const back = "https://yts.mx/assets/images/movies/black_panther_2018/large-cover.jpg";
 function Movies() {
   const classes = useStyles();
   const history = useHistory();
@@ -38,13 +37,16 @@ function Movies() {
     yt_trailer_code: "",
     genres: "",
     torrents: [""],
+    cast: [""],
   });
   const [videoSrc, setVideoSrc] = useState("");
+  const [quality, setQuality] = useState("720p");
 
-  const { imdbcode } = useParams();
+  const { id } = useParams();
   function getMovieLink() {
+    console.log(quality);
     const hash = movies?.torrents
-      ?.filter((mov) => mov.quality === "720p" && mov.type === "bluray")
+      ?.filter((mov) => mov.quality === quality && (mov.type === "bluray" || mov.type === "web"))
       .map((qua) => {
         qua = qua.hash;
         return qua;
@@ -55,23 +57,26 @@ function Movies() {
       }
     });
   }
-  console.log(videoSrc);
   useEffect(() => {
-    axios.get(`https://yts.mx/api/v2/list_movies.json?&query_term=${imdbcode}`).then((res) => {
+    axios.get(`https://yts.mx/api/v2/movie_details.json?&movie_id=${id}&with_images=true&with_cast=true`).then((res) => {
+      console.log(res.data.data);
       if (res.data.status === "ok") {
-        if (res.data.data.movie_count > 0) {
+        if (res.data.data.movie.id) {
           setMovies({
             ...movies,
-            year: res.data.data.movies[0].year,
-            title: res.data.data.movies[0].title,
-            runtime: res.data.data.movies[0].runtime,
-            rating: res.data.data.movies[0].rating,
-            medium_cover_image: res.data.data.movies[0].medium_cover_image,
-            yt_trailer_code: "https://www.youtube.com/embed/" + res.data.data.movies[0].yt_trailer_code,
-            genres: res.data.data.movies[0].genres[0],
-            torrents: res.data.data.movies[0].torrents,
+            year: res.data.data.movie.year,
+            title: res.data.data.movie.title,
+            runtime: res.data.data.movie.runtime,
+            rating: res.data.data.movie.rating,
+            medium_cover_image: res.data.data.movie.medium_cover_image,
+            yt_trailer_code: "https://www.youtube.com/embed/" + res.data.data.movie.yt_trailer_code,
+            genres: res.data.data.movie.genres[0],
+            torrents: res.data.data.movie.torrents,
+            cast: res.data.data.movie.cast,
+            medium_screenshot_image1: res.data.data.movie.medium_screenshot_image1,
+            medium_screenshot_image2: res.data.data.movie.medium_screenshot_image2,
+            medium_screenshot_image3: res.data.data.movie.medium_screenshot_image3,
           });
-          console.log(res.data.data);
         } else {
           history.push("/Error");
         }
@@ -88,8 +93,12 @@ function Movies() {
           <h4>{movies.genres}</h4>
           <div className="quality">
             <p>Quality:</p>
-            <Link to="/library">720HD</Link>
-            <Link to="/library">1080HD</Link>
+            <p className="quality_P" onClick={() => setQuality("720p")}>
+              720HD
+            </p>
+            <p className="quality_P" onClick={() => setQuality("1080p")}>
+              1080HD
+            </p>
           </div>
           <div className="imdbRating">
             <p>Rating :</p>
@@ -106,18 +115,9 @@ function Movies() {
           </div>
         </div>
         <div className="suggestion">
-          <div className="mini-card" style={{ backgroundImage: "url(" + back + ")" }}>
-            <Link to="/library"></Link>
-          </div>
-          <div className="mini-card" style={{ backgroundImage: "url(" + back + ")" }}>
-            <Link to="/library"></Link>
-          </div>
-          <div className="mini-card" style={{ backgroundImage: "url(" + back + ")" }}>
-            <Link to="/library"></Link>
-          </div>
-          <div className="mini-card" style={{ backgroundImage: "url(" + back + ")" }}>
-            <Link to="/library"></Link>
-          </div>
+          <div className="mini-card" style={{ backgroundImage: "url(" + movies.medium_screenshot_image1 + ")" }}></div>
+          <div className="mini-card" style={{ backgroundImage: "url(" + movies.medium_screenshot_image2 + ")" }}></div>
+          <div className="mini-card" style={{ backgroundImage: "url(" + movies.medium_screenshot_image3 + ")" }}></div>
         </div>
       </div>
       <button className="btn btn-rounded" onClick={() => getMovieLink()}>
@@ -129,37 +129,35 @@ function Movies() {
           <ReactPlayer controls url={movies.yt_trailer_code} />
         </div>
         <div className="personality">
-          <div className="Director">
-            <h4>Director</h4>
-            <div>
-              <Avatar alt="Remy Sharp" src="https://img.yts.mx/assets/images/actors/thumb/nm0751577.jpg" className={classes.large} />
-              <p>Anthony Russo</p>
-            </div>
-          </div>
           <div className="cast">
             <h4>Cast</h4>
-            <div>
-              <Avatar alt="Remy Sharp" src="https://img.yts.mx/assets/images/actors/thumb/nm0915458.jpg" className={classes.large} />
-              <p>Damon Wayans</p>
-            </div>
-            <div>
-              <Avatar alt="Remy Sharp" src="https://img.yts.mx/assets/images/actors/thumb/nm0915458.jpg" className={classes.large} />
-              <p>Damon Wayans</p>
-            </div>
-            <div>
-              <Avatar alt="Remy Sharp" src="https://img.yts.mx/assets/images/actors/thumb/nm0915458.jpg" className={classes.large} />
-              <p>Damon Wayans</p>
-            </div>
-            <div>
-              <Avatar alt="Remy Sharp" src="https://img.yts.mx/assets/images/actors/thumb/nm0915458.jpg" className={classes.large} />
-              <p>Damon Wayans</p>
-            </div>
+            {movies?.cast?.map((cast, index) => (
+              <div key={index}>
+                <a href={`https://www.imdb.com/name/nm${cast.imdb_code}/`}>
+                  <Avatar alt={cast?.name} src={cast?.url_small_image} className={classes.large} />
+                </a>
+                <p>Damon Wayans</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
       <div className="play">
         <span>Thank you for watching</span>
-        <ReactPlayer controls url={[videoSrc]} />
+        <ReactPlayer
+          controls
+          playing
+          url={[videoSrc]}
+          // config={{
+          //   file: {
+          //     tracks: [
+          //       { kind: "subtitles", src: "subs/subtitles.en.vtt", srcLang: "en", default: true },
+          //       { kind: "subtitles", src: "subs/subtitles.ja.vtt", srcLang: "ja" },
+          //       { kind: "subtitles", src: "subs/subtitles.de.vtt", srcLang: "de" },
+          //     ],
+          //   },
+          // }}
+        />
       </div>
     </div>
   );
