@@ -146,19 +146,82 @@
   flex-basis: 45%;
 }
 .play {
-  position: relative;
-  text-align: center;
+  width: 80%;
   display: flex;
+  justify-content: space-around;
+  margin-top: 100px;
+  align-items: center;
+  margin-bottom: 50px;
+}
+.moviePlayer {
+  flex-basis: 45%;
+}
+.comment {
+  flex-basis: 45%;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 100px;
-  flex-direction: column;
+  height: 333px;
 }
 .quality_P {
   background: rgba(27, 27, 35, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.16);
   padding: 0 11px;
   cursor: pointer;
+}
+.inputMsg {
+  width: 100%;
+  height: 50px;
+  padding: 12px;
+  border-radius: 3px;
+  color: white;
+  border: none;
+  background-color: #ececec38;
+  outline: none;
+}
+.inputMsg:focus {
+  outline: none !important;
+}
+.buttonCmnt {
+  width: 70% !important;
+  margin-top: 20px !important;
+}
+.comment form {
+  width: 70%;
+}
+.comment_Section img {
+  width: 40px;
+  height: 40px;
+  border-radius: 30px;
+}
+.comment_Section {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin-top: 30px;
+  overflow: auto;
+  align-items: center;
+  height: 100%;
+}
+.cmntTime {
+  font-size: smaller;
+  color: gray;
+}
+.comment_Section p {
+  word-break: break-word;
+  margin-left: 10px;
+}
+.styleCmnt {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.styleCmnt div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 9px;
 }
 @media (max-width: 1024px) {
   .miniTrailer {

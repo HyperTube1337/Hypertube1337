@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "../../css/movies.css";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import GradeIcon from "@material-ui/icons/Grade";
 import { makeStyles } from "@material-ui/core/styles";
 import ReactPlayer from "react-player";
 import Avatar from "@material-ui/core/Avatar";
 import axios from "axios";
+import Button from "@material-ui/core/Button";
+
 const useStyles = makeStyles({
   root: {
     width: 200,
@@ -40,8 +42,10 @@ function Movies() {
     cast: [""],
   });
   const [videoSrc, setVideoSrc] = useState("");
+  const [inputContent, setinputContent] = useState("");
   const [quality, setQuality] = useState("720p");
-
+  const [comment, setComment] = useState([]);
+  console.log(comment);
   const { id } = useParams();
   function getMovieLink() {
     console.log(quality);
@@ -56,6 +60,22 @@ function Movies() {
         setTimeout(setVideoSrc({ src: `http://localhost:3001/stream/${hash}/${response.headers["content-type"]}`, type: "video/mp4" }), 1000);
       }
     });
+  }
+  const handelCmnt = (e) => {
+    setinputContent(e.target.value);
+  };
+  function insertCmnt() {
+    if (inputContent.trim() === "") {
+    } else {
+      let val = {
+        imageProfile: "",
+        username: "ahmed",
+        time: "1h",
+        cmntCentent: inputContent,
+      };
+      setinputContent("");
+      setComment((old) => old.concat(val));
+    }
   }
   useEffect(() => {
     axios.get(`https://yts.mx/api/v2/movie_details.json?&movie_id=${id}&with_images=true&with_cast=true`).then((res) => {
@@ -143,21 +163,32 @@ function Movies() {
         </div>
       </div>
       <div className="play">
-        <span>Thank you for watching</span>
-        <ReactPlayer
-          controls
-          playing
-          url={[videoSrc]}
-          // config={{
-          //   file: {
-          //     tracks: [
-          //       { kind: "subtitles", src: "subs/subtitles.en.vtt", srcLang: "en", default: true },
-          //       { kind: "subtitles", src: "subs/subtitles.ja.vtt", srcLang: "ja" },
-          //       { kind: "subtitles", src: "subs/subtitles.de.vtt", srcLang: "de" },
-          //     ],
-          //   },
-          // }}
-        />
+        <div className="moviePlayer">
+          <span>Thank you for watching</span>
+          <ReactPlayer controls url={[videoSrc]} />
+        </div>
+        <div className="comment">
+          <form noValidate autoComplete="off">
+            <input className="inputMsg" label="Message" variant="outlined" placeholder="add a comment" value={inputContent} onChange={handelCmnt} />
+          </form>
+          <Button className="buttonCmnt" variant="contained" onClick={() => insertCmnt()}>
+            Post
+          </Button>
+          <div className="comment_Section">
+            {comment?.map((cmnt, index) => (
+              <div className="styleCmnt" key={index}>
+                <div>
+                  <h5>{cmnt?.username}</h5>
+                  <p className="cmntTime">{cmnt?.time} ago </p>
+                </div>
+                <div>
+                  <img src={movies.medium_cover_image} alt="" />
+                  <p>{cmnt?.cmntCentent}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
