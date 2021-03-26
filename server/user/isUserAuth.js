@@ -1,6 +1,6 @@
 const jwt_secret = "this is a jsonwebtoken secret";
 const jwt = require("jsonwebtoken");
-const jwt_decode = require("jwt-decode");
+// const jwt_decode = require("jwt-decode");
 
 const isUserAuth = (req, res, next) => {
   // console.log(req.headers.cookie, "cookie");

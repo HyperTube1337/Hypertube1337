@@ -5,14 +5,14 @@ import film from "../photos/film.png";
 import Languages from "./multi-language";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 export default function Navbar(props) {
   const loc = useLocation();
   // console.log(loc.pathname);
   const [token, setToken] = useState("");
-  const history = useHistory();
+  // const history = useHistory();
   const [userlogged, setuserlogged] = useState("");
   const cookies = new Cookies();
 
@@ -25,9 +25,9 @@ export default function Navbar(props) {
       .then((res) => {
         if (res.data === "U failed to authenticate" || res.data === "we need a token") {
           // cookies.remove("jwt");
-          if (token) cookies.set("jwt",token,{ maxAge: -10, httpOnly: false });
+          if (token) cookies.set("jwt", token, { maxAge: -10, httpOnly: false });
         } else {
-          console.log(res.data)
+          console.log(res.data);
           setuserlogged(res.data);
         }
       });
@@ -36,9 +36,12 @@ export default function Navbar(props) {
 
   const click = () => {
     setToken("");
-    if (token) cookies.set("jwt",token,{ maxAge: -10, httpOnly: false });
-    else setToken("");
-    history.push("/");
+    if (token) {
+      cookies.set("jwt", token, { maxAge: -10, httpOnly: false });
+      window.location.href = "/";
+    } 
+    // else setToken("");
+    // history.push("/");
   };
 
   return (

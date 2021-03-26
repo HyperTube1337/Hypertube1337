@@ -10,6 +10,7 @@ import Cookies from 'universal-cookie';
 
 export default function EditInfo(props) {
   const cookies = new Cookies();
+  const [token, setToken] = useState("");
   const [userErrors, setUserErrors] = useState({
     errfirstname: "",
     errlastname: "",
@@ -21,6 +22,7 @@ export default function EditInfo(props) {
   const history = useHistory();
 
   useEffect(() => {
+    setToken(cookies.get("jwt"));
     if (
       (props.data1.user.firstname && !isName(props.data1.user.firstname) && props.data1.user.firstname.length < 24) ||
       props.data1.user.firstname.length > 24
@@ -104,7 +106,7 @@ export default function EditInfo(props) {
         )
         .then((res) => {
           if (res.data === "U failed to authenticate" || res.data === "we need a token") {
-            cookies.remove("jwt");
+            if (token) cookies.set("jwt", token, { maxAge: -10, httpOnly: false });
             history.push("/login");
           } else {
             console.log(res.data)

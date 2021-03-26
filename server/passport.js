@@ -1,21 +1,18 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GithubStrategy = require("passport-github2").Strategy;
 const SCHOOLStrategy = require("passport-42").Strategy;
-
 const passport = require("passport");
-GOOGLE_CLIENT_ID = "786908425148-6p1p601gavkec85f1063ra7o6tksndlj.apps.googleusercontent.com";
-GOOGLE_CLIENT_SECRET = "6Kid-W_BzCLqkGsHiEls7Y61";
-GITHUB_CLIENT_ID = "2b4b39ef4e55d97ae0f5";
-GITHUB_CLIENT_SECRET = "595b0aff80b3e59bb1f07b2748cdfe1262ca3913";
-SCHOOL_CLIENT_ID = "db6a44d27e63c4912c3fc7780cc5df4951b931767cc686afb4fb89b9d4404291";
-SCHOOL_CLIENT_SECRET = "61a1511946f2f4702a597348ae3ccf00d82bfbac5548a772f8f3239add6282e8";
 const db = require("./db");
 
-// const getId = (e) =>
-//   db.query("select id from users where user_id = ?", [e], (err, resl) => {
-//     if (resl) console.log(resl);
-//     return resl;
-//   });
+GOOGLE_CLIENT_ID = "786908425148-6p1p601gavkec85f1063ra7o6tksndlj.apps.googleusercontent.com";
+GOOGLE_CLIENT_SECRET = "6Kid-W_BzCLqkGsHiEls7Y61";
+
+GITHUB_CLIENT_ID = "2b4b39ef4e55d97ae0f5";
+GITHUB_CLIENT_SECRET = "595b0aff80b3e59bb1f07b2748cdfe1262ca3913";
+
+SCHOOL_CLIENT_ID = "db6a44d27e63c4912c3fc7780cc5df4951b931767cc686afb4fb89b9d4404291";
+SCHOOL_CLIENT_SECRET = "61a1511946f2f4702a597348ae3ccf00d82bfbac5548a772f8f3239add6282e8";
+
 
 passport.use(
   new GoogleStrategy(

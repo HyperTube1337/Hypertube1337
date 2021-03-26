@@ -8,6 +8,7 @@ import Alert from "@material-ui/lab/Alert";
 
 export default function EditPass(props) {
   const cookies = new Cookies();
+  const [token, setToken] = useState("");
   const history = useHistory();
   const data = props.data1.user;
   const [alert, setalert] = useState(0);
@@ -17,6 +18,7 @@ export default function EditPass(props) {
     errverifyNpassword: "",
   });
   useEffect(() => {
+    setToken(cookies.get("jwt"));
     if (props.data1.user.Npassword && !isPassword(props.data1.user.Npassword)) {
       userErrors.errNpassword = "#e87c03";
       setUserErrors({ ...userErrors });
@@ -51,7 +53,7 @@ export default function EditPass(props) {
         )
         .then((res) => {
           if (res.data === "U failed to authenticate" || res.data === "we need a token") {
-            cookies.remove("jwt");
+            if (token) cookies.set("jwt", token, { maxAge: -10, httpOnly: false });            
             history.push("/login");
           } else {
             if (res.data === "inccorect password" || res.data === "error") {

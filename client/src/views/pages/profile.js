@@ -91,7 +91,7 @@ export default function Profile(props) {
           )
           .then((res) => {
             if (res.data === "U failed to authenticate" || res.data === "we need a token") {
-              cookies.remove("jwt");
+              if (token) cookies.set("jwt", token, { maxAge: -10, httpOnly: false });              
               history.push("/login");
             }
           });

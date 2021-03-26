@@ -48,9 +48,9 @@ router.post("/", isUserAuth, (req, res) => {
     saveImage(content, folder).then((rslt) => {
       if (rslt) {
         db.query("UPDATE users SET profilePic = ? WHERE id = ?", [rslt, id]);
+        res.send("updated");
       }
     });
-    res.send("updated");
   });
 });
 

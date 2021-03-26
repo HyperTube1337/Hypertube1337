@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
 const passport = require("../passport");
-const isUserAuth = require("./isUserAuth");
 const jwt = require("jsonwebtoken");
 const jwt_secret = "this is a jsonwebtoken secret";
 
