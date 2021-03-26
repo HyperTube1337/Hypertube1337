@@ -71,6 +71,13 @@
   .success{
     background-color: #4caf54e8 !important;
   }
+  .regi{
+    width: 155px;
+  }
+
+  .regi img{
+    margin-left: unset;
+  }
 
   @media (max-width: 700px) {
     .register {
@@ -79,6 +86,7 @@
     }
     .register-content{
       width: 95%;
+      height: 662px;
     }
     .inputs{
       width: 95%;
@@ -91,6 +99,9 @@
     }
     .passport-button{
       width: 100%;
+    }
+    .regi{
+      width: 30%;
     }
     input.inpt{
       width: 100%;

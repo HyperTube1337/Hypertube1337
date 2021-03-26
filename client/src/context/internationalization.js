@@ -12,18 +12,16 @@ const Context = React.createContext();
 
 const getDirection = () => {
   const lng = localStorage.getItem("locale");
-  if (!lng || ["en", "fr"].indexOf(lng) === -1)
-    localStorage.setItem("locale", "fr");
-  return localStorage.getItem("direction");
+  if (!lng || ["en", "fr"].indexOf(lng) === -1) localStorage.setItem("locale", "en");
 };
 
 export default function IntlProviderWrapper({ children }) {
+  getDirection();
   const [state, setState] = useState({
     locale: localStorage.getItem("locale"),
     messages: menu_messages[localStorage.getItem("locale")],
-    direction: getDirection(),
   });
-  
+
   return (
     <Context.Provider
       value={{
@@ -32,18 +30,12 @@ export default function IntlProviderWrapper({ children }) {
           setState({
             locale: language,
             messages: menu_messages[language],
-            direction: getDirection(),
           });
           localStorage.setItem("locale", language);
         },
       }}
     >
-      <IntlProvider
-        key={state.locale}
-        locale={state.locale}
-        messages={state.messages}
-        defaultLocale="en"
-      >
+      <IntlProvider key={state.locale} locale={state.locale} messages={state.messages} defaultLocale="en">
         {children}
       </IntlProvider>
     </Context.Provider>
