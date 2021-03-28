@@ -24,29 +24,24 @@ export default function Changepass(props) {
         else history.push("/error");
       });
 
-    if (password.Npassword && !isPassword(password.Npassword))
-    {
+    if (password.Npassword && !isPassword(password.Npassword)) {
       passwordErrors.errNpassword = "#e87c03";
       setPasswordErrors({ ...passwordErrors });
-    }
-    else {
+    } else {
       passwordErrors.errNpassword = "";
       setPasswordErrors({ ...passwordErrors });
     }
-    if (password.CNpassword && password.Npassword !== password.CNpassword) 
-    {
+    if (password.CNpassword && password.Npassword !== password.CNpassword) {
       passwordErrors.errCNpassword = "#e87c03";
       setPasswordErrors({ ...passwordErrors });
-    }
-    else
-    {
+    } else {
       passwordErrors.errCNpassword = "";
       setPasswordErrors({ ...passwordErrors });
-    }// eslint-disable-next-line
+    } // eslint-disable-next-line
   }, [password.Npassword, password.CNpassword, history, props.match.params.token, validtoken]);
 
   const handlePass = () => {
-    console.log(props.match.params.token);
+    // console.log(props.match.params.token);
     const token = props.match.params.token;
     if (!password.Npassword) {
       passwordErrors.errNpassword = "#e87c03";
@@ -67,7 +62,9 @@ export default function Changepass(props) {
             history.push("/login", { data: 4 });
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          // console.log(err)
+        });
     }
   };
 
@@ -82,13 +79,15 @@ export default function Changepass(props) {
             <FormattedMessage id="Please Enter Your new Password :" />
           </p>
           <div className="inputs changepass">
-          <div>
-            {alert === 1 ? (
-              <Alert severity="warning" className="alert">
-                <FormattedMessage id="All the fields should not be empty, Please try again." />
-              </Alert>
-            ) : ""}
-          </div>
+            <div>
+              {alert === 1 ? (
+                <Alert severity="warning" className="alert">
+                  <FormattedMessage id="All the fields should not be empty, Please try again." />
+                </Alert>
+              ) : (
+                ""
+              )}
+            </div>
             <FormattedMessage id="Password">
               {(text) => (
                 <input
@@ -121,7 +120,7 @@ export default function Changepass(props) {
             </FormattedMessage>
             <br />
             <button className="btn btn-rounded" onClick={() => handlePass()}>
-            <FormattedMessage id="Change Password" />
+              <FormattedMessage id="Change Password" />
             </button>
           </div>
         </div>

@@ -141,15 +141,17 @@ export default function Register() {
         .post("http://localhost:3001/register", { ...user })
         .then((res) => {
           if (res.data.message === "Email and or username are already used") {
-            console.log("res.data");
+            // console.log("res.data");
             setalert(2);
           } else {
-            console.log(res.data);
+            // console.log(res.data);
             setalert(3);
             history.push("/login", { data: 3 });
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          // console.log(err)
+        });
     }
   };
 

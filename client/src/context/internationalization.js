@@ -10,13 +10,13 @@ const menu_messages = {
 
 const Context = React.createContext();
 
-const getDirection = () => {
+const getLanguage = () => {
   const lng = localStorage.getItem("locale");
   if (!lng || ["en", "fr"].indexOf(lng) === -1) localStorage.setItem("locale", "en");
 };
 
 export default function IntlProviderWrapper({ children }) {
-  getDirection();
+  getLanguage();
   const [state, setState] = useState({
     locale: localStorage.getItem("locale"),
     messages: menu_messages[localStorage.getItem("locale")],

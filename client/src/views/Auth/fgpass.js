@@ -34,7 +34,7 @@ export default function Fgpass() {
           setalert(3);
           setemail("")
         } else {
-          console.log(res.data)
+          // console.log(res.data)
           setalert(2);
           setemail("");
         }

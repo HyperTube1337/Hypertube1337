@@ -32,7 +32,7 @@ passport.use(
             [profile._json.name, profile._json.email],
             (error, rslt) => {
               if (error) {
-                console.log(error);
+                // console.log(error);
               } else if (rslt[0].count > 0) {
                 // console.log("Email and or username are already used");
                 return cb("error");
@@ -82,7 +82,7 @@ passport.use(
             [profile._json.login, profile.emails[0].value],
             (error, rslt) => {
               if (error) {
-                console.log(error);
+                // console.log(error);
               } else if (rslt[0].count > 0) {
                 // console.log("Email and or username are already used");
                 return cb("error");
@@ -131,7 +131,7 @@ passport.use(
             [profile._json.login, profile._json.email],
             (error, rslt) => {
               if (error) {
-                console.log(error);
+                // console.log(error);
               } else if (rslt[0].count > 0) {
                 // console.log("Email and or username are already used");
                 return cb("error");

@@ -20,6 +20,8 @@ const editPassword = require("./user/editPassword");
 app.use(cors({ origin: true, credentials: true }));
 // app.use(express.json());
 app.use(bodyParser.json({ limit: "50mb" }));
+app.use(passport.initialize());
+app.use("/", oauth);
 app.use("/register", register);
 app.use("/tokenpass", tokenpass);
 app.use("/confirm", confirm);
@@ -27,8 +29,6 @@ app.use("/fgpass", fgpass);
 app.use("/changepass", changepass);
 app.use("/login", login);
 app.use("/isUserAuth", isUserAuth);
-app.use(passport.initialize());
-app.use("/", oauth);
 app.use("/getusername", getusername);
 app.use("/getDataByUser", getDataByUser);
 app.use("/edit", editInfo);
@@ -37,5 +37,5 @@ app.use("/images", express.static("./images"));
 app.use("/editPassword", editPassword);
 
 app.listen(3001, () => {
-  console.log("hello server");
+  // console.log("hello server");
 });

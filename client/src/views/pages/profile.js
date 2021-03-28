@@ -48,7 +48,7 @@ export default function Profile(props) {
             history.push("/login");
           } else if (res.data === "no user found") history.push("/");
           else {
-            console.log(res.data, "data");
+            // console.log(res.data, "data");
             user.firstname = res.data.data[0].firstname;
             user.lastname = res.data.data[0].lastname;
             user.username = res.data.data[0].username;

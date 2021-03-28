@@ -27,7 +27,7 @@ export default function Navbar(props) {
           // cookies.remove("jwt");
           if (token) cookies.set("jwt", token, { maxAge: -10, httpOnly: false });
         } else {
-          console.log(res.data);
+          // console.log(res.data);
           setuserlogged(res.data);
         }
       });

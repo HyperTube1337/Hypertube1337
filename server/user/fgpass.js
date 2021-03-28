@@ -25,7 +25,7 @@ router.post("/", (req, res) => {
             )
           )
             res.send({ message: "done" });
-          console.log("Email sent");
+          // console.log("Email sent");
         } else {
           res.send("email not found");
         }

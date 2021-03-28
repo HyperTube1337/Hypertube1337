@@ -65,7 +65,7 @@ export default function EditPass(props) {
               props.data1.setUser({ ...props.data1.user });
               setalert(2);
             }
-            console.log(res.data);
+            // console.log(res.data);
           }
         });
   };

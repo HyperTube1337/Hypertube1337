@@ -32,7 +32,7 @@ router.get("/:profilename", isUserAuth, (req, resp) => {
             if (err) {
               resp.send({ err: err });
             } else {
-              console.log("OK", rslt);
+              // console.log("OK", rslt);
               resp.send({ message: "not the user logged", data: rslt });
             }
           }

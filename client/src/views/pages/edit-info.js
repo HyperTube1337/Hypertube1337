@@ -109,7 +109,7 @@ export default function EditInfo(props) {
             if (token) cookies.set("jwt", token, { maxAge: -10, httpOnly: false });
             history.push("/login");
           } else {
-            console.log(res.data)
+            // console.log(res.data)
             if (res.data === "nothing changed") setalert(4);
             else if (res.data === "username is already used") setalert(5);
             else if (res.data === "email is already used") setalert(6);

@@ -43,7 +43,7 @@ router.post("/", isUserAuth, (req, res) => {
         fs.unlinkSync(`${folder}/${img}`);
       }
     } else if (!resp.length) {
-      console.log("no image");
+      // console.log("no image");
     }
     saveImage(content, folder).then((rslt) => {
       if (rslt) {

@@ -63,7 +63,9 @@ export default function Login(props) {
             history.push("/research");
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          // console.log(err)
+        });
     }
   };
   return (
