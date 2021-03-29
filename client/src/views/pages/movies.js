@@ -265,7 +265,7 @@ function Movies() {
                   </Moment>
                 </div>
                 <div>
-                  <img src={cmnt?.profilePic} alt="" />
+                  <img src={cmnt?.profilePic.substr(0, 4) === "https" ? cmnt?.profilePic : "http://localhost:3001/images/" + cmnt?.profilePic} alt="" />
                   <p>{cmnt?.cmntContent}</p>
                 </div>
               </div>
