@@ -14,6 +14,9 @@ import axios from "axios";
 import SearchIcon from "@material-ui/icons/Search";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import { useHistory } from "react-router-dom";
+import Cookies from "universal-cookie";
+import { array } from "prop-types";
 
 function Research() {
   const genreChange = (event) => {
@@ -41,7 +44,6 @@ function Research() {
       flexDirection: "row",
       justifyContent: "center",
       ["@media (max-width:780px)"]: {
-        // eslint-disable-line no-useless-computed-key
         flexDirection: "column",
       },
     },
@@ -69,7 +71,6 @@ function Research() {
     }
   };
   const classes = useStyles();
-  const [background, setbackground] = useState();
   const [sort, setSort] = useState("download_count");
   const [loading, setLoading] = useState(false);
   const [genres, setGenres] = useState("0");
@@ -78,36 +79,73 @@ function Research() {
   const [page, setPage] = useState(1);
   const [submit, setSubmit] = useState(false);
   const [search, setSearch] = useState("");
+  const [watched, setWatched] = useState([""]);
+  const cookies = new Cookies();
+  const [token, setToken] = useState("");
+  const history = useHistory();
+
   useEffect(() => {
-    setLoading(true);
-    setbackground("https://miro.medium.com/max/7680/1*5pj4U4-L9MBmhm3rEoADqA.jpeg");
-    axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=${sort}&genre=${genres}&minimum_rating=${rating}&query_term=${search}&limit=50&page=${page}`).then((res) => {
-      if (res.data.status === "ok") {
-        if (submit === false) {
-          if (res.data.data.movie_count > movie?.length) {
-            setMovie(movie?.concat(res.data.data.movies));
-            setLoading(false);
-          } else {
-            if (res.data.data.movies) {
-              setMovie(res.data.data.movies);
-              setLoading(false);
-            } else {
-              setPage(1);
-              setLoading(false);
+    setToken(cookies.get("jwt"));
+    axios
+      .get("http://localhost:3001/checkStatus", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.data.status === "ok") {
+          setLoading(true);
+          axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=${sort}&genre=${genres}&minimum_rating=${rating}&query_term=${search}&limit=50&page=${page}`).then((res) => {
+            if (res.data.status === "ok") {
+              if (submit === false) {
+                if (res.data.data.movie_count > movie?.length) {
+                  setMovie(movie?.concat(res.data.data.movies));
+                  setLoading(false);
+                } else {
+                  if (res.data.data.movies) {
+                    setMovie(res.data.data.movies);
+                    setLoading(false);
+                  } else {
+                    setPage(1);
+                    setLoading(false);
+                  }
+                }
+              } else if (submit === true) {
+                if (res.data.data.movies) {
+                  setMovie(res.data.data.movies);
+                } else {
+                  setPage(1);
+                }
+                setLoading(false);
+                setSubmit(false);
+              }
+              axios
+                .get("http://localhost:3001/getWatchedlist", {
+                  withCredentials: true,
+                })
+                .then((res) => {
+                  setWatched(res.data);
+                  // }
+                });
             }
-          }
-        } else if (submit === true) {
-          if (res.data.data.movies) {
-            setMovie(res.data.data.movies);
-          } else {
-            setPage(1);
-          }
-          setLoading(false);
-          setSubmit(false);
+          });
+        } else {
+          history.push("/login");
+        }
+      });
+
+    // eslint-disable-next-line
+  }, [page, submit]);
+  function compareArray(a, b) {
+    for (var i = 0; i < a.length; i++) {
+      for (var x = 0; x < b.length; x++) {
+        if (a[i].imdb_code == b[x].imdbCode) {
+          a[i].eys = 1;
+        } else {
+          a[i].eys = 0;
         }
       }
-    });
-  }, [page, submit]);
+    }
+  }
+  compareArray(movie, watched);
   console.log(movie);
   return (
     <div className="research" onScroll={handlscroll}>
@@ -197,7 +235,7 @@ function Research() {
                 </button>
                 <p>{film?.title}</p>
                 <h4>{film?.year}</h4>
-                <VisibilityIcon className={classes.visibleIcon}></VisibilityIcon>
+                {film?.eys ? <VisibilityIcon className={classes.visibleIcon}></VisibilityIcon> : ""}
               </div>
             </div>
           ))}

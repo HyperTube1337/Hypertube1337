@@ -5,20 +5,21 @@ import { FormattedMessage } from "react-intl";
 import "../../css/fgpass.css"
 import { useHistory} from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
+import Cookies from 'universal-cookie';
 
 export default function Fgpass() {
-
+  const cookies = new Cookies();
   const [email, setemail] = useState("");
   const [erremail, seterremail] = useState("");
   const history = useHistory();
   const [token, setToken] = useState("");
   const [alert, setalert] = useState(0);
 
-  // useEffect(() => {
-  //   setToken(localStorage.getItem("token"));
-  //   if (token) history.push("/");
-  //   // eslint-disable-next-line
-  // }, [token]);
+  useEffect(() => {
+    setToken(cookies.get("jwt"));
+    if (token) history.push("/");
+    // eslint-disable-next-line
+  }, [token]);
 
   const handleFgpass = () => {
     seterremail("");
@@ -33,7 +34,7 @@ export default function Fgpass() {
           setalert(3);
           setemail("")
         } else {
-          console.log(res.data)
+          // console.log(res.data)
           setalert(2);
           setemail("");
         }

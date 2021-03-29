@@ -3,8 +3,10 @@ const router = express.Router();
 const axios = require("axios");
 const path = require("path");
 const torrentStream = require("torrent-stream");
-const fs = require("fs");
-const yifysubtitles = require("yifysubtitles");
+const isUserAuth = require("../user/isUserAuth");
+
+// const fs = require("fs");
+// const yifysubtitles = require("yifysubtitles");
 
 // const OS = require("opensubtitles-api");
 // const OpenSubtitles = new OS("UserAgent");
@@ -15,10 +17,8 @@ const yifysubtitles = require("yifysubtitles");
 //   });
 //   console.log(results);
 // }
-router.post("/", (req, res) => {
+router.post("/", isUserAuth, (req, res) => {
   var link = req.body.link;
-  let test;
-  // sub();
   var engine = torrentStream("magnet:?xt=urn:btih:" + link, { path: `./stream/${link}` });
   engine.on("ready", function () {
     engine.files.forEach(function (file) {
@@ -26,13 +26,12 @@ router.post("/", (req, res) => {
       } else {
         if (path.extname(file.name).slice(1) === "mp4") {
           // test = file.path;
-          // file.path = file.path.substr(0, file.path.lastIndexOf(".")) + ".mkv";
+          file.path = file.path.substr(0, file.path.lastIndexOf(".")) + ".mp4";
         } else {
         }
       }
-
-      // res.setHeader("Content-Length", file.length);
-      res.setHeader("Content-Type", file.path);
+      res.setHeader("Content-Length", file.length);
+      res.setHeader("Content-Type", "video/mp4");
       var stream = file.createReadStream();
       stream.pipe(res);
     });

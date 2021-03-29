@@ -9,7 +9,13 @@ import isName from "../../tools/isName";
 import isPassword from "../../tools/isPassword";
 import Alert from "@material-ui/lab/Alert";
 import axios from "axios";
+import Cookies from "universal-cookie";
+import google from "../../photos/search.svg";
+import git from "../../photos/github.svg";
+import intra from "../../photos/42.svg";
+
 export default function Register() {
+  const cookies = new Cookies();
   const history = useHistory();
   const [user, setUser] = useState({
     firstname: "",
@@ -30,8 +36,11 @@ export default function Register() {
   const [alert, setalert] = useState(0);
 
   // console.log({ ...user });
+  const [token, setToken] = useState("");
 
   useEffect(() => {
+    setToken(cookies.get("jwt"));
+    if (token) history.push("/");
     if ((user.firstname && !isName(user.firstname) && user.firstname.length < 24) || user.firstname.length > 24) {
       userErrors.errfirstname = "#e87c03";
       // setUserErrors({ ...userErrors });
@@ -75,7 +84,7 @@ export default function Register() {
       userErrors.errverifypassword = "";
       setUserErrors({ ...userErrors });
     } // eslint-disable-next-line
-  }, [user.firstname, user.lastname, user.username, user.email, user.password, user.verifypassword]);
+  }, [user.firstname, user.lastname, user.username, user.email, user.password, user.verifypassword, token]);
 
   const handelRegister = () => {
     if (!user.firstname) {
@@ -132,15 +141,17 @@ export default function Register() {
         .post("http://localhost:3001/register", { ...user })
         .then((res) => {
           if (res.data.message === "Email and or username are already used") {
-            console.log("res.data");
+            // console.log("res.data");
             setalert(2);
           } else {
-            console.log(res.data);
+            // console.log(res.data);
             setalert(3);
-            history.push("/login", {data : 3});
+            history.push("/login", { data: 3 });
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          // console.log(err)
+        });
     }
   };
 
@@ -163,12 +174,37 @@ export default function Register() {
                 <FormattedMessage id="already used" />
               </Alert>
             ) : alert === 3 ? (
-              <Alert severity="success"  color="success" className="alert success">
+              <Alert severity="success" color="success" className="alert success">
                 <FormattedMessage id="Registered" />
               </Alert>
             ) : (
               ""
             )}
+          </div>
+          <div className="inputs-inline">
+            <button
+              className="passport-button Google regi"
+              onClick={() => (window.location = "http://localhost:3001/auth/google")}
+            >
+              <img alt="" className="btn-icon g" src={google} />
+            </button>
+            <button
+              className="passport-button Git regi"
+              onClick={() => (window.location = "http://localhost:3001/auth/github")}
+            >
+              <img alt="" className="btn-icon g" src={git} />
+            </button>
+            <button
+              className="passport-button Intra regi"
+              onClick={() => (window.location = "http://localhost:3001/auth/42")}
+            >
+              <img alt="" className="btn-icon g" src={intra} />
+            </button>
+          </div>
+          <div className="divOr">
+            <div className="line"></div>
+            <div className="Or"> Or</div>
+            <div className="line"></div>
           </div>
           <div className="inputs-inline">
             <FormattedMessage id="First name">

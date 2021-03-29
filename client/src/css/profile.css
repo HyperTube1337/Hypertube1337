@@ -1,0 +1,242 @@
+.profile {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  justify-content: space-around;
+  /* bottom: 0;
+    position: absolute; */
+}
+.profile-content {
+  width: 75%;
+  height: 45%;
+  background-color: #6364655e;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.profile-list {
+  width: 75%;
+  height: 35%;
+  background-color: #6364655e;
+  border-radius: 5px;
+}
+
+.profile-content-right {
+  width: 35%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  /* background-color: #6364655e; */
+}
+
+.profile-content-left {
+  width: 60%;
+  height: 90%;
+  /* background-color: #6364655e; */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: space-around;
+}
+.line-div {
+  width: 2px;
+  height: 85%;
+  background-color: #6364655e;
+}
+
+.picture-div {
+  width: 250px;
+  height: 250px;
+  border-radius: 150px;
+  background-color: #6364655e;
+  border: 2px solid #6364659e;
+  position: relative;
+}
+
+.Inpic {
+  width: 245px;
+  height: 245px;
+  border-radius: 150px;
+  object-fit: cover;
+  /* z-index: 1; */
+  /* border: 2px solid #6364659e; */
+}
+.upload {
+  width: 246px;
+  height: 246px;
+  border-radius: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.8s;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  /* background-color: #9e9fa070; */
+}
+.upload_tag{
+  width: 60px;
+  height: 60px;
+  color: #f1f1f1ba;
+  opacity: 0;
+  transition: all 0.8s;
+}
+
+.upload:hover{
+  width: 246px;
+  height: 246px;
+  border-radius: 150px;
+  background-color: #9e9fa070;
+  transition: all 0.8s;
+  filter: brightness(1);
+}
+
+.upload:hover .upload_tag{
+  opacity: 1;
+  
+}
+.file-upload-input {
+  position: absolute;
+  border-radius: 50%;
+  /* margin: 0;
+    padding: 0; */
+  width: 100%;
+  height: 100%;
+  /* outline: none; */
+  opacity: 0;
+  cursor: pointer;
+}
+
+.username-div {
+  width: 80%;
+  height: 30%;
+  background-color: #6364655e;
+  border-radius: 5px;
+}
+
+.inputs-profile {
+  width: 100%;
+  height: 65%;
+}
+
+input.inpt-profile {
+  width: 97%;
+}
+button.inpt-profile {
+  width: 100%;
+}
+
+.edit {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button-edit {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0);
+  border: 2px solid rgba(240, 240, 240, 0.54);
+  border-radius: 5px;
+  color: rgba(240, 240, 240, 0.54);
+  margin-left: 10px;
+  cursor: pointer;
+  outline: none;
+}
+
+.button-edit:hover {
+  background: #e50914;
+  color: #fff;
+  border: none;
+  transition: opacity 0.2s ease-in;
+  transform: scale(1.1, 1.1);
+  transition: all 0.8s;
+}
+
+.button-edit:not(:hover) {
+  transition: all 0.5s;
+}
+
+@media (max-width: 1000px) {
+  .profile-content {
+    height: 55%;
+    flex-direction: column;
+  }
+  .line-div {
+    display: none;
+  }
+
+  .profile-content-right {
+    width: 90%;
+    height: 30%;
+    flex-direction: row;
+  }
+
+  .profile-content-left {
+    width: 90%;
+    height: 70%;
+  }
+  .picture-div {
+    width: 200px;
+    height: 200px;
+    border-radius: 200px;
+    margin-top: 80px;
+  }
+  .Inpic {
+    width: 196px;
+    height: 196px;
+    border-radius: 200px;
+    /* margin-top: 80px; */
+  }
+  .username-div {
+    width: 50%;
+    height: 80%;
+    margin-top: 75px;
+  }
+  .upload{
+    width: 196px;
+    height: 196px;
+    border-radius: 200px;
+  }
+}
+
+@media (max-width: 700px) {
+  .profile {
+    height: 1200px;
+  }
+  .profile-content-right {
+    flex-direction: column;
+    height: 45%;
+  }
+  .profile-content-left {
+    justify-content: end;
+  }
+  .username-div {
+    height: 30%;
+    margin-top: 8px;
+    width: 100%;
+  }
+  .picture-div {
+    width: 170px;
+    /* height: 170px; */
+    margin-top: 8px;
+  }
+  .Inpic {
+    width: 165px;
+    height: 171px;
+    margin-top: 0px;
+  }
+  .upload{
+    width: 167px;
+    height: 171px;
+    margin-top: 0px;
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../css/login.css";
 import google from "../../photos/search.svg";
 import git from "../../photos/github.svg";
@@ -8,21 +8,27 @@ import { FormattedMessage } from "react-intl";
 import Alert from "@material-ui/lab/Alert";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import Cookies from "universal-cookie";
 
 export default function Login(props) {
+  const cookies = new Cookies();
   const history = useHistory();
   const [alert, setalert] = useState(0);
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
-
   const [userErrors, setUserErrors] = useState({
     errusername: "",
     errpassword: "",
   });
-  const data = history.location.state?.data;
-  // console.log(data);
+  let data = history.location.state?.data;
+  const [token, setToken] = useState("");
+  useEffect(() => {
+    setToken(cookies.get("jwt"));
+    if (token) history.push("/");
+    // eslint-disable-next-line
+  }, [token]);
 
   const handleLogin = () => {
     userErrors.errusername = "";
@@ -42,23 +48,20 @@ export default function Login(props) {
 
     if (user.username && user.password) {
       axios
-        .post("http://localhost:3001/login", { ...user }, {})
+        .post("http://localhost:3001/login", { ...user })
         .then((response) => {
-          if (
-            response.data.message === "Wrong combination!" ||
-            response.data.message === "User Dosen't exist" ||
-            response.data.message === "error"
-          ) {
-            console.log(response.data.message);
+          if (response.data.message === "Wrong combination!" || response.data.message === "User Dosen't exist" || response.data.message === "error") {
             setalert(5);
           } else if (response.data.message === "Please check your email") {
             setalert(6);
           } else {
-            localStorage.setItem("token", response.data.token);
-            console.log("done");
+            cookies.set("jwt", response.data.token, { maxAge: 365 * 24 * 60 * 60 * 1000, httpOnly: false });
+            history.push("/library");
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          // console.log(err)
+        });
     }
   };
   return (
@@ -75,14 +78,6 @@ export default function Login(props) {
             <Alert severity="warning" className="alert">
               <FormattedMessage id="All the fields should not be empty, Please try again." />
             </Alert>
-          ) : data === 3 ? (
-            <Alert severity="success" color="success" className="alert success">
-              <FormattedMessage id="Registered" />
-            </Alert>
-          ) : data === 4 ? (
-            <Alert severity="success" color="success" className="alert success">
-              <FormattedMessage id="Your password has been successfully modified." />
-            </Alert>
           ) : alert === 5 ? (
             <Alert severity="warning" className="alert">
               <FormattedMessage id="Wrong Username Or Password" />
@@ -91,19 +86,27 @@ export default function Login(props) {
             <Alert severity="warning" className="alert">
               <FormattedMessage id="Please check your email" />
             </Alert>
+          ) : data === 3 ? (
+            <Alert severity="success" color="success" className="alert success">
+              <FormattedMessage id="Registered" />
+            </Alert>
+          ) : data === 4 ? (
+            <Alert severity="success" color="success" className="alert success">
+              <FormattedMessage id="Your password has been successfully modified." />
+            </Alert>
           ) : (
             ""
           )}
-          <button className="passport-button Google">
+          <button className="passport-button Google" onClick={() => (window.location = "http://localhost:3001/auth/google")}>
             <FormattedMessage id="passport" />
             &nbsp;Google
             <img alt="" className="btn-icon g" src={google} />
           </button>
-          <button className="passport-button Git">
+          <button className="passport-button Git" onClick={() => (window.location = "http://localhost:3001/auth/github")}>
             <FormattedMessage id="passport" />
             &nbsp;Github <img alt="" className="btn-icon g" src={git} />
           </button>
-          <button className="passport-button Intra">
+          <button className="passport-button Intra" onClick={() => (window.location = "http://localhost:3001/auth/42")}>
             <FormattedMessage id="passport" />
             &nbsp;Intra <img alt="" className="btn-icon g" src={intra} />
           </button>

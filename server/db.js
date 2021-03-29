@@ -1,13 +1,12 @@
 const mysql = require("mysql");
 try {
   const db = mysql.createConnection({
-    host: "192.168.99.102",
+    host: "192.168.99.158",
     user: "root",
     password: "root",
-    database: "Hypertube",
+    database: "hypertube",
   });
   module.exports = db;
-  
 } catch (error) {
-  console.log(error)
+  // console.log(error)
 }
