@@ -38,8 +38,7 @@ export default function Navbar(props) {
     setToken("");
     if (token) {
       cookies.remove("jwt");
-
-      // window.location.href = "/";
+      window.location.href = "/";
     }
     // else setToken("");
   };

@@ -134,6 +134,7 @@ function Movies() {
                   medium_screenshot_image2: res.data.data.movie.medium_screenshot_image2,
                   medium_screenshot_image3: res.data.data.movie.medium_screenshot_image3,
                   imdb_code: res.data.data.movie.imdb_code,
+                  description_full: res.data.data.movie.description_intro,
                 });
               } else {
                 history.push("/Error");
@@ -207,6 +208,12 @@ function Movies() {
               <h5>{movies?.runtime} min</h5>
             </div>
           </div>
+          {/* <div className="time">
+            <p>Description :</p>
+            <div>
+              <h5>{movies?.description_full}</h5>
+            </div>
+          </div> */}
         </div>
         <div className="suggestion">
           <div className="mini-card" style={{ backgroundImage: "url(" + movies.medium_screenshot_image1 + ")" }}></div>

@@ -55,7 +55,7 @@ function Research() {
       marginBottom: "15px",
     },
     visibleIcon: {
-      color: "#F5F5F5",
+      color: "#ff8000",
     },
     gradIcon: {
       color: "#e50914",
@@ -135,14 +135,18 @@ function Research() {
     // eslint-disable-next-line
   }, [page, submit]);
   function compareArray(a, b) {
-    for (var i = 0; i < a.length; i++) {
-      for (var x = 0; x < b.length; x++) {
-        if (a[i].imdb_code == b[x].imdbCode) {
+    var i = 0;
+    while (i < a.length) {
+      var j = 0;
+      while (j < b.length) {
+        console.log(a[i].imdb_code);
+        if (a[i]?.imdb_code === b[j]?.imdbCode) {
           a[i].eys = 1;
-        } else {
-          a[i].eys = 0;
+          i = i + 1;
         }
+        j = j + 1;
       }
+      i = i + 1;
     }
   }
   compareArray(movie, watched);
