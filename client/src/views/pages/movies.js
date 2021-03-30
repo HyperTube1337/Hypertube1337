@@ -9,6 +9,8 @@ import axios from "axios";
 import Button from "@material-ui/core/Button";
 import Cookies from "universal-cookie";
 import Moment from "react-moment";
+import noUser from "../../photos/noUser.png";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const useStyles = makeStyles({
   root: {
@@ -27,11 +29,19 @@ const useStyles = makeStyles({
     height: "96px",
     cursor: "pointre",
   },
+  progress: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: "spacing(2)",
+    },
+    marginBottom: "15px",
+  },
 });
 // background-image: url("https://yts.mx/assets/images/movies/cherry_2021/large-cover.jpg");
 function Movies() {
   const classes = useStyles();
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState({
     year: "",
     title: "",
@@ -49,6 +59,11 @@ function Movies() {
   const [quality, setQuality] = useState("720p");
   const [comment, setComment] = useState([]);
   const cookies = new Cookies();
+  const [subtitle, setsubtitle] = useState({
+    en: "",
+    ar: "",
+    fr: "",
+  });
   const [token, setToken] = useState("");
   console.log(comment);
   const { id } = useParams();
@@ -62,13 +77,20 @@ function Movies() {
     axios
       .post(
         "http://localhost:3001/stream",
-        { link: hash[0] },
+        { link: hash[0], imdb_code: movies.imdb_code },
         {
           withCredentials: true,
         }
       )
       .then((response) => {
-        console.log("walo");
+        console.log("movie", response);
+        setTimeout(setVideoSrc({ src: `http://localhost:3001/stream/${hash[0]}/${response.headers["content-type"]}`, type: "video/mp4" }), 1000);
+        setsubtitle({
+          ...subtitle,
+          en: { kind: "subtitles", src: `http://localhost:3001/stream/${hash[0]}/${movies.imdb_code}en.vtt`, srcLang: "en", default: true },
+          ar: { kind: "subtitles", src: `http://localhost:3001/stream/${hash[0]}/${movies.imdb_code}ar.vtt`, srcLang: "ar" },
+          fr: { kind: "subtitles", src: `http://localhost:3001/stream/${hash[0]}/${movies.imdb_code}fr.vtt`, srcLang: "fr" },
+        });
       });
     axios
       .post(
@@ -83,7 +105,6 @@ function Movies() {
       .then((response) => {
         console.log(response);
       });
-    // setTimeout(setVideoSrc({ src: `http://localhost:3001/stream/${hash}/${response.headers["content-type"]}`, type: "video/mp4" }), 1000);
   }
   const handelCmnt = (e) => {
     setinputContent(e.target.value);
@@ -108,6 +129,7 @@ function Movies() {
     }
   }
   useEffect(() => {
+    setLoading(true);
     setToken(cookies.get("jwt"));
     axios
       .get("http://localhost:3001/checkStatus", {
@@ -136,6 +158,7 @@ function Movies() {
                   imdb_code: res.data.data.movie.imdb_code,
                   description_full: res.data.data.movie.description_intro,
                 });
+                setLoading(false);
               } else {
                 history.push("/Error");
               }
@@ -180,6 +203,7 @@ function Movies() {
   }, []);
   return (
     <div className="movies">
+      <div className={classes.progress}>{loading === true ? <LinearProgress color="secondary" /> : ""}</div>
       <div className="trailer">
         <div className="movieCover" style={{ backgroundImage: "url(" + movies?.medium_cover_image + ")" }}></div>
         <div className="movieInfo">
@@ -246,7 +270,18 @@ function Movies() {
       <div className="play">
         <div className="moviePlayer">
           <span>Thank you for watching</span>
-          <ReactPlayer controls url={[videoSrc]} />
+          <ReactPlayer
+            controls
+            config={{
+              file: {
+                attributes: {
+                  crossOrigin: "use-credentials",
+                },
+                tracks: [subtitle.en, subtitle.ar, subtitle.fr],
+              },
+            }}
+            url={[videoSrc]}
+          />
         </div>
         <div className="comment">
           <form noValidate autoComplete="off">
@@ -265,7 +300,10 @@ function Movies() {
                   </Moment>
                 </div>
                 <div>
-                  <img src={cmnt?.profilePic.substr(0, 4) === "https" ? cmnt?.profilePic : "http://localhost:3001/images/" + cmnt?.profilePic} alt="" />
+                  <img
+                    src={cmnt?.profilePic ? (cmnt?.profilePic.substr(0, 5) === "https" ? cmnt?.profilePic : "http://localhost:3001/images/" + cmnt?.profilePic) : noUser}
+                    alt=""
+                  />
                   <p>{cmnt?.cmntContent}</p>
                 </div>
               </div>

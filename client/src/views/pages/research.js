@@ -16,7 +16,6 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { useHistory } from "react-router-dom";
 import Cookies from "universal-cookie";
-import { array } from "prop-types";
 
 function Research() {
   const genreChange = (event) => {
@@ -139,7 +138,6 @@ function Research() {
     while (i < a.length) {
       var j = 0;
       while (j < b.length) {
-        console.log(a[i].imdb_code);
         if (a[i]?.imdb_code === b[j]?.imdbCode) {
           a[i].eys = 1;
           i = i + 1;
@@ -149,8 +147,10 @@ function Research() {
       i = i + 1;
     }
   }
+  function getMovie(link) {
+    history.push("/movies/" + link);
+  }
   compareArray(movie, watched);
-  console.log(movie);
   return (
     <div className="research" onScroll={handlscroll}>
       <div className="filter">
@@ -228,7 +228,7 @@ function Research() {
         <div className="cards">
           {movie?.map((film, i) => (
             <div className="card" style={{ backgroundImage: "url(" + film?.large_cover_image + ")" }} key={i}>
-              <div className="infoMovie">
+              <div className="infoMovie" onClick={() => getMovie(film?.id)}>
                 <GradeIcon className={classes.gradIcon}></GradeIcon>
                 <h4>{film?.rating} / 10</h4>
                 <h4 className="genres">{film?.genres + " "}</h4>
@@ -243,7 +243,7 @@ function Research() {
               </div>
             </div>
           ))}
-          <div className={classes.progress}>{loading == true ? <LinearProgress color="secondary" /> : ""}</div>
+          <div className={classes.progress}>{loading === true ? <LinearProgress color="secondary" /> : ""}</div>
         </div>
       </div>
     </div>

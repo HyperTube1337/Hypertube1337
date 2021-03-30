@@ -11,8 +11,8 @@ router.post("/", isUserAuth, (req, res) => {
     if (err) {
       res.send({ err: err });
     }
-    if (result.length === 0) {
-      db.query("INSERT INTO WatchedList(user_id,imdbCode) VALUES (?,?);", [id, imdb], (err, result) => {
+    if (result?.length === 0) {
+      db.query("INSERT INTO WatchedList(user_id,imdbCode,last_Watch	) VALUES (?,?,?);", [id, imdb, new Date()], (err, result) => {
         if (err) {
           res.send({ err: err });
         } else {

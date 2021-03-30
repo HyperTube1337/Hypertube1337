@@ -1,7 +1,7 @@
 const mysql = require("mysql");
 try {
   const db = mysql.createConnection({
-    host: "192.168.99.158",
+    host: "192.168.99.159",
     user: "root",
     password: "root",
     database: "hypertube",

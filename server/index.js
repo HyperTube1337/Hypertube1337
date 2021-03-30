@@ -24,6 +24,7 @@ const InsertCmnt = require("./user/insertCmnt");
 const getCmnt = require("./user/getCmnt");
 
 app.use(cors({ origin: true, credentials: true }));
+// app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(passport.initialize());
 app.use("/", oauth);

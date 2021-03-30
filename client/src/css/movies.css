@@ -194,6 +194,7 @@
   width: 40px;
   height: 40px;
   border-radius: 30px;
+  object-fit: cover;
 }
 .comment_Section {
   display: flex;
@@ -252,5 +253,35 @@
     width: 100% !important;
     height: 100% !important;
     margin-bottom: 10px;
+  }
+  .play {
+    flex-direction: column;
+    width: 100%;
+  }
+  .comment {
+    min-width: 100%;
+  }
+  .cast {
+    margin-top: 20px;
+    min-width: 100%;
+  }
+  .cast div {
+    margin: 6px;
+  }
+  .cast p {
+    max-width: 20%;
+  }
+  .personality {
+    min-width: 100%;
+  }
+  .moviePlayer video {
+    width: 56% !important;
+    height: 90% !important;
+  }
+}
+@media (max-width: 320px) {
+  .moviePlayer video {
+    width: 47% !important;
+    height: 72% !important;
   }
 }
