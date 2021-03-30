@@ -75,7 +75,7 @@ router.post("/", isUserAuth, (req, res) => {
   var link = req.body.link;
   var imdb_code = req.body.imdb_code;
   getSubtitle(link, imdb_code);
-  var engine = torrentStream("magnet:?xt=urn:btih:" + link, { tmp: `./stream/${link}` });
+  var engine = torrentStream("magnet:?xt=urn:btih:" + link, { path: `./stream/${link}` });
   engine.on("ready", function () {
     var filePath;
     engine.files.forEach(function (file) {
