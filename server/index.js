@@ -22,7 +22,9 @@ const watchedList = require("./user/watchedList");
 const getWatchedlist = require("./user/getWatchedList");
 const InsertCmnt = require("./user/insertCmnt");
 const getCmnt = require("./user/getCmnt");
-var fs = require("fs");
+const fs = require("fs");
+const torrentStream = require("torrent-stream");
+const path = require("path");
 
 app.use(cors({ origin: true, credentials: true }));
 // app.use(cors());
@@ -35,29 +37,39 @@ app.use("/watchedlist", watchedList);
 app.use("/insertCmnt", InsertCmnt);
 app.use("/getWatchedlist", getWatchedlist);
 app.use("/checkStatus", checkStatus);
-app.use("/stream", streampPlayer);
+app.use("/streampPlayer", streampPlayer);
 app.use("/tokenpass", tokenpass);
 app.use("/confirm", confirm);
 app.use("/stream/", (req, res) => {
-  // const { path } = req.params;
-  const status = fs.statSync(__dirname + "/stream/" + decodeURI(req.url));
-  // const range;
-  // res.statusCode = 206;
-  // console.log(status);
-  // console.log("headers", req.headers);
-  var ranges;
-  let end;
-  if (req.headers.range) {
-    ranges = req.headers.range;
-    end = ranges.substr(6).split("-");
-  }
-  console.log(end[0]);
-  res.setHeader("Content-Length", 1 + status.size - end[0]);
-  res.setHeader("Content-Range", `bytes ${end[0]}-${status.size}/${status.size}`);
-  // res.status(206);
-  // res.setHeader("Content-Length", status.size);
-  // console.log(req.headers, req.url);
-  fs.createReadStream(__dirname + "/stream/" + decodeURI(req.url)).pipe(res);
+  var engine = torrentStream("magnet:?xt=urn:btih:" + req.url.substr(1), { path: `./stream/${req.url.substr(1)}` });
+  engine.on("ready", function () {
+    // file = engine.files.find((f) => f.extname(file.name));
+    engine.files.forEach(function (file) {
+      if (path.extname(file.name).slice(1) === "jpg") {
+      } else {
+        if (path.extname(file.name).slice(1) === "mp4") {
+          // file.path = file.path.substr(0, file.path.lastIndexOf(".")) + ".mp4";
+          var range = req.headers.range;
+          if (range) {
+            const parts = range.replace("bytes=", "").split("-");
+            const start = parseInt(parts[0]);
+            const end = parts[1] ? parseInt(parts[1]) : file.length - 1;
+            const chunkSize = end - start + 1;
+            const header = {
+              "Content-Range": `bytes ${start}-${end}/${file.length}`,
+              "Accept-Ranges": "bytes",
+              "Accept-Ranges": chunkSize,
+              "Content-Type": `video/mp4`,
+              "Content-Length": `${file.length}`,
+            };
+            res.writeHead(206, header);
+            file.createReadStream({ start, end }).pipe(res);
+          }
+        } else {
+        }
+      }
+    });
+  });
 });
 app.use("/fgpass", fgpass);
 app.use("/changepass", changepass);
@@ -68,6 +80,7 @@ app.use("/getDataByUser", getDataByUser);
 app.use("/edit", editInfo);
 app.use("/editImage", editImage);
 app.use("/images", express.static("./images"));
+app.use("/subtitles", express.static("./subtitles"));
 app.use("/editPassword", editPassword);
 
 app.listen(3001, () => {

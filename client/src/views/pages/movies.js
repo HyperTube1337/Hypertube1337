@@ -76,15 +76,14 @@ function Movies() {
       });
     axios
       .post(
-        "http://localhost:3001/stream",
+        "http://localhost:3001/streampPlayer",
         { link: hash[0], imdb_code: movies.imdb_code },
         {
           withCredentials: true,
         }
       )
       .then((response) => {
-        // console.log("movie", response);
-        setTimeout(setVideoSrc({ src: `http://localhost:3001/stream/${hash[0]}/${response.headers["content-type"]}`, type: "video/mp4" }), 1000);
+        setVideoSrc({ src: `http://localhost:3001/stream/${hash[0]}`, type: "video/mp4" });
         setsubtitle({
           ...subtitle,
           en: { kind: "subtitles", src: `http://localhost:3001/stream/${hash[0]}/${movies.imdb_code}en.vtt`, srcLang: "en", default: true },
