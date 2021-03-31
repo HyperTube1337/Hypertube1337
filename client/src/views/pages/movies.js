@@ -83,7 +83,7 @@ function Movies() {
         }
       )
       .then((response) => {
-        console.log("movie", response);
+        // console.log("movie", response);
         setTimeout(setVideoSrc({ src: `http://localhost:3001/stream/${hash[0]}/${response.headers["content-type"]}`, type: "video/mp4" }), 1000);
         setsubtitle({
           ...subtitle,

@@ -22,6 +22,7 @@ const watchedList = require("./user/watchedList");
 const getWatchedlist = require("./user/getWatchedList");
 const InsertCmnt = require("./user/insertCmnt");
 const getCmnt = require("./user/getCmnt");
+var fs = require("fs");
 
 app.use(cors({ origin: true, credentials: true }));
 // app.use(cors());
@@ -37,7 +38,27 @@ app.use("/checkStatus", checkStatus);
 app.use("/stream", streampPlayer);
 app.use("/tokenpass", tokenpass);
 app.use("/confirm", confirm);
-app.use("/stream", express.static(__dirname + "/stream"));
+app.use("/stream/", (req, res) => {
+  // const { path } = req.params;
+  const status = fs.statSync(__dirname + "/stream/" + decodeURI(req.url));
+  // const range;
+  // res.statusCode = 206;
+  // console.log(status);
+  // console.log("headers", req.headers);
+  var ranges;
+  let end;
+  if (req.headers.range) {
+    ranges = req.headers.range;
+    end = ranges.substr(6).split("-");
+  }
+  console.log(end[0]);
+  res.setHeader("Content-Length", 1 + status.size - end[0]);
+  res.setHeader("Content-Range", `bytes ${end[0]}-${status.size}/${status.size}`);
+  // res.status(206);
+  // res.setHeader("Content-Length", status.size);
+  // console.log(req.headers, req.url);
+  fs.createReadStream(__dirname + "/stream/" + decodeURI(req.url)).pipe(res);
+});
 app.use("/fgpass", fgpass);
 app.use("/changepass", changepass);
 app.use("/login", login);
