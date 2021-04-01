@@ -23,6 +23,7 @@ const getWatchedlist = require("./user/getWatchedList");
 const InsertCmnt = require("./user/insertCmnt");
 const getCmnt = require("./user/getCmnt");
 const fs = require("fs");
+const db = require("./db");
 const torrentStream = require("torrent-stream");
 const path = require("path");
 // const { Converter } = require("ffmpeg-stream");
@@ -51,6 +52,7 @@ app.use("/stream/", (req, res) => {
         if (path.extname(file.name).slice(1) === "mp4") {
           // file.path = file.path.substr(0, file.path.lastIndexOf(".")) + ".mp4";
           var range = req.headers.range;
+          file.select();
           if (range) {
             const parts = range.replace("bytes=", "").split("-");
             const start = parseInt(parts[0]);
@@ -71,10 +73,15 @@ app.use("/stream/", (req, res) => {
         }
       }
     });
+    // console.log(engine.files[0].path);
+    // engine.on("idle", function () {
+    //   console.log("finish");
+    //   var MvPath = engine.files[0].path;
+    //   db.query("UPDATE MoviesList SET MoviePath = ? WHERE imdbCode = ?;", [MvPath, 'tt2231461'], (err, res) => {});
+    // });
   });
   // var stat = fs.statSync(file.path);
   // console.log(stat.size);
-  engine.on("idle", function () {});
 });
 app.use("/fgpass", fgpass);
 app.use("/changepass", changepass);
