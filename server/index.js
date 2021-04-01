@@ -25,7 +25,7 @@ const getCmnt = require("./user/getCmnt");
 const fs = require("fs");
 const torrentStream = require("torrent-stream");
 const path = require("path");
-const { Converter } = require("ffmpeg-stream");
+// const { Converter } = require("ffmpeg-stream");
 
 app.use(cors({ origin: true, credentials: true }));
 // app.use(cors());
@@ -63,6 +63,7 @@ app.use("/stream/", (req, res) => {
               "Content-Type": `video/mp4`,
               "Content-Length": `${file.length}`,
             };
+            console.log(range);
             res.writeHead(206, header);
             file.createReadStream({ start, end }).pipe(res);
           }
@@ -71,6 +72,9 @@ app.use("/stream/", (req, res) => {
       }
     });
   });
+  // var stat = fs.statSync(file.path);
+  // console.log(stat.size);
+  engine.on("idle", function () {});
 });
 app.use("/fgpass", fgpass);
 app.use("/changepass", changepass);
