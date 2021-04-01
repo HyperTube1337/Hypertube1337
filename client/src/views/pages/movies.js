@@ -86,9 +86,9 @@ function Movies() {
         setVideoSrc({ src: `http://localhost:3001/stream/${hash[0]}`, type: "video/mp4" });
         setsubtitle({
           ...subtitle,
-          en: { kind: "subtitles", src: `http://localhost:3001/stream/${hash[0]}/${movies.imdb_code}en.vtt`, srcLang: "en", default: true },
-          ar: { kind: "subtitles", src: `http://localhost:3001/stream/${hash[0]}/${movies.imdb_code}ar.vtt`, srcLang: "ar" },
-          fr: { kind: "subtitles", src: `http://localhost:3001/stream/${hash[0]}/${movies.imdb_code}fr.vtt`, srcLang: "fr" },
+          en: { kind: "subtitles", src: `http://localhost:3001/subtitles/${movies.imdb_code}en.vtt`, srcLang: "en", default: true },
+          ar: { kind: "subtitles", src: `http://localhost:3001/subtitles/${movies.imdb_code}ar.vtt`, srcLang: "ar" },
+          fr: { kind: "subtitles", src: `http://localhost:3001/subtitles/${movies.imdb_code}fr.vtt`, srcLang: "fr" },
         });
       });
     axios
