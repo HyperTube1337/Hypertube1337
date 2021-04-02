@@ -26,8 +26,28 @@ const fs = require("fs");
 const db = require("./db");
 const torrentStream = require("torrent-stream");
 const path = require("path");
-// const { Converter } = require("ffmpeg-stream");
+const cron = require("node-cron");
 
+cron.schedule("* * * * * *", () => {
+  db.query("SELECT Last_watch, MoviePath FROM MoviesList", (err, result) => {
+    var i = 0;
+    while (i < result?.length) {
+      if (result[i]?.Last_watch.setMonth(result[i]?.Last_watch.getMonth() + 1) <= new Date()) {
+        if (result[i]?.MoviePath) {
+          var Path = result[i]?.MoviePath.split("/");
+        }
+        fs.exists(`./stream/${Path[0]}`, (ex) => {
+          if (ex) {
+            fs.rm(`./stream/${Path[0]}`, { recursive: true }, (err) => {
+              console.log(err);
+            });
+          }
+        });
+      }
+      i++;
+    }
+  });
+});
 app.use(cors({ origin: true, credentials: true }));
 // app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -43,7 +63,8 @@ app.use("/streampPlayer", streampPlayer);
 app.use("/tokenpass", tokenpass);
 app.use("/confirm", confirm);
 app.use("/stream/", (req, res) => {
-  var engine = torrentStream("magnet:?xt=urn:btih:" + req.url.substr(1), { path: `./stream/${req.url.substr(1)}` });
+  var MovieInfo = req.url.split("/");
+  var engine = torrentStream("magnet:?xt=urn:btih:" + MovieInfo[1], { path: `./stream/${MovieInfo[1]}` });
   engine.on("ready", function () {
     // file = engine.files.find((f) => f.extname(file.name));
     engine.files.forEach(function (file) {
@@ -58,6 +79,7 @@ app.use("/stream/", (req, res) => {
             const start = parseInt(parts[0]);
             const end = parts[1] ? parseInt(parts[1]) : file.length - 1;
             const chunkSize = end - start + 1;
+            // console.log(chunkSize);
             const header = {
               "Content-Range": `bytes ${start}-${end}/${file.length}`,
               "Accept-Ranges": "bytes",
@@ -75,9 +97,8 @@ app.use("/stream/", (req, res) => {
     });
     // console.log(engine.files[0].path);
     engine.on("idle", function () {
-      console.log("finish");
-      var MvPath = engine.files[0].path;
-      db.query("UPDATE MoviesList SET MoviePath = ? WHERE imdbCode = ?;", [MvPath], (err, res) => {});
+      var MvPath = `${MovieInfo[1]}/${engine.files[0].path}`;
+      db.query("UPDATE MoviesList SET MoviePath = ? WHERE imdbCode = ?;", [MvPath, MovieInfo[2]], (err, res) => {});
     });
   });
   // var stat = fs.statSync(file.path);

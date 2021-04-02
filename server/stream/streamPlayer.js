@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
 const path = require("path");
-const torrentStream = require("torrent-stream");
+const db = require("../db");
 const isUserAuth = require("../user/isUserAuth");
 const OS = require("opensubtitles-api");
 const OpenSubtitles = new OS("UserAgent");
@@ -80,7 +79,17 @@ router.post("/", isUserAuth, (req, res) => {
   var link = req.body.link;
   var imdb_code = req.body.imdb_code;
   getSubtitle(link, imdb_code);
-  res.send({ status: "true" });
+  // res.send({ status: "true" });
+  db.query("SELECT `MoviePath` FROM `MoviesList` WHERE imdbCode = ?;", imdb_code, (err, [result]) => {
+    // console.log(result);
+    if (result) {
+      if (result.MoviePath !== "null") {
+        res.send({ path: result.MoviePath });
+      }
+    } else {
+      res.send({ down: "download" });
+    }
+  });
 });
 
 module.exports = router;

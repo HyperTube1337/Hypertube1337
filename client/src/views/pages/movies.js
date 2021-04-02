@@ -65,7 +65,6 @@ function Movies() {
     fr: "",
   });
   const [token, setToken] = useState("");
-  console.log(comment);
   const { id } = useParams();
   function getMovieLink() {
     const hash = movies?.torrents
@@ -83,7 +82,12 @@ function Movies() {
         }
       )
       .then((response) => {
-        setVideoSrc({ src: `http://localhost:3001/stream/${hash[0]}`, type: "video/mp4" });
+        console.log(response);
+        if (response.data.path) {
+          setVideoSrc({ src: `http://localhost:3001/stream/${response.data.path}`, type: "video/mp4" });
+        } else if (response.data.down === "download") {
+          setVideoSrc({ src: `http://localhost:3001/stream/${hash[0]}/${movies.imdb_code}`, type: "video/mp4" });
+        }
         setsubtitle({
           ...subtitle,
           en: { kind: "subtitles", src: `http://localhost:3001/subtitles/${movies.imdb_code}en.vtt`, srcLang: "en", default: true },
