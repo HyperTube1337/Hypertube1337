@@ -55,8 +55,9 @@ router.get("/:profilename", isUserAuth, (req, resp) => {
 				}
 			}
 		);
+	} else {
+		resp.send("bad param");
 	}
-	resp.send("bad param");
 });
 
 module.exports = router;
