@@ -3,43 +3,44 @@ const router = express.Router();
 const db = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const isPassword = require("../tools/isPassword");
-const isUsername = require("../tools/isUsername");
+const { isPassword, isUsername } = require("../tools/helpers");
 const jwt_secret = "this is a jsonwebtoken secret";
 
+/**
+ * refatored by ahaloua :)
+ */
+
 router.post("/", (req, res) => {
-  const { username, password } = req.body;
-  if ((username && password && isUsername(username) && isPassword(password))) {
-    const sqlInsert = "SELECT * FROM users WHERE username = ?";
-    db.query(sqlInsert, username, (err, result) => {
-      if (err) {
-        res.send({ err: err });
-      }
-      if (result.length > 0) {
-        // console.log(result)        
-        bcrypt.compare(password, result[0].password, (error, rslt) => {
-          // console.log(result[0].confirm)
-          if (rslt) {
-            if (result[0].confirm === 1) {
-              const id = result[0].id;
-              let token = jwt.sign({id}, jwt_secret);
-              res.send({token: token});
-            } else {
-              res.send({ message: "Please check your email" });
-            }
-          } else {
-            // console.log(1)
-            res.send({ message: "Wrong combination!" });
-          }
-        });
-      } else {
-        // console.log(2)
-        res.send({ message: "User Dosen't exist" });
-      }
-    });
-  } else {
-    res.send({ message: "error" });
-  }
+	const { username, password } = req.body;
+	if (username && password && isUsername(username) && isPassword(password)) {
+		const stmt =
+			"SELECT `users`.`id`, `users`.`password`, `users`.`confirm` FROM `users` WHERE `username` = ?";
+		db.query(stmt, username, (err, [result]) => {
+			if (err) {
+				res.send({ err });
+			}
+			if (result) {
+				const { id, password: dbPassword, confirm } = result;
+				bcrypt.compare(password, dbPassword, (error, rslt) => {
+					if (rslt) {
+						if (confirm) {
+							jwt.sign({ id }, jwt_secret, (err, token) => {
+								res.send({ token });
+							});
+						} else {
+							res.send({ message: "Please check your email" });
+						}
+					} else {
+						res.send({ message: "Wrong combination!" });
+					}
+				});
+			} else {
+				res.send({ message: "User Dosen't exist" });
+			}
+		});
+	} else {
+		res.send({ message: "error" });
+	}
 });
 
 module.exports = router;

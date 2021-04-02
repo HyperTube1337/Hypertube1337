@@ -3,18 +3,21 @@ const router = express.Router();
 const isUserAuth = require("./isUserAuth");
 const db = require("../db");
 
+/**
+ * refactored by ahaloua
+ */
+
 router.get("/", isUserAuth, (req, res) => {
-  const id = req.userId;
-  const sqlInsert = "SELECT username FROM `users` WHERE id = ?";
-  db.query(sqlInsert, id, (err, result) => {
-    if (err) {
-      res.send({ err: err });
-    } else if (!result.length) {
-      // console.log("no user found");
-    } else if (result.length > 0) {
-      res.send(result[0].username);
-    }
-  });
+	const id = req.userId;
+	const stmt =
+		"SELECT `users`.`username` FROM `users` WHERE `users`.`id` = ?";
+	db.query(stmt, id, (err, [result]) => {
+		if (err) {
+			res.send({ err: err });
+		} else if (result) {
+			res.send(result.username);
+		}
+	});
 });
 
 module.exports = router;

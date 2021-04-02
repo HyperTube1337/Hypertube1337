@@ -2,70 +2,81 @@ const express = require("express");
 const router = express.Router();
 const isUserAuth = require("./isUserAuth");
 const db = require("../db");
-const isEmail = require("../tools/isEmail");
-const isName = require("../tools/isName");
-const isUsername = require("../tools/isUsername");
+const { isEmail, isName, isUsername } = require("../tools/helpers");
+
+/**
+ * edit infos
+ * Querise refactored by ahaloua :)
+ * edit a bug of line 34
+ */
 
 router.post("/", isUserAuth, (req, res) => {
-  const id = req.userId;
-  const { firstname, lastname, username, email, user_from} = req.body;
-  if (!user_from) {
-    const sqlInsert = "SELECT * FROM users WHERE id = ?";
-    db.query(sqlInsert, id, (err, result) => {
-      if (err) {
-        res.send({ err: err });
-      }
-      if (result.length > 0) {
-        if (
-          result[0].firstname === firstname &&
-          result[0].lastname === lastname &&
-          result[0].username === username &&
-          result[0].email === email
-        ) {
-          res.send("nothing changed");
-          // console.log("nothing changed");
-        } else if ((isName(firstname), isName(lastname), isUsername(username), isEmail(email))) {
-          db.query(
-            "SELECT COUNT(*) AS count FROM `users` WHERE `username` = ? and username != ? LIMIT 1;",
-            [username, result[0].username],
-            (error, rslt) => {
-              // console.log(rslt[0].count);
-              if (err) {
-                // console.log(err);
-              } else if (rslt[0].count > 0) res.send("username is already used");
-              else {
-                db.query(
-                  "SELECT COUNT(*) AS count FROM `users` WHERE `email` = ? and email != ?LIMIT 1;",
-                  [email, result[0].email],
-                  (error, rslt) => {
-                    // console.log(rslt[0].count);
-                    if (err) {
-                      // console.log(err);
-                    } else if (rslt[0].count > 0) res.send("email is already used");
-                    else {
-                      db.query("UPDATE users SET firstname = ?, lastname = ?, username= ?, email= ? WHERE id = ?", [
-                        firstname,
-                        lastname,
-                        username,
-                        email,
-                        id,
-                      ]);
-                      res.send("updated");
-                      // console.log("updated;");
-                    }
-                  }
-                );
-              }
-            }
-          );
-        } else {
-          res.send("error");
-        }
-      }
-    });
-  }else{
-    res.send("error")
-  }
+	const id = req.userId;
+	const { firstname, lastname, username, email, user_from } = req.body;
+	console.log(user_from);
+	if (!user_from) {
+		const stmt =
+			"SELECT `users`.`firstname`, `users`.`lastname`, `users`.`username`, `users`.`email` FROM `users` WHERE `users`.`id` = ?";
+		db.query(stmt, id, (err, [result]) => {
+			if (err) {
+				res.send({ err });
+			}
+			if (result) {
+				if (
+					result.firstname === firstname &&
+					result.lastname === lastname &&
+					result.username === username &&
+					result.email === email
+				) {
+					res.send("nothing changed");
+				} else if (
+					isName(firstname) &&
+					isName(lastname) &&
+					isUsername(username) &&
+					isEmail(email)
+				) {
+					// console.log("Ach hada >> ", isName(lastname));
+					db.query(
+						"SELECT COUNT(*) AS `count` FROM `users` WHERE `users`.`username` = ? AND `users`.`id` <> ?",
+						[username, id],
+						(error, [rslt]) => {
+							if (err) {
+							} else if (rslt.count > 0)
+								res.send("username is already used");
+							else {
+								db.query(
+									"SELECT COUNT(*) AS `count` FROM `users` WHERE `users`.`email` = ? AND `users`.`id` <> ?",
+									[email, id],
+									(error, [rslt]) => {
+										if (err) {
+										} else if (rslt.count > 0)
+											res.send("email is already used");
+										else {
+											db.query(
+												"UPDATE `users` SET `users`.`firstname` = ?, `users`.`lastname` = ?, `users`.`username` = ?, `users`.`email` = ? WHERE `users`.`id` = ?",
+												[
+													firstname,
+													lastname,
+													username,
+													email,
+													id,
+												]
+											);
+											res.send("updated");
+										}
+									}
+								);
+							}
+						}
+					);
+				} else {
+					res.send("error");
+				}
+			}
+		});
+	} else {
+		res.send("error");
+	}
 });
 
 module.exports = router;
