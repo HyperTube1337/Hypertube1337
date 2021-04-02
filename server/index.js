@@ -74,11 +74,11 @@ app.use("/stream/", (req, res) => {
       }
     });
     // console.log(engine.files[0].path);
-    // engine.on("idle", function () {
-    //   console.log("finish");
-    //   var MvPath = engine.files[0].path;
-    //   db.query("UPDATE MoviesList SET MoviePath = ? WHERE imdbCode = ?;", [MvPath, 'tt2231461'], (err, res) => {});
-    // });
+    engine.on("idle", function () {
+      console.log("finish");
+      var MvPath = engine.files[0].path;
+      db.query("UPDATE MoviesList SET MoviePath = ? WHERE imdbCode = ?;", [MvPath], (err, res) => {});
+    });
   });
   // var stat = fs.statSync(file.path);
   // console.log(stat.size);
