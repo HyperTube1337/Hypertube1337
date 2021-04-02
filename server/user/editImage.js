@@ -44,15 +44,15 @@ router.post("/", isUserAuth, (req, res) => {
 	db.query(
 		"SELECT `users`.`profilePic` FROM `users` WHERE `users`.`id` = ?",
 		[id],
-		(err, resp) => {
+		(err, [result]) => {
 			if (err) {
 				res.send(err);
-			} else if (resp.length > 0) {
-				const img = resp[0].profilePic;
-				if (fs.existsSync(`${folder}/${img}`)) {
-					fs.unlinkSync(`${folder}/${img}`);
+			} else if (result) {
+				const { profilePic } = result;
+				if (fs.existsSync(`${folder}/${profilePic}`)) {
+					fs.unlinkSync(`${folder}/${profilePic}`);
 				}
-			} else if (!resp.length) {
+			} else if (!result) {
 			}
 			saveImage(content, folder).then((rslt) => {
 				if (rslt) {

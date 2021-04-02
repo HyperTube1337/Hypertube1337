@@ -2,17 +2,18 @@ const express = require("express");
 const router = express.Router();
 const isUserAuth = require("./isUserAuth");
 const db = require("../db");
-
-const isEmail = require("../tools/isEmail");
-const isName = require("../tools/isName");
-const isUsername = require("../tools/isUsername");
+const { isEmail, isName, isUsername } = require("../tools/helpers");
 
 /**
  * edit infos
+ * Querise refactored by ahaloua :)
+ * edit a bug of line 34
  */
 
 router.post("/", isUserAuth, (req, res) => {
 	const id = req.userId;
+	console.log(req.body);
+	console.log(id);
 	const { firstname, lastname, username, email, user_from } = req.body;
 	console.log(user_from);
 	if (!user_from) {
@@ -31,29 +32,30 @@ router.post("/", isUserAuth, (req, res) => {
 				) {
 					res.send("nothing changed");
 				} else if (
-					(isName(firstname),
-					isName(lastname),
-					isUsername(username),
-					isEmail(email))
+					isName(firstname) &&
+					isName(lastname) &&
+					isUsername(username) &&
+					isEmail(email)
 				) {
+					// console.log("Ach hada >> ", isName(lastname));
 					db.query(
-						"SELECT COUNT(*) AS count FROM `users` WHERE `username` = ? and username != ? LIMIT 1;",
-						[username, result[0].username],
-						(error, rslt) => {
+						"SELECT COUNT(*) AS `count` FROM `users` WHERE `users`.`username` = ? AND `users`.`id` <> ?",
+						[username, id],
+						(error, [rslt]) => {
 							if (err) {
-							} else if (rslt[0].count > 0)
+							} else if (rslt.count > 0)
 								res.send("username is already used");
 							else {
 								db.query(
-									"SELECT COUNT(*) AS count FROM `users` WHERE `email` = ? and email != ?LIMIT 1;",
-									[email, result[0].email],
-									(error, rslt) => {
+									"SELECT COUNT(*) AS `count` FROM `users` WHERE `users`.`email` = ? AND `users`.`id` <> ?",
+									[email, id],
+									(error, [rslt]) => {
 										if (err) {
-										} else if (rslt[0].count > 0)
+										} else if (rslt.count > 0)
 											res.send("email is already used");
 										else {
 											db.query(
-												"UPDATE users SET firstname = ?, lastname = ?, username= ?, email= ? WHERE id = ?",
+												"UPDATE `users` SET `users`.`firstname` = ?, `users`.`lastname` = ?, `users`.`username` = ?, `users`.`email` = ? WHERE `users`.`id` = ?",
 												[
 													firstname,
 													lastname,

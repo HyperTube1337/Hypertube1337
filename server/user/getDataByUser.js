@@ -3,46 +3,56 @@ const router = express.Router();
 const isUserAuth = require("./isUserAuth");
 const db = require("../db");
 
+/**
+ * refactored by ahaloua
+ */
+
 router.get("/:profilename", isUserAuth, (req, resp) => {
-  const username = req.params.profilename;
-  const id = req.userId;
-  db.query("SELECT id FROM `users` WHERE username = ?", username, (err, res) => {
-    if (err) {
-      resp.send({ err: err });
-    } else if (res?.length > 0) {
-      if (res[0].id === id) {
-        // console.log("user logged");
-        db.query(
-          "SELECT firstname,lastname,username,email,profilePic, user_from FROM `users` where username = ? and id = ?",
-          [username, id],
-          (err, rslt) => {
-            if (err) {
-              resp.send({ err: err });
-            } else if (rslt.length > 0) {
-              resp.send({ message: "user logged", data: rslt });
-            }
-          }
-        );
-      } else {
-        // console.log("not the user logged");
-        db.query(
-          "SELECT firstname,lastname,username,profilePic,user_from FROM `users` where username = ?",
-          username,
-          (err, rslt) => {
-            if (err) {
-              resp.send({ err: err });
-            } else {
-              // console.log("OK", rslt);
-              resp.send({ message: "not the user logged", data: rslt });
-            }
-          }
-        );
-      }
-    } else if (!res?.length) {
-      // console.log("no user found");
-      resp.send("no user found");
-    }
-  });
+	const { profilename: username } = req.params;
+	const id = req.userId;
+	db.query(
+		"SELECT `users`.`id` FROM `users` WHERE `users`.`username` = ?",
+		username,
+		(err, [res]) => {
+			if (err) {
+				resp.send({ err });
+			} else if (res) {
+				if (res.id === id) {
+					db.query(
+						"SELECT `users`.`firstname`, `users`.`lastname`, `users`.`username`, `users`.`email`, `users`.`profilePic`, `users`.`user_from` FROM `users` WHERE `users`.`username` = ?",
+						[username, id],
+						(err, rslt) => {
+							if (err) {
+								resp.send({ err });
+							} else if (rslt.length > 0) {
+								resp.send({
+									message: "user logged",
+									data: rslt,
+								});
+							}
+						}
+					);
+				} else {
+					db.query(
+						"SELECT `users`.`firstname`, `users`.`lastname`, `users`.`username`, `users`.`profilePic`, `users`.`user_from` FROM `users` WHERE `users`.`username` = ?",
+						username,
+						(err, rslt) => {
+							if (err) {
+								resp.send({ err });
+							} else {
+								resp.send({
+									message: "not the user logged",
+									data: rslt,
+								});
+							}
+						}
+					);
+				}
+			} else if (!res?.length) {
+				resp.send("no user found");
+			}
+		}
+	);
 });
 
 module.exports = router;
