@@ -23,9 +23,16 @@ function isUsername(username) {
 	return re.test(String(username));
 }
 
+function isNumber(value) {
+	// angular implementation
+	// Infinity -Infinity = NaN :)
+	return !isNaN(value - parseFloat(value));
+}
+
 module.exports = {
 	isEmail,
 	isName,
 	isPassword,
 	isUsername,
+	isNumber,
 };

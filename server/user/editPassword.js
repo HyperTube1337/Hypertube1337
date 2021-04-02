@@ -1,20 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const isUserAuth = require("./isUserAuth");
-/**
- * to be changed
- */
-const isPassword = require("../tools/isPassword");
+const { isPassword } = require("../tools/helpers");
 const db = require("../db");
 const bcrypt = require("bcrypt");
 
+/**
+ * refactored by ahaloua
+ */
+
 router.post("/", isUserAuth, (req, res) => {
 	const { Opassword, Npassword } = req.body;
-	const id = req.userId;
-	const stmt =
-		"SELECT `users`.`password` FROM `users` WHERE `users`.`id` = ?";
-
 	if (Opassword && Npassword && isPassword(Npassword)) {
+		const id = req.userId;
+		const stmt =
+			"SELECT `users`.`password` FROM `users` WHERE `users`.`id` = ?";
 		db.query(stmt, id, (err, [result]) => {
 			if (err) {
 				res.send({ err: err });
@@ -37,4 +37,5 @@ router.post("/", isUserAuth, (req, res) => {
 		});
 	} else res.send("error");
 });
+
 module.exports = router;

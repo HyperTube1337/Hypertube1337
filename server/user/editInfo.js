@@ -12,8 +12,6 @@ const { isEmail, isName, isUsername } = require("../tools/helpers");
 
 router.post("/", isUserAuth, (req, res) => {
 	const id = req.userId;
-	console.log(req.body);
-	console.log(id);
 	const { firstname, lastname, username, email, user_from } = req.body;
 	console.log(user_from);
 	if (!user_from) {

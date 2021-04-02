@@ -3,6 +3,10 @@ const router = express.Router();
 const isUserAuth = require("./isUserAuth");
 const db = require("../db");
 
+/**
+ * abdo makhalnich nssaweb chi haja hna 7it mteneg :(
+ */
+
 router.get("/", isUserAuth, (req, res) => {
 	const id = req.userId;
 	const sqlSelect = "SELECT `imdbCode` FROM WatchedList WHERE user_id = ? ";
@@ -16,4 +20,5 @@ router.get("/", isUserAuth, (req, res) => {
 		}
 	});
 });
+
 module.exports = router;
