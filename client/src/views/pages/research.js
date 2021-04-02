@@ -157,7 +157,11 @@ function Research() {
         <h3>Hypertube</h3>
         <p>Welcome to the official Hypertube Website</p>
         <div className="find">
-          <form>
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+            }}
+          >
             <SearchIcon className="searchicon" onClick={() => setSubmit(true)}></SearchIcon>
             <input type="text" placeholder="Find the best movies" onChange={SearchChange} />
           </form>

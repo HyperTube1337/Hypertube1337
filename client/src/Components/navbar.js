@@ -5,14 +5,12 @@ import film from "../photos/film.png";
 import Languages from "./multi-language";
 import { FormattedMessage } from "react-intl";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 export default function Navbar(props) {
   const loc = useLocation();
   // console.log(loc.pathname);
   const [token, setToken] = useState("");
-  const history = useHistory();
   const [userlogged, setuserlogged] = useState("");
   const cookies = new Cookies();
 

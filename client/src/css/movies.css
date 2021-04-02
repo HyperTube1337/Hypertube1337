@@ -198,7 +198,7 @@
 }
 .comment_Section {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   width: 70%;
   margin-top: 30px;
   overflow: auto;

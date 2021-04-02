@@ -11,6 +11,7 @@ import Cookies from "universal-cookie";
 import Moment from "react-moment";
 import noUser from "../../photos/noUser.png";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { string } from "prop-types";
 
 const useStyles = makeStyles({
   root: {
@@ -82,7 +83,6 @@ function Movies() {
         }
       )
       .then((response) => {
-        console.log(response);
         if (response.data.path) {
           setVideoSrc({ src: `http://localhost:3001/stream/${response.data.path}`, type: "video/mp4" });
         } else if (response.data.down === "download") {
@@ -105,15 +105,17 @@ function Movies() {
           withCredentials: true,
         }
       )
-      .then((response) => {
-        console.log(response);
-      });
+      .then((response) => {});
   }
   const handelCmnt = (e) => {
     setinputContent(e.target.value);
   };
   function insertCmnt() {
+    const re = /^[a-zA-Z0-9\s]{3,100}$/;
     if (inputContent.trim() === "") {
+      setinputContent("");
+    } else if (!re.test(String(inputContent))) {
+      setinputContent("");
     } else {
       axios.post("http://localhost:3001/insertCmnt", { cmntCentent: inputContent, imdb_code: id }, { withCredentials: true }).then((res) => {
         if (res.data) {
@@ -126,7 +128,6 @@ function Movies() {
           setinputContent("");
           setComment((old) => old.concat(val));
         } else {
-          console.log(res.data.err);
         }
       });
     }
@@ -141,7 +142,6 @@ function Movies() {
       .then((response) => {
         if (response.data.status === "ok") {
           axios.get(`https://yts.mx/api/v2/movie_details.json?&movie_id=${id}&with_images=true&with_cast=true`).then((res) => {
-            console.log(res.data.data);
             if (res.data.status === "ok") {
               if (res.data.data.movie.id) {
                 setMovies({
@@ -287,7 +287,12 @@ function Movies() {
           />
         </div>
         <div className="comment">
-          <form noValidate autoComplete="off">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+            }}
+            autoComplete="off"
+          >
             <input className="inputMsg" label="Message" variant="outlined" placeholder="add a comment" value={inputContent} onChange={handelCmnt} />
           </form>
           <Button className="buttonCmnt" variant="contained" onClick={() => insertCmnt()}>

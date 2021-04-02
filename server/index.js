@@ -27,8 +27,9 @@ const db = require("./db");
 const torrentStream = require("torrent-stream");
 const path = require("path");
 const cron = require("node-cron");
+const ffmpeg = require("ffmpeg");
 
-cron.schedule("* * * * * *", () => {
+cron.schedule("* * 22 * * *", () => {
   db.query("SELECT Last_watch, MoviePath FROM MoviesList", (err, result) => {
     var i = 0;
     while (i < result?.length) {
@@ -64,14 +65,13 @@ app.use("/tokenpass", tokenpass);
 app.use("/confirm", confirm);
 app.use("/stream/", (req, res) => {
   var MovieInfo = req.url.split("/");
+
   var engine = torrentStream("magnet:?xt=urn:btih:" + MovieInfo[1], { path: `./stream/${MovieInfo[1]}` });
   engine.on("ready", function () {
-    // file = engine.files.find((f) => f.extname(file.name));
     engine.files.forEach(function (file) {
       if (path.extname(file.name).slice(1) === "jpg") {
       } else {
         if (path.extname(file.name).slice(1) === "mp4") {
-          // file.path = file.path.substr(0, file.path.lastIndexOf(".")) + ".mp4";
           var range = req.headers.range;
           file.select();
           if (range) {
@@ -79,7 +79,6 @@ app.use("/stream/", (req, res) => {
             const start = parseInt(parts[0]);
             const end = parts[1] ? parseInt(parts[1]) : file.length - 1;
             const chunkSize = end - start + 1;
-            // console.log(chunkSize);
             const header = {
               "Content-Range": `bytes ${start}-${end}/${file.length}`,
               "Accept-Ranges": "bytes",
@@ -87,22 +86,19 @@ app.use("/stream/", (req, res) => {
               "Content-Type": `video/mp4`,
               "Content-Length": `${file.length}`,
             };
-            console.log(range);
             res.writeHead(206, header);
             file.createReadStream({ start, end }).pipe(res);
           }
-        } else {
+        } else if (path.extname(file.name).slice(1) === "mkv") {
+          return;
         }
       }
     });
-    // console.log(engine.files[0].path);
     engine.on("idle", function () {
       var MvPath = `${MovieInfo[1]}/${engine.files[0].path}`;
       db.query("UPDATE MoviesList SET MoviePath = ? WHERE imdbCode = ?;", [MvPath, MovieInfo[2]], (err, res) => {});
     });
   });
-  // var stat = fs.statSync(file.path);
-  // console.log(stat.size);
 });
 app.use("/fgpass", fgpass);
 app.use("/changepass", changepass);
