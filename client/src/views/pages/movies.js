@@ -53,6 +53,7 @@ function Movies() {
 		torrents: [""],
 		cast: [""],
 		imdb_code: "",
+		discrp: "",
 	});
 	const [videoSrc, setVideoSrc] = useState("");
 	const [inputContent, setinputContent] = useState("");
@@ -138,7 +139,6 @@ function Movies() {
 	const handelCmnt = (e) => {
 		setinputContent(e.target.value);
 	};
-	console.log(subtitle.fr);
 	function insertCmnt() {
 		const re = /^[a-zA-Z0-9\s]{3,100}$/;
 		if (inputContent.trim() === "") {
@@ -182,6 +182,7 @@ function Movies() {
 						)
 						.then((res) => {
 							if (res.data.status === "ok") {
+								// console.log(res.data.data.movie);
 								if (res.data.data.movie.id) {
 									setMovies({
 										...movies,
@@ -209,7 +210,7 @@ function Movies() {
 												.medium_screenshot_image3,
 										imdb_code:
 											res.data.data.movie.imdb_code,
-										description_full:
+										discrp:
 											res.data.data.movie
 												.description_intro,
 									});
@@ -218,43 +219,6 @@ function Movies() {
 									history.push("/Error");
 								}
 							} else {
-								axios
-									.get(
-										`https://yts.megaproxy.info/api/v2/list_movies.json?query_term=split`
-									)
-									.then((res) => {
-										setMovies({
-											...movies,
-											year: res.data.data.movie.year,
-											title: res.data.data.movie.title,
-											runtime:
-												res.data.data.movie.runtime,
-											rating: res.data.data.movie.rating,
-											medium_cover_image:
-												res.data.data.movie
-													.medium_cover_image,
-											yt_trailer_code:
-												"https://www.youtube.com/embed/" +
-												res.data.data.movie
-													.yt_trailer_code,
-											genres:
-												res.data.data.movie.genres[0],
-											torrents:
-												res.data.data.movie.torrents,
-											cast: res.data.data.movie.cast,
-											medium_screenshot_image1:
-												res.data.data.movie
-													.medium_screenshot_image1,
-											medium_screenshot_image2:
-												res.data.data.movie
-													.medium_screenshot_image2,
-											medium_screenshot_image3:
-												res.data.data.movie
-													.medium_screenshot_image3,
-											imdb_code:
-												res.data.data.movie.imdb_code,
-										});
-									});
 							}
 						});
 					axios
@@ -273,7 +237,7 @@ function Movies() {
 				} else {
 					history.push("/login");
 				}
-			});
+			}); // eslint-disable-next-line
 	}, []);
 	return (
 		<div className="movies">
@@ -363,14 +327,10 @@ function Movies() {
 			</button>
 			<div className="miniTrailer">
 				<div className="trailerPlayer">
-					<h4>
-						<FormattedMessage id="Trailer" />
-					</h4>
-					<ReactPlayer
-						style={{ margin: "0 auto" }}
-						controls
-						url={movies.yt_trailer_code}
-					/>
+					<h4>Description</h4>
+					<div className="time">
+						<p>{movies?.discrp}</p>
+					</div>
 				</div>
 				<div className="personality">
 					<div className="cast">
@@ -414,8 +374,7 @@ function Movies() {
 										kind: "subtitles",
 										src: `${subtitle.en}`,
 										srcLang: "en",
-										default:
-											language === "en" ? true : false,
+										default: language === "en",
 									},
 									{
 										kind: "subtitles",
@@ -426,8 +385,7 @@ function Movies() {
 										kind: "subtitles",
 										src: `${subtitle.fr}`,
 										srcLang: "fr",
-										default:
-											language === "fr" ? true : false,
+										default: language === "fr",
 									},
 								],
 							},

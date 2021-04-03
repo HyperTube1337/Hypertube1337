@@ -70,7 +70,7 @@ export default function Profile(props) {
 						history.push("/login");
 					} else if (res.data === "no user found") history.push("/");
 					else {
-						console.log(res.data, "data");
+						// console.log(res.data, "data");
 						user.firstname = res?.data?.data[0]?.firstname;
 						user.lastname = res?.data?.data[0]?.lastname;
 						user.username = res?.data?.data[0]?.username;
@@ -113,7 +113,7 @@ export default function Profile(props) {
 							)
 							.then((res) => {
 								if (res.data.status === "ok") {
-									console.log(res.data.data.movies);
+									// console.log(res.data.data.movies);
 									setMoiveInfo((old) =>
 										old.concat(res.data.data.movies)
 									);
@@ -130,7 +130,7 @@ export default function Profile(props) {
 		// eslint-disable-next-line
 	}, [history, profilename]);
 
-	console.log(MovieInfo);
+	// console.log(MovieInfo);
 	const handleFile = function () {
 		const content = this.result;
 

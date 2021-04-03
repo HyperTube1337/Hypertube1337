@@ -26,6 +26,7 @@ const getCmnt = require("./user/getCmnt");
 const getSubtitles = require("./subtitles/getSubtitles");
 const fs = require("fs");
 const db = require("./db");
+const token = require("./user/token");
 const torrentStream = require("torrent-stream");
 const path = require("path");
 const cron = require("node-cron");
@@ -48,7 +49,7 @@ cron.schedule("* * 22 * * *", () => {
 							`./stream/${Path[0]}`,
 							{ recursive: true },
 							(err) => {
-								console.log(err);
+								// console.log(err);
 							}
 						);
 					}
@@ -73,10 +74,10 @@ app.use("/getProfileWatchedList", getProfileWatchedList);
 app.use("/checkStatus", checkStatus);
 app.use("/streampPlayer", streampPlayer);
 app.use("/tokenpass", tokenpass);
+app.use("/token", token);
 app.use("/confirm", confirm);
 app.use("/stream/", (req, res) => {
 	var MovieInfo = req.url.split("/");
-
 	var engine = torrentStream("magnet:?xt=urn:btih:" + MovieInfo[1], {
 		path: `./stream/${MovieInfo[1]}`,
 	});

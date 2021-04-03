@@ -88,7 +88,7 @@ export default function EditInfo(props) {
 	]);
 
 	const handelEdit = () => {
-		console.log("ajiya 3lach hada makaytla3ch");
+		// console.log("ajiya 3lach hada makaytla3ch");
 		if (!props.data1.user.firstname) {
 			userErrors.errfirstname = "#e87c03";
 			setUserErrors({ ...userErrors });
@@ -122,35 +122,36 @@ export default function EditInfo(props) {
 			!userErrors.errlastname &&
 			!userErrors.erremail
 		)
-			console.log("ok request mchat lbackend");
-		axios
-			.post(
-				"http://localhost:3001/edit",
-				{
-					...data,
-				},
-				{ withCredentials: true }
-			)
-			.then((res) => {
-				if (
-					res.data === "U failed to authenticate" ||
-					res.data === "we need a token"
-				) {
-					if (token)
-						cookies.set("jwt", token, {
-							maxAge: -10,
-							httpOnly: false,
-						});
-					history.push("/login");
-				} else {
-					// console.log(res.data)
-					if (res.data === "nothing changed") setalert(4);
-					else if (res.data === "username is already used")
-						setalert(5);
-					else if (res.data === "email is already used") setalert(6);
-					else if (res.data === "updated") setalert(7);
-				}
-			});
+			// console.log("ok request mchat lbackend");
+			axios
+				.post(
+					"http://localhost:3001/edit",
+					{
+						...data,
+					},
+					{ withCredentials: true }
+				)
+				.then((res) => {
+					if (
+						res.data === "U failed to authenticate" ||
+						res.data === "we need a token"
+					) {
+						if (token)
+							cookies.set("jwt", token, {
+								maxAge: -10,
+								httpOnly: false,
+							});
+						history.push("/login");
+					} else {
+						// console.log(res.data)
+						if (res.data === "nothing changed") setalert(4);
+						else if (res.data === "username is already used")
+							setalert(5);
+						else if (res.data === "email is already used")
+							setalert(6);
+						else if (res.data === "updated") setalert(7);
+					}
+				});
 	};
 
 	return (

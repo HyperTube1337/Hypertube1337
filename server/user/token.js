@@ -5,7 +5,7 @@ const db = require("../db");
 router.post("/", (req, res) => {
 	const token = req.body.token;
 	if (typeof token !== "undefined") {
-		const sqlInsert = "SELECT * FROM users WHERE token = ?";
+		const sqlInsert = "SELECT * FROM users WHERE tokenPass = ?";
 		db.query(sqlInsert, token, (err, result) => {
 			if (err) {
 				res.send({ err: err });

@@ -15,7 +15,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { useHistory } from "react-router-dom";
-import Cookies from "universal-cookie";
 import { FormattedMessage } from "react-intl";
 
 function Research() {
@@ -43,9 +42,9 @@ function Research() {
 			display: "flex",
 			flexDirection: "row",
 			justifyContent: "center",
-			["@media (max-width:780px)"]: {
-				flexDirection: "column",
-			},
+			// ["@media (max-width:780px)"]: {
+			// 	flexDirection: "column",
+			// },
 		},
 		progress: {
 			width: "100%",
@@ -81,83 +80,148 @@ function Research() {
 	const [search, setSearch] = useState("");
 	const [watched, setWatched] = useState([""]);
 	const [sortby, setSortBy] = useState("desc");
-	const cookies = new Cookies();
-	const [token, setToken] = useState("");
 	const history = useHistory();
 
 	useEffect(() => {
-		setToken(cookies.get("jwt"));
+		let unmount = false;
 		axios
 			.get("http://localhost:3001/checkStatus", {
 				withCredentials: true,
 			})
 			.then((response) => {
-				if (response.data.status === "ok") {
-					setLoading(true);
-					if (sort === "download_count" && submit) {
-						setSort("title");
-						setSortBy("asc");
-					}
-					if (sort === "title") {
-						setSortBy("asc");
-					}
-					if (
-						sort === "rating" ||
-						sort === "year" ||
-						sort === "genres"
-					) {
-						setSortBy("desc");
-					}
-					axios
-						.get(
-							`https://yts.mx/api/v2/list_movies.json?sort_by=${sort}&order_by=${sortby}&genre=${genres}&minimum_rating=${rating}&query_term=${search}&limit=50&page=${page}`
-						)
-						.then((res) => {
-							if (res.data.status === "ok") {
-								if (submit === false) {
-									if (
-										res.data.data.movie_count >
-										movie?.length
-									) {
-										setMovie(
-											movie?.concat(res.data.data.movies)
-										);
-										setLoading(false);
-									} else {
-										if (res.data.data.movies) {
-											setMovie(res.data.data.movies);
+				if (!unmount) {
+					if (response.data.status === "ok") {
+						setLoading(true);
+						if (sort === "download_count" && submit) {
+							setSort("title");
+							setSortBy("asc");
+						}
+						if (sort === "title") {
+							setSortBy("asc");
+						}
+						if (
+							sort === "rating" ||
+							sort === "year" ||
+							sort === "genres"
+						) {
+							setSortBy("desc");
+						}
+						const re = /^[a-zA-Z0-9\s]{3,100}$/;
+						if (!re.test(String(search)) && submit) {
+							history.go("/");
+						}
+						axios
+							.get(
+								`https://yts.mx/api/v2/list_movies.json?sort_by=${sort}&order_by=${sortby}&genre=${genres}&minimum_rating=${rating}&query_term=${search}&limit=50&page=${page}`
+							)
+							.then((res) => {
+								if (res.data.status === "ok") {
+									if (submit === false) {
+										if (
+											res.data.data.movie_count >
+											movie?.length
+										) {
+											setMovie(
+												movie?.concat(
+													res.data.data.movies
+												)
+											);
 											setLoading(false);
 										} else {
+											if (res.data.data.movies) {
+												setMovie(res.data.data.movies);
+												setLoading(false);
+											} else {
+												setPage(1);
+												setLoading(false);
+											}
+										}
+									} else if (submit === true) {
+										if (res.data.data.movies) {
+											setMovie(res.data.data.movies);
+										} else {
 											setPage(1);
-											setLoading(false);
 										}
+										setLoading(false);
+										setSubmit(false);
 									}
-								} else if (submit === true) {
-									if (res.data.data.movies) {
-										setMovie(res.data.data.movies);
-									} else {
-										setPage(1);
-									}
-									setLoading(false);
-									setSubmit(false);
+									axios
+										.get(
+											"http://localhost:3001/getWatchedlist",
+											{
+												withCredentials: true,
+											}
+										)
+										.then((res) => {
+											setWatched(res.data);
+										});
+								} else {
+									axios
+										.get(
+											`https://yts.megaproxy.info/api/v2/list_movies.json?sort_by=${sort}&order_by=${sortby}&genre=${genres}&minimum_rating=${rating}&query_term=${search}&limit=50&page=${page}`
+										)
+										.then((res) => {
+											if (res.data.status === "ok") {
+												if (submit === false) {
+													if (
+														res.data.data
+															.movie_count >
+														movie?.length
+													) {
+														setMovie(
+															movie?.concat(
+																res.data.data
+																	.movies
+															)
+														);
+														setLoading(false);
+													} else {
+														if (
+															res.data.data.movies
+														) {
+															setMovie(
+																res.data.data
+																	.movies
+															);
+															setLoading(false);
+														} else {
+															setPage(1);
+															setLoading(false);
+														}
+													}
+												} else if (submit === true) {
+													if (res.data.data.movies) {
+														setMovie(
+															res.data.data.movies
+														);
+													} else {
+														setPage(1);
+													}
+													setLoading(false);
+													setSubmit(false);
+												}
+												axios
+													.get(
+														"http://localhost:3001/getWatchedlist",
+														{
+															withCredentials: true,
+														}
+													)
+													.then((res) => {
+														setWatched(res.data);
+													});
+											}
+										});
 								}
-								axios
-									.get(
-										"http://localhost:3001/getWatchedlist",
-										{
-											withCredentials: true,
-										}
-									)
-									.then((res) => {
-										setWatched(res.data);
-										// }
-									});
-							}
-						});
-				} else {
-					history.push("/login");
+							});
+					} else {
+						history.push("/login");
+					}
 				}
 			});
+		return () => {
+			unmount = true;
+		};
 		// eslint-disable-next-line
 	}, [page, submit]);
 	function compareArray(a, b) {

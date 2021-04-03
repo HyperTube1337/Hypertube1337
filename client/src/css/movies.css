@@ -142,6 +142,7 @@
 }
 .cast div {
 	display: flex;
+	margin-top: 20px;
 	align-items: center;
 }
 .cast p {
@@ -287,9 +288,7 @@
 	}
 	.cast div {
 		margin: 6px;
-	}
-	.cast p {
-		max-width: 20%;
+		justify-content: center;
 	}
 	.personality {
 		min-width: 100%;

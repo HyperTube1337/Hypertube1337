@@ -13,7 +13,7 @@ const { isEmail, isName, isUsername } = require("../tools/helpers");
 router.post("/", isUserAuth, (req, res) => {
 	const id = req.userId;
 	const { firstname, lastname, username, email, user_from } = req.body;
-	console.log(user_from);
+	// console.log(user_from);
 	if (!user_from) {
 		const stmt =
 			"SELECT `users`.`firstname`, `users`.`lastname`, `users`.`username`, `users`.`email` FROM `users` WHERE `users`.`id` = ?";
