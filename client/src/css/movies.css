@@ -288,7 +288,7 @@
 	}
 	.cast div {
 		margin: 6px;
-		justify-content: center;
+		/* justify-content: center; */
 	}
 	.personality {
 		min-width: 100%;
