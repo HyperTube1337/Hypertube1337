@@ -16,6 +16,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { useHistory } from "react-router-dom";
 import Cookies from "universal-cookie";
+import { FormattedMessage } from "react-intl";
 
 function Research() {
 	const genreChange = (event) => {
@@ -181,7 +182,9 @@ function Research() {
 		<div className="research" onScroll={handlscroll}>
 			<div className="filter">
 				<h3>Hypertube</h3>
-				<p>Welcome to the official Hypertube Website</p>
+				<p>
+					<FormattedMessage id="Welcome to the official Hypertube Website" />
+				</p>
 				<div className="find">
 					<form
 						onSubmit={(event) => {
@@ -192,11 +195,15 @@ function Research() {
 							className="searchicon"
 							onClick={() => setSubmit(true)}
 						></SearchIcon>
-						<input
-							type="text"
-							placeholder="Find the best movies"
-							onChange={SearchChange}
-						/>
+						<FormattedMessage id="Find the best movies">
+							{(text) => (
+								<input
+									type="text"
+									placeholder={text}
+									onChange={SearchChange}
+								/>
+							)}
+						</FormattedMessage>
 					</form>
 				</div>
 				<div className="filterResulte">
@@ -205,7 +212,7 @@ function Research() {
 							htmlFor="demo-customized-select-native"
 							className={classes.label}
 						>
-							Genre
+							<FormattedMessage id="Genre" />
 						</InputLabel>
 						<NativeSelect
 							id="demo-customized-select-native"
@@ -213,26 +220,96 @@ function Research() {
 							onChange={genreChange}
 						>
 							<option aria-label="" value="" />
-							<option value={"0"}>All</option>
-							<option value={"Action"}>Action</option>
-							<option value={"Adventure"}>Adventure</option>
-							<option value={"Adventure"}>Adventure</option>
-							<option value={"Comedy"}>Comedy</option>
-							<option value={"Documentary"}>Documentary</option>
-							<option value={"Drama"}>Drama</option>
-							<option value={"History"}>History</option>
-							<option value={"Fantasy"}>Fantasy</option>
-							<option value={"Musical"}>Musical</option>
-							<option value={"Romance"}>Romance</option>
-							<option value={"Animation"}>Animation</option>
-							<option value={"Crime"}>Crime</option>
-							<option value={"Film-Noir"}>Film-Noir</option>
-							<option value={"Music"}>Music</option>
-							<option value={"Musical"}>Musical</option>
-							<option value={"Sport"}>Sport</option>
-							<option value={"War"}>War</option>
-							<option value={"Talk-Show"}>Talk-Show</option>
-							<option value={"Mystery"}>Mystery</option>
+							<FormattedMessage id="All">
+								{(text) => <option value={"0"}>{text}</option>}
+							</FormattedMessage>
+							<FormattedMessage id="Action">
+								{(text) => (
+									<option value={"Action"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Adventure">
+								{(text) => (
+									<option value={"Adventure"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Comedy">
+								{(text) => (
+									<option value={"Comedy"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Documentary">
+								{(text) => (
+									<option value={"Documentary"}>
+										{text}
+									</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Drama">
+								{(text) => (
+									<option value={"Drama"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="History">
+								{(text) => (
+									<option value={"History"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Fantasy">
+								{(text) => (
+									<option value={"Fantasy"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Musical">
+								{(text) => (
+									<option value={"Musical"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Romance">
+								{(text) => (
+									<option value={"Romance"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Animation">
+								{(text) => (
+									<option value={"Animation"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Crime">
+								{(text) => (
+									<option value={"Crime"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Film-Noir">
+								{(text) => (
+									<option value={"Film-Noir"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Music">
+								{(text) => (
+									<option value={"Music"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Sport">
+								{(text) => (
+									<option value={"Sport"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="War">
+								{(text) => (
+									<option value={"War"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Talk-Show">
+								{(text) => (
+									<option value={"Talk-Show"}>{text}</option>
+								)}
+							</FormattedMessage>
+							<FormattedMessage id="Mystery">
+								{(text) => (
+									<option value={"Mystery"}>{text}</option>
+								)}
+							</FormattedMessage>
 						</NativeSelect>
 					</FormControl>
 					<FormControl className={classes.margin}>
@@ -240,7 +317,7 @@ function Research() {
 							htmlFor="demo-customized-select-native"
 							className={classes.label}
 						>
-							Rating
+							<FormattedMessage id="rating" />
 						</InputLabel>
 						<NativeSelect
 							id="demo-customized-select-native"
@@ -248,7 +325,9 @@ function Research() {
 							onChange={ratingChange}
 						>
 							<option aria-label="" value="" />
-							<option value={"0"}>All</option>
+							<FormattedMessage id="All">
+								{(text) => <option value={"0"}>{text}</option>}
+							</FormattedMessage>
 							<option value={"9"}>+9</option>
 							<option value={"8"}>+8</option>
 							<option value={"7"}>+7</option>
@@ -265,12 +344,14 @@ function Research() {
 						type="submit"
 						onClick={() => setSubmit(true)}
 					>
-						Search
+						<FormattedMessage id="Search" />
 					</button>
 				</div>
 				<div className="radio">
 					<FormControl component="fieldset">
-						<FormLabel component="legend">Sortby</FormLabel>
+						<FormLabel component="legend">
+							<FormattedMessage id="Sortby" />
+						</FormLabel>
 						<RadioGroup
 							aria-label="Sort"
 							name="sortby"
@@ -281,27 +362,27 @@ function Research() {
 							<FormControlLabel
 								value="title"
 								control={<Radio />}
-								label="Title"
+								label={<FormattedMessage id="Title" />}
 							/>
 							<FormControlLabel
 								value="rating"
 								control={<Radio />}
-								label="Rating"
+								label={<FormattedMessage id="rating" />}
 							/>
 							<FormControlLabel
 								value="genres"
 								control={<Radio />}
-								label="Genre"
+								label={<FormattedMessage id="Genre" />}
 							/>
 							<FormControlLabel
 								value="year"
 								control={<Radio />}
-								label="Year"
+								label={<FormattedMessage id="Year" />}
 							/>
 							<FormControlLabel
 								value="download_count"
 								control={<Radio />}
-								label="Popular"
+								label={<FormattedMessage id="Popular" />}
 							/>
 						</RadioGroup>
 					</FormControl>
@@ -330,7 +411,7 @@ function Research() {
 										className="text-sz"
 										to={"/movies/" + film?.id}
 									>
-										view Details
+										<FormattedMessage id="view Details" />
 									</Link>
 								</button>
 								<p>{film?.title}</p>

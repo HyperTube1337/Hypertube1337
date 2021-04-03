@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../../css/profile.css";
 import { Edit2 } from "react-feather";
+import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
 import { Key } from "react-feather";
 import EditInfo from "./edit-info";
 import EditPass from "./edit-pass";
@@ -11,6 +13,7 @@ import { Upload } from "react-feather";
 import jimp from "jimp";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Cookies from "universal-cookie";
+import GradeIcon from "@material-ui/icons/Grade";
 
 export default function Profile(props) {
 	const [token, setToken] = useState("");
@@ -18,6 +21,7 @@ export default function Profile(props) {
 	const { profilename } = useParams();
 	const history = useHistory();
 	const [visible, setvisible] = useState(0);
+	const [MovieInfo, setMoiveInfo] = useState([]);
 	const [pass, setpass] = useState(0);
 	const [user, setUser] = useState({
 		firstname: "",
@@ -31,7 +35,18 @@ export default function Profile(props) {
 		Npassword: "",
 		verifyNpassword: "",
 	});
+	const useStyles = makeStyles({
+		gradIcon: {
+			color: "#e50914",
+			width: "35px",
+			height: "35px ",
+		},
+	});
+	const classes = useStyles();
 
+	function getMovie(link) {
+		history.push("/movies/" + link);
+	}
 	useEffect(() => {
 		let unmount = false;
 		setToken(cookies.get("jwt"));
@@ -77,12 +92,45 @@ export default function Profile(props) {
 					}
 				}
 			});
+		axios
+			.post(
+				"http://localhost:3001/getProfileWatchedList",
+				{
+					username: profilename,
+				},
+				{
+					withCredentials: true,
+				}
+			)
+			.then((res) => {
+				// setWatched(res.data);
+				if (res) {
+					var i = 0;
+					while (i < res.data.length) {
+						axios
+							.get(
+								`https://yts.mx/api/v2/list_movies.json?&query_term=${res.data[i].imdbCode}}`
+							)
+							.then((res) => {
+								if (res.data.status === "ok") {
+									console.log(res.data.data.movies);
+									setMoiveInfo((old) =>
+										old.concat(res.data.data.movies)
+									);
+								}
+							});
+						i++;
+					}
+				}
+				// }
+			});
 		return () => {
 			unmount = true;
 		};
 		// eslint-disable-next-line
 	}, [history, profilename]);
 
+	console.log(MovieInfo);
 	const handleFile = function () {
 		const content = this.result;
 
@@ -171,7 +219,10 @@ export default function Profile(props) {
 							<div></div>
 						)}
 					</div>
-					<div className="username-div"></div>
+					{/* <div className="username-div">
+						<h2>Last Watch</h2>
+						<h1>{MovieInfo?.length}</h1>
+					</div> */}
 				</div>
 				<div className="line-div"></div>
 				<div className="profile-content-left">
@@ -227,7 +278,37 @@ export default function Profile(props) {
 					)}
 				</div>
 			</div>
-			<div className="profile-list"></div>
+			<div className="profile-list">
+				{MovieInfo?.map((film, i) => (
+					<div
+						className="WatchList"
+						style={{
+							backgroundImage:
+								"url(" + film?.large_cover_image + ")",
+						}}
+						key={i}
+					>
+						<div
+							className="infoMovie"
+							onClick={() => getMovie(film?.id)}
+						>
+							<GradeIcon className={classes.gradIcon}></GradeIcon>
+							<h4>{film?.rating} / 10</h4>
+							<h4 className="genres">{film?.genres + " "}</h4>
+							<button className="btn btn-rounded">
+								<Link
+									className="text-sz"
+									to={"/movies/" + film?.id}
+								>
+									view Details
+								</Link>
+							</button>
+							<p>{film?.title}</p>
+							<h4>{film?.year}</h4>
+						</div>
+					</div>
+				))}
+			</div>
 		</div>
 	);
 }

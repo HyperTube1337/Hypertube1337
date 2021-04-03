@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "../../css/movies.css";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, Link } from "react-router-dom";
 import GradeIcon from "@material-ui/icons/Grade";
 import { makeStyles } from "@material-ui/core/styles";
 import ReactPlayer from "react-player";
 import Avatar from "@material-ui/core/Avatar";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import Cookies from "universal-cookie";
 import Moment from "react-moment";
 import noUser from "../../photos/noUser.png";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { FormattedMessage } from "react-intl";
+import "moment/locale/fr";
 
 const useStyles = makeStyles({
 	root: {
@@ -37,7 +38,6 @@ const useStyles = makeStyles({
 		marginBottom: "15px",
 	},
 });
-// background-image: url("https://yts.mx/assets/images/movies/cherry_2021/large-cover.jpg");
 function Movies() {
 	const classes = useStyles();
 	const history = useHistory();
@@ -58,13 +58,12 @@ function Movies() {
 	const [inputContent, setinputContent] = useState("");
 	const [quality, setQuality] = useState("720p");
 	const [comment, setComment] = useState([]);
-	const cookies = new Cookies();
+	const [language, setLanguage] = useState("en");
 	const [subtitle, setsubtitle] = useState({
 		en: "",
 		ar: "",
 		fr: "",
 	});
-	const [token, setToken] = useState("");
 	const { id } = useParams();
 	function getMovieLink() {
 		const hash = movies?.torrents
@@ -97,25 +96,32 @@ function Movies() {
 						type: "video/mp4",
 					});
 				}
-				setsubtitle({
-					...subtitle,
-					en: {
-						kind: "subtitles",
-						src: `http://localhost:3001/subtitles/${movies.imdb_code}en.vtt`,
-						srcLang: "en",
-						default: true,
-					},
-					ar: {
-						kind: "subtitles",
-						src: `http://localhost:3001/subtitles/${movies.imdb_code}ar.vtt`,
-						srcLang: "ar",
-					},
-					fr: {
-						kind: "subtitles",
-						src: `http://localhost:3001/subtitles//${movies.imdb_code}fr.vtt`,
-						srcLang: "fr",
-					},
-				});
+				axios
+					.post(
+						"http://localhost:3001/getSubtitles",
+						{
+							imdb_code: movies.imdb_code,
+						},
+						{
+							withCredentials: true,
+						}
+					)
+					.then((res) => {
+						if (res.data.ar === "not found") {
+							setsubtitle({
+								...subtitle,
+								en: `http://localhost:3001/subtitles/${movies.imdb_code}en.vtt`,
+								fr: `http://localhost:3001/subtitles/${movies.imdb_code}fr.vtt`,
+							});
+						} else if (res.data.status === "ok") {
+							setsubtitle({
+								...subtitle,
+								en: `http://localhost:3001/subtitles/${movies.imdb_code}en.vtt`,
+								ar: `http://localhost:3001/subtitles/${movies.imdb_code}ar.vtt`,
+								fr: `http://localhost:3001/subtitles/${movies.imdb_code}fr.vtt`,
+							});
+						}
+					});
 			});
 		axios
 			.post(
@@ -132,6 +138,7 @@ function Movies() {
 	const handelCmnt = (e) => {
 		setinputContent(e.target.value);
 	};
+	console.log(subtitle.fr);
 	function insertCmnt() {
 		const re = /^[a-zA-Z0-9\s]{3,100}$/;
 		if (inputContent.trim() === "") {
@@ -161,8 +168,8 @@ function Movies() {
 		}
 	}
 	useEffect(() => {
+		setLanguage(localStorage.getItem("locale"));
 		setLoading(true);
-		setToken(cookies.get("jwt"));
 		axios
 			.get("http://localhost:3001/checkStatus", {
 				withCredentials: true,
@@ -286,7 +293,9 @@ function Movies() {
 					<h4>{movies?.year}</h4>
 					<h4>{movies.genres}</h4>
 					<div className="quality">
-						<p>Quality:</p>
+						<p>
+							<FormattedMessage id="Quality:" />
+						</p>
 						<p
 							className="quality_P"
 							onClick={() => setQuality("720p")}
@@ -301,14 +310,19 @@ function Movies() {
 						</p>
 					</div>
 					<div className="imdbRating">
-						<p>Rating :</p>
+						<p>
+							<FormattedMessage id="rating" />
+							&nbsp;:
+						</p>
 						<div>
 							<h5>{movies?.rating}</h5>
 							<GradeIcon className={classes.rating}></GradeIcon>
 						</div>
 					</div>
 					<div className="time">
-						<p>Time :</p>
+						<p>
+							<FormattedMessage id="Time :" />
+						</p>
 						<div>
 							<h5>{movies?.runtime} min</h5>
 						</div>
@@ -345,16 +359,24 @@ function Movies() {
 				</div>
 			</div>
 			<button className="btn btn-rounded" onClick={() => getMovieLink()}>
-				Watch Now
+				<FormattedMessage id="Watch Now !" />
 			</button>
 			<div className="miniTrailer">
 				<div className="trailerPlayer">
-					<h4>Trailer</h4>
-					<ReactPlayer controls url={movies.yt_trailer_code} />
+					<h4>
+						<FormattedMessage id="Trailer" />
+					</h4>
+					<ReactPlayer
+						style={{ margin: "0 auto" }}
+						controls
+						url={movies.yt_trailer_code}
+					/>
 				</div>
 				<div className="personality">
 					<div className="cast">
-						<h4>Cast</h4>
+						<h4>
+							<FormattedMessage id="Cast" />
+						</h4>
 						{movies?.cast?.map((cast, index) => (
 							<div key={index}>
 								<a
@@ -374,15 +396,40 @@ function Movies() {
 			</div>
 			<div className="play">
 				<div className="moviePlayer">
-					<span>Thank you for watching</span>
+					<span>
+						<FormattedMessage id="Thank you for watching" />
+					</span>
+					<br />
+					<br />
 					<ReactPlayer
+						style={{ margin: "0 auto" }}
 						controls
 						config={{
 							file: {
 								attributes: {
 									crossOrigin: "use-credentials",
 								},
-								tracks: [subtitle.en, subtitle.ar, subtitle.fr],
+								tracks: [
+									{
+										kind: "subtitles",
+										src: `${subtitle.en}`,
+										srcLang: "en",
+										default:
+											language === "en" ? true : false,
+									},
+									{
+										kind: "subtitles",
+										src: `${subtitle.ar}`,
+										srcLang: "ar",
+									},
+									{
+										kind: "subtitles",
+										src: `${subtitle.fr}`,
+										srcLang: "fr",
+										default:
+											language === "fr" ? true : false,
+									},
+								],
 							},
 						}}
 						url={[videoSrc]}
@@ -395,28 +442,38 @@ function Movies() {
 						}}
 						autoComplete="off"
 					>
-						<input
-							className="inputMsg"
-							label="Message"
-							variant="outlined"
-							placeholder="add a comment"
-							value={inputContent}
-							onChange={handelCmnt}
-						/>
+						<FormattedMessage id="add a comment">
+							{(text) => (
+								<input
+									className="inputMsg"
+									label="Message"
+									variant="outlined"
+									placeholder={text}
+									value={inputContent}
+									onChange={handelCmnt}
+								/>
+							)}
+						</FormattedMessage>
 					</form>
 					<Button
 						className="buttonCmnt"
 						variant="contained"
 						onClick={() => insertCmnt()}
 					>
-						Post
+						<FormattedMessage id="Post" />
 					</Button>
 					<div className="comment_Section">
 						{comment?.map((cmnt, index) => (
 							<div className="styleCmnt" key={index}>
 								<div>
-									<h5>{cmnt?.username}</h5>
-									<Moment fromNow className="cmntTime">
+									<Link to={`/profile/${cmnt?.username}`}>
+										<h5>{cmnt?.username}</h5>
+									</Link>
+									<Moment
+										fromNow
+										className="cmntTime"
+										locale={localStorage.getItem("locale")}
+									>
 										{cmnt?.time}
 									</Moment>
 								</div>

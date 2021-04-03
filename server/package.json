@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "ffmpeg": "^0.0.4",
     "ffmpeg-stream": "^0.7.0",
+    "fluent-ffmpeg": "^2.1.2",
     "jimp": "^0.16.1",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
