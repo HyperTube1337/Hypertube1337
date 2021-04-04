@@ -1,6 +1,6 @@
 
 
-                                🍿 🍿 WELCOME TO OUR LOCAL VERSION OF Netflix 🍿🍿
+                                🍿 🍿 WELCOME TO OUR LOCAL VERSION OF Netflix 🍿 🍿
                          
 <hr>
 
