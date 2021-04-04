@@ -1,10 +1,10 @@
 
 
-                         WELCOME TO OUR LOCAL VERSION OF Netflix
+                        🍿 WELCOME TO OUR LOCAL VERSION OF Netflix 🍿
                          
 <hr>
 
-> # HYPERTUBE
+> # HYPERTUBE 🎥
 Hypertube is a torrent downloading/streaming web app that allows users to research and watch videos with the best UX possible.
 
 <hr>
@@ -64,7 +64,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 <hr>
 
-># Screenshots
+># Screenshots 🎞
 
 # Full Screen
 
