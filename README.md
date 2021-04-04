@@ -1,6 +1,6 @@
 
 
-                       🍿 🍿 WELCOME TO OUR LOCAL VERSION OF Netflix 🍿🍿
+                                🍿 🍿 WELCOME TO OUR LOCAL VERSION OF Netflix 🍿🍿
                          
 <hr>
 
@@ -67,49 +67,87 @@ These instructions will get you a copy of the project up and running on your loc
 ># Screenshots 🎞
 
 # Full Screen
-
-* Home
+ ```
+ Home
+ ```
 ![Home](./preview/home.png)
-* Login
+ ```
+Login
+ ```
 ![Login](./preview/signin.png)
-* Register
+ ```
+ Register
+  ```
 ![Register](./preview/signup.png)
-* Forget Password
+  ```
+ Forget Password
+  ```
 ![Forget Password](./preview/fgpass.png)
-* Confirm
+  ```
+ Confirm
+  ```
 ![Confirm](./preview/confirm.png)
-* Reset Password
+  ```
+ Reset Password
+ ```
 ![Reset Password](./preview/resetpass.png)
-* Search
+ ```
+Search
+ ```
 ![Search](./preview/search.png)
-* Library
+ ```
+Library
+ ```
 ![Library](./preview/library.png)
-* Movie
+ ```
+Movie
+ ```
 ![Movie](./preview/movie.png)
-* Movie Stream
+  ```
+ Movie Stream
+ ```
 ![Movie Stream](./preview/movieplay.png)
-* Profile
+  ```
+ Profile
+ ```
 ![Profile](./preview/profile.png)
-* Edit
+ ```
+Edit
+ ```
 ![Edit](./preview/edit.png)
 
 # Responsive
-
-* Home
+ ```
+ Home
+ ```
 ![Home](./preview/homeRES.png)
-* Login
+  ```
+ Login
+ ```
 ![Login](./preview/signinRES.png)
-* Register
+  ```
+ Register
+ ```
 ![Register](./preview/signupRES.png)
-* Confirm
+  ```
+ Confirm
+ ```
 ![Confirm](./preview/confirmRES.png)
-* Reset Password
+  ```
+ Reset Password
+ ```
 ![Reset Password](./preview/resetpassRES.png)
-* Library
+  ```
+ Library
+ ```
 ![Library](./preview/libraryRES.png)
-* Search
+  ```
+ Search
+ ```
 ![Search](./preview/library2RES.png)
-* Profile
+  ```
+ Profile
+ ```
 ![Profile](./preview/profileRES.png)
 
 <hr>
